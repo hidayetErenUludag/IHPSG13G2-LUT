@@ -1,0 +1,13 @@
+# simulation scratch
+work/
+__pycache__/
+*.raw
+
+# first-version tables (single 10 um width), superseded by npz/ and web/
+/lut_sg13_*.npz
+/lut_web.json
+
+# exploration scripts
+probe.spice
+verify2.py
+wscan.py

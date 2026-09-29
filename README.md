@@ -8,7 +8,9 @@ This is an SG13G2 port of **Open-LUT** by Khalid, Maestre and Madrid-Khalid ([pa
 
 ## Quick start
 
-Download `SG13G2_gmID_Lookup.html` and open it in a current Chrome, Edge, Firefox or Safari. It is a single self-contained file (about 4.5 MB) and works offline.
+**Use it online:** <https://hidayeterenuludag.github.io/IHPSG13G2-LUT/>
+
+**Or offline:** download [`index.html`](index.html) and open it in a current Chrome, Edge, Firefox or Safari. It is a single self-contained file (about 4.5 MB) with all tables built in.
 
 **Example.** `sg13_lv_nmos`, |V<sub>DS</sub>| = 0.6 V, L = 0.5 µm, W<sub>f</sub> = 2 µm, gm/I<sub>D</sub> = 15 S/A, I<sub>D</sub> = 10 µA gives 2 × 2 µm fingers, V<sub>GS</sub> = 0.355 V, g<sub>m</sub> = 0.19 mS, g<sub>m</sub>/g<sub>ds</sub> = 26 and f<sub>T</sub> ≈ 2 GHz.
 
@@ -50,7 +52,7 @@ Requirements: [IIC-OSIC-TOOLS](https://github.com/iic-jku/IIC-OSIC-TOOLS) (ngspi
 ```bash
 python3 gen_lut.py      # ~65 s; writes npz/lut_<device>_wf<Wf>.npz and web/*.json
 python3 verify.py       # cross-checks sized devices against direct simulation
-python3 build_html.py   # packs sg13g2_lut.html + web/*.json into SG13G2_gmID_Lookup.html
+python3 build_html.py   # packs sg13g2_lut.html + web/*.json into index.html
 ```
 
 `gen_lut.py` reads PSP103 operating-point values directly from the model instance (`@n.xm1.n<device>[gm]`, `[gds]`, `[cgg]`, …) during a nested V<sub>GS</sub> × V<sub>DS</sub> DC sweep, one ngspice run per (device, L, W<sub>f</sub>). It uses `reltol=1e-4, abstol=1e-14, itl1=itl2=500`; tighter tolerances stall the LV PMOS sweep at L = 5 µm. Regenerate whenever IHP updates the models and record the new PDK commit below.
@@ -81,15 +83,14 @@ For a device with ng fingers, multiply I<sub>D</sub>, g<sub>m</sub>, g<sub>ds</s
 
 | Path | Purpose |
 |---|---|
-| `SG13G2_gmID_Lookup.html` | The calculator. Self-contained; open this one. |
-| `sg13g2_lut.html` | Page source. Loads `web/*.json`, so it only works when served (for example via GitHub Pages). |
+| `index.html` | The calculator. Self-contained; open this one (also served by GitHub Pages). |
+| `sg13g2_lut.html` | Page source. Loads `web/*.json`, so it only works when served over HTTP. Edit this, then run `build_html.py`. |
 | `gen_lut.py` | Table generator (ngspice) |
 | `verify.py` | Check against direct simulation |
 | `build_html.py` | Builds the standalone HTML |
 | `npz/` | Full-precision tables for Python |
 | `web/` | float32 tables used by `sg13g2_lut.html` |
 
-To host it with GitHub Pages, enable Pages on the default branch and link to `SG13G2_gmID_Lookup.html`, or copy `sg13g2_lut.html` to `index.html` next to `web/`.
 
 ## References
 

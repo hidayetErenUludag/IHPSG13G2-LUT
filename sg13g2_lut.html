@@ -1,0 +1,399 @@
+<title>SG13G2 gm/ID Lookup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#EEF2F4; --surface:#FFFFFF; --ink:#15202A; --muted:#5A6874; --line:#D3DBE1; --soft:#E4EAEE;
+  --accent:#0C6B86; --accent-ink:#FFFFFF; --curve:#A9B7C2; --warn:#A45E00; --warn-bg:#FFF3E0;
+  --display:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0E141A; --surface:#151D25; --ink:#E3EAF0; --muted:#94A2AE; --line:#29343F; --soft:#1C2630;
+    --accent:#4DB5D3; --accent-ink:#06222B; --curve:#3E4D5A; --warn:#F0A643; --warn-bg:#2A2012;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0E141A; --surface:#151D25; --ink:#E3EAF0; --muted:#94A2AE; --line:#29343F; --soft:#1C2630;
+  --accent:#4DB5D3; --accent-ink:#06222B; --curve:#3E4D5A; --warn:#F0A643; --warn-bg:#2A2012;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.5}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:20px;padding-block:22px 40px;display:grid;gap:18px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
+h1{font-family:var(--display);font-weight:600;font-size:32px;line-height:1.05;margin:0;letter-spacing:.01em;text-wrap:balance}
+h1 small{display:block;font-family:var(--body);font-weight:400;font-size:14px;color:var(--muted);letter-spacing:0;margin-top:6px}
+.cond{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px}
+.cond span{border:1px solid var(--line);border-radius:4px;padding:2px 7px;background:var(--surface)}
+.bar{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:end;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.field{display:grid;gap:4px;min-width:0}
+.field label,.lbl{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+select,input{font:500 14px/1.2 var(--mono);color:var(--ink);background:var(--ground);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-width:0}
+select:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{font:500 13px var(--body);background:var(--ground);color:var(--muted);border:0;padding:8px 12px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.main{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:900px){.main{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:14px}
+.panel h2{font-family:var(--display);font-weight:600;font-size:19px;margin:0;letter-spacing:.01em}
+.inputs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.inputs .full{grid-column:1/-1}
+.inwrap{display:flex;align-items:center;gap:6px}
+.inwrap input{flex:1;width:100%}
+.unit{font:12px var(--mono);color:var(--muted);white-space:nowrap}
+.hint{font-size:12px;color:var(--muted);margin:0}
+.msg{font-size:13px;border-radius:6px;padding:8px 10px;background:var(--warn-bg);color:var(--warn);margin:0}
+table.out{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+table.out td{padding:6px 0;border-bottom:1px solid var(--soft);vertical-align:baseline}
+table.out tr:last-child td{border-bottom:0}
+table.out td:first-child{color:var(--muted)}
+table.out td:first-child b{color:var(--ink);font-weight:500}
+table.out td.v{text-align:right;font-family:var(--mono);font-weight:500}
+table.out td.u{padding-left:8px;width:52px;font:12px var(--mono);color:var(--muted)}
+tr.key td.v{color:var(--accent);font-size:16px}
+.sep td{padding-top:12px!important;font-size:11px;letter-spacing:.07em;text-transform:uppercase;font-weight:600}
+.charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:620px){.charts{grid-template-columns:1fr}}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 12px 8px;display:grid;gap:6px;min-width:0}
+.chart .t{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.chart .t b{font-family:var(--display);font-weight:600;font-size:16px}
+.chart .t span{font:11px var(--mono);color:var(--muted);text-align:right}
+.chart canvas{width:100%;height:230px;display:block;touch-action:none}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--muted);align-items:center}
+.sw{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+footer{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:90ch}
+a{color:var(--accent);text-underline-offset:2px}
+.refs{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:10px;max-width:100%}
+.refs h2{font-family:var(--display);font-weight:600;font-size:19px;margin:0}
+.refs ol{margin:0;padding-left:22px;display:grid;gap:8px;max-width:95ch}
+.refs li{line-height:1.5}
+.refs li i{font-style:italic}
+.bib{display:grid;gap:6px}
+.bib .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bib pre{margin:0;overflow-x:auto;background:var(--ground);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font:12px/1.5 var(--mono);color:var(--ink)}
+.copy{font:500 12px var(--body);background:var(--ground);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer}
+.copy:hover{border-color:var(--accent)}
+footer code{font-family:var(--mono);font-size:11.5px}
+.loading{padding:40px;text-align:center;color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>SG13G2 gm/ID Lookup
+      <small>Size IHP 130 nm BiCMOS MOSFETs from a gm/ID target, then read W, V<sub>GS</sub>, intrinsic gain and f<sub>T</sub>. An SG13G2 port of the <a href="http://www.open-lut.org/">Open-LUT</a> approach by Khalid, Maestre and Madrid-Khalid; see <a href="#refs">references</a>.</small>
+    </h1>
+    <div class="cond" aria-label="Characterisation conditions">
+      <span>ngspice-47 · PSP103</span><span>mos_tt</span><span>27 °C</span><span>V<sub>SB</sub> = 0</span><span>per finger, ng = 1</span>
+    </div>
+  </header>
+
+  <div class="bar" role="group" aria-label="Device and bias">
+    <div class="field"><label for="dev">Device</label>
+      <select id="dev">
+        <option value="sg13_lv_nmos">sg13_lv_nmos · 1.2 V core</option>
+        <option value="sg13_lv_pmos">sg13_lv_pmos · 1.2 V core</option>
+        <option value="sg13_hv_nmos">sg13_hv_nmos · 3.3 V I/O</option>
+        <option value="sg13_hv_pmos">sg13_hv_pmos · 3.3 V I/O</option>
+      </select></div>
+    <div class="field"><label for="vds">|V<sub>DS</sub>|</label><select id="vds"></select></div>
+    <div class="field"><label for="len">L</label><select id="len"></select></div>
+    <div class="field"><label for="wf">Finger width W<sub>f</sub></label><select id="wf"></select></div>
+    <div class="field"><label>Size the device by</label>
+      <div class="seg" id="sizeby" role="radiogroup" aria-label="Size the device by">
+        <button type="button" data-k="id" aria-pressed="true">I<sub>D</sub></button>
+        <button type="button" data-k="gm" aria-pressed="false">g<sub>m</sub></button>
+        <button type="button" data-k="w" aria-pressed="false">W</button>
+      </div></div>
+  </div>
+
+  <div class="main">
+    <section class="panel" aria-labelledby="calc-h">
+      <h2 id="calc-h">Operating point</h2>
+      <div class="inputs">
+        <div class="field"><label for="gmid">g<sub>m</sub>/I<sub>D</sub></label>
+          <div class="inwrap"><input id="gmid" type="number" step="0.5" min="1" max="35" value="15"><span class="unit">S/A</span></div></div>
+        <div class="field"><label for="sizev" id="sizel">I<sub>D</sub></label>
+          <div class="inwrap"><input id="sizev" type="number" step="any" min="0" value="10"><span class="unit" id="sizeu">µA</span></div></div>
+        <p class="hint full" id="range"></p>
+      </div>
+      <p class="msg" id="msg" hidden></p>
+      <table class="out" id="out" aria-live="polite"></table>
+    </section>
+
+    <section aria-label="Lookup charts" style="display:grid;gap:10px;min-width:0">
+      <div class="legend"><span><i class="sw" style="background:var(--accent)"></i>selected L</span><span><i class="sw" style="background:var(--curve)"></i>other L in the table</span><span>● operating point · hover a chart to read the selected-L curve</span></div>
+      <div class="charts" id="charts"><div class="loading">Loading lookup tables…</div></div>
+    </section>
+  </div>
+
+  <section class="refs" id="refs" aria-labelledby="refs-h">
+    <h2 id="refs-h">References</h2>
+    <ol>
+      <li>S. A. Khalid, S. E. Maestre and K. M. Madrid-Khalid, "Open-LUT: Interactive g<sub>m</sub>/I<sub>D</sub> Lookup Tables for MOSFET Sizing in Open-Source PDKs," in <i>2025 10th International Conference on Integrated Circuits and Microsystems (ICICM)</i>, Hefei, China, 2025, pp. 344–353, doi: <a href="https://doi.org/10.1109/ICICM66614.2025.11316023">10.1109/ICICM66614.2025.11316023</a>. Web tool for SKY130: <a href="http://www.open-lut.org/">open-lut.org</a>. This page follows its calculator layout and extends the idea to IHP SG13G2 with finger-width tables.</li>
+      <li>IHP GmbH, <i>IHP-Open-PDK: SG13G2 130 nm BiCMOS open-source process design kit</i>, Apache-2.0. <a href="https://github.com/IHP-GmbH/IHP-Open-PDK">github.com/IHP-GmbH/IHP-Open-PDK</a>. Source of the PSP103 MOSFET models (mos_tt corner) used for every table.</li>
+      <li>P. G. A. Jespers and B. Murmann, <i>Systematic Design of Analog CMOS Circuits: Using Pre-Computed Lookup Tables</i>. Cambridge University Press, 2017. The g<sub>m</sub>/I<sub>D</sub> sizing method.</li>
+      <li>H. Pretl, G. Zachl et al., <i>IIC-OSIC-TOOLS</i>, Johannes Kepler University Linz. <a href="https://github.com/iic-jku/IIC-OSIC-TOOLS">github.com/iic-jku/IIC-OSIC-TOOLS</a>. Container that supplied ngspice-47 and the PDK.</li>
+      <li><i>ngspice</i> circuit simulator with OSDI/OpenVAF model loading. <a href="https://ngspice.sourceforge.io/">ngspice.sourceforge.io</a>.</li>
+    </ol>
+    <div class="bib">
+      <div class="row"><span class="lbl">Cite Open-LUT (BibTeX)</span><button type="button" class="copy" id="copybib">Copy</button></div>
+<pre id="bibtex">@INPROCEEDINGS{khalid2025openlut,
+  author    = {Khalid, Sihawi A. and Maestre, Susie E. and Madrid-Khalid, Karla M.},
+  title     = {{Open-LUT}: Interactive $g_m/I_D$ Lookup Tables for {MOSFET} Sizing in Open-Source {PDKs}},
+  booktitle = {2025 10th International Conference on Integrated Circuits and Microsystems (ICICM)},
+  address   = {Hefei, China},
+  year      = {2025},
+  pages     = {344--353},
+  doi       = {10.1109/ICICM66614.2025.11316023}
+}</pre>
+    </div>
+  </section>
+
+  <footer>
+    <div>Every value comes from a DC operating-point sweep of the IHP-Open-PDK model: V<sub>GS</sub> in 20 mV steps (50 mV for HV), V<sub>DS</sub> in 50 mV steps (100 mV for HV), one single-finger device per L and finger width. Between grid points the page interpolates linearly along V<sub>GS</sub>; L, V<sub>DS</sub> and W<sub>f</sub> are grid values.</div>
+    <div>Size by fingers, not by total width. In SG13G2 the LV devices change with finger width (LV NMOS V<sub>th</sub> drops from 0.29 V at 1 µm to 0.21 V at 50 µm; LV PMOS leaves its valid range above 10 µm), while ng fingers of the same W<sub>f</sub> scale exactly. Checked against direct simulation of the rounded device: I<sub>D</sub>, g<sub>m</sub> and g<sub>ds</sub> within 3 %, f<sub>T</sub> within 8 % (the table is conservative for multi-finger devices).</div>
+    <div>C<sub>gg</sub> includes gate overlap capacitance, so f<sub>T</sub> = g<sub>m</sub>/(2π·C<sub>gg</sub>) matches PSP's own <code>fug</code>. C<sub>dd</sub> adds the drain junction and gate-drain overlap. PMOS values are magnitudes. Full-precision tables (<code>npz/lut_&lt;device&gt;_wf&lt;W<sub>f</sub>&gt;.npz</code>, including noise PSDs) and the generator <code>gen_lut.py</code> are in <code>eda/designs/ihp_lut</code>.</div>
+  </footer>
+</div>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s);
+const TAU=2*Math.PI;
+let LUT=null, D=null, sizeBy="id";
+
+const fmtSI=(x,unit)=>{ // returns [num,unit]
+  if(!isFinite(x)) return ["—",unit];
+  const p=[[1e9,"G"],[1e6,"M"],[1e3,"k"],[1,""],[1e-3,"m"],[1e-6,"µ"],[1e-9,"n"],[1e-12,"p"],[1e-15,"f"],[1e-18,"a"]];
+  const a=Math.abs(x); let s=p.find(q=>a>=q[0]*0.9995)||p[p.length-1];
+  if(a===0) s=[1,""];
+  const v=x/s[0]; const d=Math.abs(v)>=100?1:Math.abs(v)>=10?2:3;
+  return [v.toFixed(d), s[1]+unit];
+};
+const mS=x=>isFinite(x)?String(+(x*1e3).toPrecision(4)):"—";
+const fix=(x,d)=>isFinite(x)?x.toFixed(d):"—";
+
+function decode(b64){
+  const bin=atob(b64); const u=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
+  return new Float32Array(u.buffer);
+}
+
+const cache={};
+async function loadSet(name,wf){
+  const key=name+"_wf"+wf;
+  if(!cache[key]){
+    const r=await fetch(`web/${key}.json`); if(!r.ok) throw new Error("HTTP "+r.status);
+    const j=await r.json(); const a={}; for(const k in j.data) a[k]=decode(j.data[k]); cache[key]=a;
+  }
+  return cache[key];
+}
+async function useSet(){
+  const name=$("#dev").value, wf=parseFloat($("#wf").value), dv=LUT.devices[name];
+  $("#out").style.opacity=.45;
+  try{ const a=await loadSet(name,wf);
+    D={name, L:dv.L, vgs:dv.vgs, vds:dv.vds, nG:dv.vgs.length, nD:dv.vds.length, a, vmax:dv.vmax, wf, W:wf*1e-6};
+    render();
+  }catch(err){ $("#msg").textContent=`The table for ${name} at Wf = ${wf} µm did not load (${err.message}). Pick it again to retry.`; $("#msg").hidden=false; }
+  $("#out").style.opacity=1;
+}
+function setDevice(name){
+  const dv=LUT.devices[name];
+  const ws=$("#wf"); const prevW=ws.value||"2";
+  ws.innerHTML=dv.wf.map(w=>`<option value="${w}">${w} µm</option>`).join(""); ws.value=String(dv.wf.includes(+prevW)?+prevW:2);
+  const vs=$("#vds"), ls=$("#len");
+  const prevV=parseFloat(vs.value), prevL=parseFloat(ls.value);
+  vs.innerHTML=dv.vds.map((v,j)=>`<option value="${j}">${v.toFixed(2)} V</option>`).join("");
+  ls.innerHTML=dv.L.map((l,k)=>`<option value="${k}">${l.toFixed(2)} µm</option>`).join("");
+  vs.value=String(nearest(dv.vds,dv.vmax/2));
+  const lTarget = name.includes("hv")?1.0:0.5;
+  ls.value=String(nearest(dv.L,lTarget));
+}
+const nearest=(arr,x)=>{let b=0;for(let i=1;i<arr.length;i++) if(Math.abs(arr[i]-x)<Math.abs(arr[b]-x)) b=i; return b;};
+const at=(k,i,j,key)=>D.a[key][(k*D.nG+i)*D.nD+j];
+
+// curve along VGS for one L and VDS, strong-inversion side of the gm/ID peak
+function curve(k,j){
+  const pts=[];
+  for(let i=0;i<D.nG;i++){
+    const id=at(k,i,j,"id"); if(!(id>1e-13)) continue;
+    const gm=at(k,i,j,"gm"), gds=at(k,i,j,"gds"), cgg=at(k,i,j,"cgg");
+    pts.push({i, vgs:D.vgs[i], gmid:gm/id, idw:id/D.W, gmgds:gm/gds, ft:gm/(TAU*cgg)});
+  }
+  let pk=0; pts.forEach((p,n)=>{ if(p.gmid>pts[pk].gmid) pk=n; });
+  return pts.slice(pk);
+}
+
+function solve(){
+  const k=+$("#len").value, j=+$("#vds").value, t=parseFloat($("#gmid").value);
+  const c=curve(k,j);
+  const gmax=c.length?c[0].gmid:NaN, gmin=c.length?c[c.length-1].gmid:NaN;
+  $("#range").textContent=`gm/ID reachable at this L and VDS: ${fix(gmin,1)} to ${fix(gmax,1)} S/A (weak inversion near the top, strong inversion at the bottom).`;
+  const msg=$("#msg"); msg.hidden=true;
+  if(!isFinite(t)){ msg.textContent="Enter a gm/ID value in S/A."; msg.hidden=false; return null; }
+  if(t>gmax){ msg.textContent=`gm/ID = ${t} is above the weak-inversion limit for this device (max ${fix(gmax,1)} S/A). Lower it.`; msg.hidden=false; return null; }
+  if(t<gmin){ msg.textContent=`gm/ID = ${t} needs VGS above ${D.vmax} V at this L. Raise gm/ID or pick a shorter L.`; msg.hidden=false; return null; }
+  let n=0; while(n<c.length-1 && !(c[n].gmid>=t && c[n+1].gmid<=t)) n++;
+  const p0=c[n], p1=c[Math.min(n+1,c.length-1)];
+  const f=p0.gmid===p1.gmid?0:(p0.gmid-t)/(p0.gmid-p1.gmid);
+  const i0=p0.i, i1=p1.i;
+  const lerp=key=>{const a=at(k,i0,j,key), b=at(k,i1,j,key); return a+(b-a)*f;};
+  const r={}; for(const key of ["id","gm","gds","gmb","vth","vdsat","cgg","cgs","cgd","cdd"]) r[key]=lerp(key);
+  r.vgs=D.vgs[i0]+(D.vgs[i1]-D.vgs[i0])*f;
+  r.gmid=t; return {k,j,r,point:{gmid:t, idw:r.id/D.W, gmgds:r.gm/r.gds, ft:r.gm/(TAU*r.cgg), vgs:r.vgs}};
+}
+
+function render(){
+  const s=solve(); const out=$("#out");
+  if(!s){ out.innerHTML=""; drawAll(null); return; }
+  const {r,k,j}=s; const W0=D.W;
+  const val=parseFloat($("#sizev").value);
+  let exact=NaN;
+  if(sizeBy==="id") exact=(val*1e-6)/r.id;
+  if(sizeBy==="gm") exact=(val*1e-3)/r.gm;
+  if(sizeBy==="w")  exact=(val*1e-6)/W0;
+  const scale=isFinite(exact)&&exact>0?Math.max(1,Math.round(exact)):NaN;
+  const W=W0*scale;
+  const dev=scale/exact-1;
+  if(isFinite(dev)&&Math.abs(dev)>0.1&&sizeBy!=="w"){ const m=$("#msg"); m.textContent=`Rounding to ${scale} whole finger${scale>1?"s":""} moves ${sizeBy==="id"?"ID":"gm"} ${dev>0?"+":""}${(dev*100).toFixed(0)} % from the target. Pick a smaller finger width to land closer.`; m.hidden=false; }
+  const row=(name,x,unit,cls="")=>{const [v,u]=unit===null?[x,""]:fmtSI(x,unit);return `<tr class="${cls}"><td>${name}</td><td class="v">${v}</td><td class="u">${u}</td></tr>`;};
+  const plain=(name,v,u,cls="")=>`<tr class="${cls}"><td>${name}</td><td class="v">${v}</td><td class="u">${u}</td></tr>`;
+  const ft=r.gm/(TAU*r.cgg);
+  out.innerHTML=
+    `<tr class="sep"><td colspan="3">Size</td></tr>`+
+    plain("<b>Fingers</b>",isFinite(scale)?`${scale} × ${D.wf}`:"—","µm","key")+
+    row("<b>W</b> = ng · W<sub>f</sub>",W,"m","key")+
+    row("W for exact target",W0*exact,"m")+
+    plain("L",D.L[k].toFixed(2),"µm")+
+    row("<b>I<sub>D</sub></b>",r.id*scale,"A","key")+
+    plain("<b>g<sub>m</sub></b>",mS(r.gm*scale),"mS")+
+    row("g<sub>ds</sub>",r.gds*scale,"S")+
+    plain("g<sub>mb</sub>",mS(r.gmb*scale),"mS")+
+    `<tr class="sep"><td colspan="3">Bias (independent of W)</td></tr>`+
+    plain("<b>|V<sub>GS</sub>|</b>",fix(r.vgs,3),"V","key")+
+    plain("|V<sub>th</sub>|",fix(r.vth,3),"V")+
+    plain("V<sub>ov</sub> = V<sub>GS</sub> − V<sub>th</sub>",fix(r.vgs-r.vth,3),"V")+
+    plain("|V<sub>Dsat</sub>|",fix(r.vdsat,3),"V")+
+    plain("|V<sub>DS</sub>|",D.vds[j].toFixed(2),"V")+
+    plain("I<sub>D</sub>/W",fix(r.id/W0,3),"µA/µm")+
+    `<tr class="sep"><td colspan="3">Figures of merit</td></tr>`+
+    plain("<b>g<sub>m</sub>/g<sub>ds</sub></b>",fix(r.gm/r.gds,1),"V/V","key")+
+    plain("Intrinsic gain",fix(20*Math.log10(r.gm/r.gds),1),"dB")+
+    row("<b>f<sub>T</sub></b>",ft,"Hz","key")+
+    plain("g<sub>m</sub>/I<sub>D</sub> · f<sub>T</sub>",fix(r.gmid*ft/1e9,1),"GHz/V")+
+    `<tr class="sep"><td colspan="3">Capacitance (for this W)</td></tr>`+
+    row("C<sub>gg</sub>",r.cgg*scale,"F")+
+    row("C<sub>gs</sub>",r.cgs*scale,"F")+
+    row("C<sub>gd</sub>",r.cgd*scale,"F")+
+    row("C<sub>dd</sub>",r.cdd*scale,"F");
+  drawAll(s);
+}
+
+/* ---------- charts ---------- */
+const SI=[[1e12,"T"],[1e9,"G"],[1e6,"M"],[1e3,"k"],[1,""],[1e-3,"m"],[1e-6,"µ"],[1e-9,"n"],[1e-12,"p"],[1e-15,"f"]];
+const tickSI=(x,u)=>{ if(x===0) return "0"+(u?" "+u:""); const s=SI.find(q=>Math.abs(x)>=q[0]*0.9999)||SI[SI.length-1]; const n=+(x/s[0]).toPrecision(3); return u||s[1]?`${n} ${s[1]}${u}`:String(n); };
+const CH=[
+  {id:"c_idw", title:"I<sub>D</sub>/W vs g<sub>m</sub>/I<sub>D</sub>", unit:"per µm of width, log", y:p=>p.idw, log:true, tick:v=>tickSI(v*1e-6,"A"), fmt:v=>fmtSI(v*1e-6,"A/µm").join(" ")},
+  {id:"c_av",  title:"g<sub>m</sub>/g<sub>ds</sub> vs g<sub>m</sub>/I<sub>D</sub>", unit:"V/V, log", y:p=>p.gmgds, log:true, tick:v=>tickSI(v,""), fmt:v=>v.toFixed(1)+" V/V"},
+  {id:"c_ft",  title:"f<sub>T</sub> vs g<sub>m</sub>/I<sub>D</sub>", unit:"log", y:p=>p.ft, log:true, tick:v=>tickSI(v,"Hz"), fmt:v=>fmtSI(v,"Hz").join(" ")},
+  {id:"c_vgs", title:"|V<sub>GS</sub>| vs g<sub>m</sub>/I<sub>D</sub>", unit:"linear", y:p=>p.vgs, log:false, tick:v=>v.toFixed(2)+" V", fmt:v=>v.toFixed(3)+" V"},
+];
+function buildCharts(){
+  $("#charts").innerHTML=CH.map(c=>`<figure class="chart" style="margin:0"><div class="t"><b>${c.title}</b><span id="${c.id}_r">${c.unit}</span></div><canvas id="${c.id}" aria-label="${c.title.replace(/<[^>]+>/g,"")}"></canvas></figure>`).join("");
+  CH.forEach(c=>{
+    const cv=$("#"+c.id);
+    cv.addEventListener("pointermove",e=>{c.hover=e.offsetX; drawAll(lastS);});
+    cv.addEventListener("pointerleave",()=>{c.hover=null; drawAll(lastS);});
+  });
+  new ResizeObserver(()=>drawAll(lastS)).observe($("#charts"));
+}
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+let lastS=null;
+function drawAll(s){
+  lastS=s; if(!D) return;
+  const j=+$("#vds").value, ksel=+$("#len").value;
+  const curves=D.L.map((_,k)=>curve(k,j));
+  CH.forEach(c=>drawChart(c,curves,ksel,s));
+}
+function niceLogTicks(lo,hi){const t=[];for(let e=Math.floor(Math.log10(lo));e<=Math.ceil(Math.log10(hi));e++) t.push(Math.pow(10,e));return t;}
+function drawChart(c,curves,ksel,s){
+  const cv=document.getElementById(c.id); if(!cv) return;
+  const dpr=window.devicePixelRatio||1, w=cv.clientWidth, h=cv.clientHeight;
+  if(!w) return;
+  cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
+  const g=cv.getContext("2d"); g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,w,h);
+  const col={ink:css("--ink"),muted:css("--muted"),line:css("--soft"),curve:css("--curve"),acc:css("--accent"),surf:css("--surface")};
+  const m={l:66,r:10,t:8,b:30};
+  const X0=2, X1=32;
+  let ylo=Infinity, yhi=-Infinity;
+  curves.forEach(cu=>cu.forEach(p=>{ if(p.gmid<X0||p.gmid>X1) return; const y=c.y(p); if(!(y>0)&&c.log) return; if(isFinite(y)){ylo=Math.min(ylo,y);yhi=Math.max(yhi,y);} }));
+  if(!isFinite(ylo)) return;
+  if(c.log){ ylo=Math.pow(10,Math.floor(Math.log10(ylo))); yhi=Math.pow(10,Math.ceil(Math.log10(yhi))); }
+  else { ylo=0; yhi=Math.ceil(yhi*10)/10; }
+  const fx=x=>m.l+(x-X0)/(X1-X0)*(w-m.l-m.r);
+  const fy=y=>{const v=c.log?(Math.log10(y)-Math.log10(ylo))/(Math.log10(yhi)-Math.log10(ylo)):(y-ylo)/(yhi-ylo); return h-m.b-v*(h-m.t-m.b);};
+  g.font="11px 'IBM Plex Mono', ui-monospace, monospace"; g.lineWidth=1;
+  // grid + ticks
+  g.strokeStyle=col.line; g.fillStyle=col.muted; g.textAlign="right"; g.textBaseline="middle";
+  const yt=c.log?niceLogTicks(ylo,yhi):Array.from({length:7},(_,i)=>ylo+(yhi-ylo)*i/6);
+  yt.forEach(v=>{ if(v<ylo*0.999||v>yhi*1.001) return; const y=fy(v); g.beginPath(); g.moveTo(m.l,y); g.lineTo(w-m.r,y); g.stroke();
+    g.fillText(c.tick(v),m.l-6,y); });
+  g.textAlign="center"; g.textBaseline="top";
+  for(let x=5;x<=30;x+=5){ const px=fx(x); g.beginPath(); g.moveTo(px,m.t); g.lineTo(px,h-m.b); g.stroke(); g.fillText(String(x),px,h-m.b+5); }
+  g.fillText("gm/ID (S/A)",(m.l+w-m.r)/2,h-13);
+  // curves
+  g.save(); g.beginPath(); g.rect(m.l,m.t,w-m.l-m.r,h-m.t-m.b); g.clip();
+  const path=(cu,stroke,lw)=>{ g.strokeStyle=stroke; g.lineWidth=lw; g.beginPath(); let on=false;
+    cu.forEach(p=>{ const y=c.y(p); if(!(isFinite(y))||(c.log&&!(y>0))) {on=false;return;} const X=fx(p.gmid),Y=fy(y); if(!on){g.moveTo(X,Y);on=true;} else g.lineTo(X,Y); }); g.stroke(); };
+  curves.forEach((cu,k)=>{ if(k!==ksel) path(cu,col.curve,1); });
+  path(curves[ksel],col.acc,2.2);
+  // operating point
+  if(s){ const y=c.y(s.point); if(isFinite(y)){ const X=fx(s.point.gmid),Y=fy(y);
+    g.fillStyle=col.surf; g.beginPath(); g.arc(X,Y,5.5,0,TAU); g.fill(); g.strokeStyle=col.acc; g.lineWidth=2; g.stroke();
+    g.fillStyle=col.acc; g.beginPath(); g.arc(X,Y,2.3,0,TAU); g.fill(); } }
+  // hover readout on the selected curve
+  const rd=document.getElementById(c.id+"_r");
+  if(c.hover!=null){ const gx=X0+(c.hover-m.l)/(w-m.l-m.r)*(X1-X0);
+    const cu=curves[ksel]; let best=null; cu.forEach(p=>{ if(!best||Math.abs(p.gmid-gx)<Math.abs(best.gmid-gx)) best=p; });
+    if(best){ const X=fx(best.gmid), y=c.y(best), Y=fy(y);
+      g.strokeStyle=col.muted; g.setLineDash([3,3]); g.lineWidth=1; g.beginPath(); g.moveTo(X,m.t); g.lineTo(X,h-m.b); g.stroke(); g.setLineDash([]);
+      g.fillStyle=col.acc; g.beginPath(); g.arc(X,Y,3.5,0,TAU); g.fill();
+      rd.textContent=`gm/ID ${best.gmid.toFixed(1)} → ${c.fmt(y)}`; }
+  } else rd.textContent=c.unit;
+  g.restore();
+}
+
+/* ---------- wiring ---------- */
+const sizeMeta={id:["I<sub>D</sub>","µA",10],gm:["g<sub>m</sub>","mS",0.15],w:["W","µm",5]};
+function setSizeBy(k){
+  sizeBy=k;
+  document.querySelectorAll("#sizeby button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.k===k)));
+  $("#sizel").innerHTML=sizeMeta[k][0]; $("#sizeu").textContent=sizeMeta[k][1]; $("#sizev").value=sizeMeta[k][2];
+  render();
+}
+document.querySelectorAll("#sizeby button").forEach(b=>b.addEventListener("click",()=>setSizeBy(b.dataset.k)));
+$("#dev").addEventListener("change",e=>{ setDevice(e.target.value); useSet(); });
+$("#wf").addEventListener("change",useSet);
+["#vds","#len"].forEach(s=>$(s).addEventListener("change",render));
+["#gmid","#sizev"].forEach(s=>$(s).addEventListener("input",render));
+$("#copybib").addEventListener("click",async e=>{
+  const btn=e.currentTarget, txt=$("#bibtex").textContent;
+  try{ await navigator.clipboard.writeText(txt); btn.textContent="Copied"; }
+  catch{ const r=document.createRange(); r.selectNodeContents($("#bibtex")); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); btn.textContent="Selected, press Ctrl+C"; }
+  setTimeout(()=>btn.textContent="Copy",2000);
+});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>drawAll(lastS));
+new MutationObserver(()=>drawAll(lastS)).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+
+fetch("web/index.json").then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(j=>{
+  LUT=j; buildCharts(); setDevice($("#dev").value); return useSet();
+}).catch(err=>{ $("#charts").innerHTML=`<div class="loading">The lookup tables did not load (${err.message}). Reload the page to try again.</div>`; });
+})();
+</script>
