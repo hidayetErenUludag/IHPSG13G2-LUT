@@ -24,9 +24,11 @@
 <meta name="twitter:description" content="Free interactive gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm BiCMOS open-source PDK. Size LV and HV NMOS/PMOS by finger width and read W, VGS, gm/gds, fT and capacitances from ngspice PSP103 sweeps.">
 <meta name="twitter:image" content="https://hidayeterenuludag.github.io/IHPSG13G2-LUT/preview.png">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "SG13G2 gm/ID Lookup", "url": "https://hidayeterenuludag.github.io/IHPSG13G2-LUT/", "description": "Free interactive gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm BiCMOS open-source PDK. Size LV and HV NMOS/PMOS by finger width and read W, VGS, gm/gds, fT and capacitances from ngspice PSP103 sweeps.", "applicationCategory": "DesignApplication", "operatingSystem": "Any (web browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "license": "https://www.apache.org/licenses/LICENSE-2.0", "codeRepository": "https://github.com/hidayetErenUludag/IHPSG13G2-LUT", "inLanguage": "en", "keywords": "gm/ID, lookup table, IHP SG13G2, 130 nm, BiCMOS, open-source PDK, analog IC design, MOSFET sizing, ngspice, PSP103", "image": "https://hidayeterenuludag.github.io/IHPSG13G2-LUT/preview.png", "author": {"@type": "Person", "name": "Hidayet Eren Uludağ", "affiliation": {"@type": "CollegeOrUniversity", "name": "Özyeğin University"}}, "isBasedOn": {"@type": "ScholarlyArticle", "name": "Open-LUT: Interactive gm/ID Lookup Tables for MOSFET Sizing in Open-Source PDKs", "author": ["Sihawi A. Khalid", "Susie E. Maestre", "Karla M. Madrid-Khalid"], "datePublished": "2025", "sameAs": "https://doi.org/10.1109/ICICM66614.2025.11316023"}}</script>
+<link rel="preload" href="web/sg13_lv_nmos_wf1.json" as="fetch" type="application/json" crossorigin="anonymous">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=optional" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=optional"></noscript>
 <style>
 :root{
   --ground:#EEF2F4; --surface:#FFFFFF; --ink:#15202A; --muted:#5A6874; --line:#D3DBE1; --soft:#E4EAEE;
@@ -107,6 +109,8 @@ a{color:var(--accent);text-underline-offset:2px}
 .copy:hover{border-color:var(--accent)}
 footer code{font-family:var(--mono);font-size:11.5px}
 .loading{padding:40px;text-align:center;color:var(--muted)}
+table.out:empty{display:block;height:961px}
+#range{min-height:3em}
 </style>
 
 </head>
@@ -130,9 +134,9 @@ footer code{font-family:var(--mono);font-size:11.5px}
         <option value="sg13_hv_nmos">sg13_hv_nmos · 3.3 V I/O</option>
         <option value="sg13_hv_pmos">sg13_hv_pmos · 3.3 V I/O</option>
       </select></div>
-    <div class="field"><label for="vds">|V<sub>DS</sub>|</label><select id="vds"></select></div>
-    <div class="field"><label for="len">L</label><select id="len"></select></div>
-    <div class="field"><label for="wf">Finger width W<sub>f</sub></label><select id="wf"></select></div>
+    <div class="field"><label for="vds">|V<sub>DS</sub>|</label><select id="vds"><option>0.60 V</option></select></div>
+    <div class="field"><label for="len">L</label><select id="len"><option>0.50 µm</option></select></div>
+    <div class="field"><label for="wf">Finger width W<sub>f</sub></label><select id="wf"><option>1 µm</option></select></div>
     <div class="field"><label>Size the device by</label>
       <div class="seg" id="sizeby" role="radiogroup" aria-label="Size the device by">
         <button type="button" data-k="id" aria-pressed="true">I<sub>D</sub></button>
@@ -338,27 +342,31 @@ function buildCharts(){
   $("#charts").innerHTML=CH.map(c=>`<figure class="chart" style="margin:0"><div class="t"><b>${c.title}</b><span id="${c.id}_r">${c.unit}</span></div><canvas id="${c.id}" aria-label="${c.title.replace(/<[^>]+>/g,"")}"></canvas></figure>`).join("");
   CH.forEach(c=>{
     const cv=$("#"+c.id);
-    cv.addEventListener("pointermove",e=>{c.hover=e.offsetX; drawAll(lastS);});
-    cv.addEventListener("pointerleave",()=>{c.hover=null; drawAll(lastS);});
+    const redraw=()=>{ if(!c.raf) c.raf=requestAnimationFrame(()=>{ c.raf=0; drawAll(lastS,c); }); };
+    cv.addEventListener("pointermove",e=>{ c.hover=e.offsetX; redraw(); });
+    cv.addEventListener("pointerleave",()=>{ c.hover=null; redraw(); });
   });
   new ResizeObserver(()=>drawAll(lastS)).observe($("#charts"));
 }
-const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 let lastS=null;
-function drawAll(s){
+function drawAll(s,only){
   lastS=s; if(!D) return;
   const j=+$("#vds").value, ksel=+$("#len").value;
   const curves=D.L.map((_,k)=>curve(k,j));
-  CH.forEach(c=>drawChart(c,curves,ksel,s));
+  // read phase: one style read and every canvas size, before any drawing
+  const cs=getComputedStyle(document.documentElement), v=n=>cs.getPropertyValue(n).trim();
+  const col={ink:v("--ink"),muted:v("--muted"),line:v("--soft"),curve:v("--curve"),acc:v("--accent"),surf:v("--surface")};
+  const list=only?[only]:CH;
+  const boxes=list.map(c=>{ const cv=document.getElementById(c.id); return cv?{cv,w:cv.clientWidth,h:cv.clientHeight}:null; });
+  // write phase
+  list.forEach((c,i)=>{ if(boxes[i]) drawChart(c,curves,ksel,s,boxes[i],col); });
 }
 function niceLogTicks(lo,hi){const t=[];for(let e=Math.floor(Math.log10(lo));e<=Math.ceil(Math.log10(hi));e++) t.push(Math.pow(10,e));return t;}
-function drawChart(c,curves,ksel,s){
-  const cv=document.getElementById(c.id); if(!cv) return;
-  const dpr=window.devicePixelRatio||1, w=cv.clientWidth, h=cv.clientHeight;
+function drawChart(c,curves,ksel,s,box,col){
+  const cv=box.cv, w=box.w, h=box.h, dpr=window.devicePixelRatio||1;
   if(!w) return;
   cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
   const g=cv.getContext("2d"); g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,w,h);
-  const col={ink:css("--ink"),muted:css("--muted"),line:css("--soft"),curve:css("--curve"),acc:css("--accent"),surf:css("--surface")};
   const m={l:66,r:10,t:8,b:30};
   const X0=2, X1=32;
   let ylo=Infinity, yhi=-Infinity;
@@ -421,8 +429,9 @@ $("#copybib").addEventListener("click",async e=>{
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>drawAll(lastS));
 new MutationObserver(()=>drawAll(lastS)).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
 
-fetch("web/index.json").then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(j=>{
-  LUT=j; buildCharts(); setDevice($("#dev").value); return useSet();
+buildCharts();
+Promise.resolve({"meta":{"pdk":"IHP SG13G2","corner":"mos_tt","temp":27,"vsb":0,"wf":[0.5,1.0,2.0,5.0,10.0],"note":"One file per device and finger width Wf (ng=1). Multi-finger devices scale linearly with ng. cgg includes overlap caps.","layout":"each array is float32, shape [nL][nVGS][nVDS], row-major"},"devices":{"sg13_lv_nmos":{"L":[0.13,0.15,0.18,0.2,0.25,0.3,0.35,0.4,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":1.2,"vgs":[0.0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2,0.22,0.24,0.26,0.28,0.3,0.32,0.34,0.36,0.38,0.4,0.42,0.44,0.46,0.48,0.5,0.52,0.54,0.56,0.58,0.6,0.62,0.64,0.66,0.68,0.7,0.72,0.74,0.76,0.78,0.8,0.82,0.84,0.86,0.88,0.9,0.92,0.94,0.96,0.98,1.0,1.02,1.04,1.06,1.08,1.1,1.12,1.14,1.16,1.18,1.2],"vds":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2],"wf":[0.5,1.0,2.0,5.0,10.0]},"sg13_lv_pmos":{"L":[0.13,0.15,0.18,0.2,0.25,0.3,0.35,0.4,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":1.2,"vgs":[0.0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2,0.22,0.24,0.26,0.28,0.3,0.32,0.34,0.36,0.38,0.4,0.42,0.44,0.46,0.48,0.5,0.52,0.54,0.56,0.58,0.6,0.62,0.64,0.66,0.68,0.7,0.72,0.74,0.76,0.78,0.8,0.82,0.84,0.86,0.88,0.9,0.92,0.94,0.96,0.98,1.0,1.02,1.04,1.06,1.08,1.1,1.12,1.14,1.16,1.18,1.2],"vds":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2],"wf":[0.5,1.0,2.0,5.0,10.0]},"sg13_hv_nmos":{"L":[0.45,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":3.3,"vgs":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2.0,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55,2.6,2.65,2.7,2.75,2.8,2.85,2.9,2.95,3.0,3.05,3.1,3.15,3.2,3.25,3.3],"vds":[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3.0,3.1,3.2,3.3],"wf":[0.5,1.0,2.0,5.0,10.0]},"sg13_hv_pmos":{"L":[0.4,0.45,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":3.3,"vgs":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2.0,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55,2.6,2.65,2.7,2.75,2.8,2.85,2.9,2.95,3.0,3.05,3.1,3.15,3.2,3.25,3.3],"vds":[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3.0,3.1,3.2,3.3],"wf":[0.5,1.0,2.0,5.0,10.0]}}}).then(j=>{
+  LUT=j; setDevice($("#dev").value); return useSet();
 }).catch(err=>{ $("#charts").innerHTML=`<div class="loading">The lookup tables did not load (${err.message}). Reload the page to try again.</div>`; });
 })();
 </script>

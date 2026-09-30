@@ -1,7 +1,7 @@
 <title>SG13G2 gm/ID Lookup</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=optional">
 <style>
 :root{
   --ground:#EEF2F4; --surface:#FFFFFF; --ink:#15202A; --muted:#5A6874; --line:#D3DBE1; --soft:#E4EAEE;
@@ -82,6 +82,8 @@ a{color:var(--accent);text-underline-offset:2px}
 .copy:hover{border-color:var(--accent)}
 footer code{font-family:var(--mono);font-size:11.5px}
 .loading{padding:40px;text-align:center;color:var(--muted)}
+table.out:empty{display:block;height:961px}
+#range{min-height:3em}
 </style>
 
 <div class="wrap">
@@ -102,9 +104,9 @@ footer code{font-family:var(--mono);font-size:11.5px}
         <option value="sg13_hv_nmos">sg13_hv_nmos · 3.3 V I/O</option>
         <option value="sg13_hv_pmos">sg13_hv_pmos · 3.3 V I/O</option>
       </select></div>
-    <div class="field"><label for="vds">|V<sub>DS</sub>|</label><select id="vds"></select></div>
-    <div class="field"><label for="len">L</label><select id="len"></select></div>
-    <div class="field"><label for="wf">Finger width W<sub>f</sub></label><select id="wf"></select></div>
+    <div class="field"><label for="vds">|V<sub>DS</sub>|</label><select id="vds"><option>0.60 V</option></select></div>
+    <div class="field"><label for="len">L</label><select id="len"><option>0.50 µm</option></select></div>
+    <div class="field"><label for="wf">Finger width W<sub>f</sub></label><select id="wf"><option>1 µm</option></select></div>
     <div class="field"><label>Size the device by</label>
       <div class="seg" id="sizeby" role="radiogroup" aria-label="Size the device by">
         <button type="button" data-k="id" aria-pressed="true">I<sub>D</sub></button>
@@ -309,27 +311,31 @@ function buildCharts(){
   $("#charts").innerHTML=CH.map(c=>`<figure class="chart" style="margin:0"><div class="t"><b>${c.title}</b><span id="${c.id}_r">${c.unit}</span></div><canvas id="${c.id}" aria-label="${c.title.replace(/<[^>]+>/g,"")}"></canvas></figure>`).join("");
   CH.forEach(c=>{
     const cv=$("#"+c.id);
-    cv.addEventListener("pointermove",e=>{c.hover=e.offsetX; drawAll(lastS);});
-    cv.addEventListener("pointerleave",()=>{c.hover=null; drawAll(lastS);});
+    const redraw=()=>{ if(!c.raf) c.raf=requestAnimationFrame(()=>{ c.raf=0; drawAll(lastS,c); }); };
+    cv.addEventListener("pointermove",e=>{ c.hover=e.offsetX; redraw(); });
+    cv.addEventListener("pointerleave",()=>{ c.hover=null; redraw(); });
   });
   new ResizeObserver(()=>drawAll(lastS)).observe($("#charts"));
 }
-const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 let lastS=null;
-function drawAll(s){
+function drawAll(s,only){
   lastS=s; if(!D) return;
   const j=+$("#vds").value, ksel=+$("#len").value;
   const curves=D.L.map((_,k)=>curve(k,j));
-  CH.forEach(c=>drawChart(c,curves,ksel,s));
+  // read phase: one style read and every canvas size, before any drawing
+  const cs=getComputedStyle(document.documentElement), v=n=>cs.getPropertyValue(n).trim();
+  const col={ink:v("--ink"),muted:v("--muted"),line:v("--soft"),curve:v("--curve"),acc:v("--accent"),surf:v("--surface")};
+  const list=only?[only]:CH;
+  const boxes=list.map(c=>{ const cv=document.getElementById(c.id); return cv?{cv,w:cv.clientWidth,h:cv.clientHeight}:null; });
+  // write phase
+  list.forEach((c,i)=>{ if(boxes[i]) drawChart(c,curves,ksel,s,boxes[i],col); });
 }
 function niceLogTicks(lo,hi){const t=[];for(let e=Math.floor(Math.log10(lo));e<=Math.ceil(Math.log10(hi));e++) t.push(Math.pow(10,e));return t;}
-function drawChart(c,curves,ksel,s){
-  const cv=document.getElementById(c.id); if(!cv) return;
-  const dpr=window.devicePixelRatio||1, w=cv.clientWidth, h=cv.clientHeight;
+function drawChart(c,curves,ksel,s,box,col){
+  const cv=box.cv, w=box.w, h=box.h, dpr=window.devicePixelRatio||1;
   if(!w) return;
   cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
   const g=cv.getContext("2d"); g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,w,h);
-  const col={ink:css("--ink"),muted:css("--muted"),line:css("--soft"),curve:css("--curve"),acc:css("--accent"),surf:css("--surface")};
   const m={l:66,r:10,t:8,b:30};
   const X0=2, X1=32;
   let ylo=Infinity, yhi=-Infinity;
@@ -392,8 +398,9 @@ $("#copybib").addEventListener("click",async e=>{
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>drawAll(lastS));
 new MutationObserver(()=>drawAll(lastS)).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
 
+buildCharts();
 fetch("web/index.json").then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(j=>{
-  LUT=j; buildCharts(); setDevice($("#dev").value); return useSet();
+  LUT=j; setDevice($("#dev").value); return useSet();
 }).catch(err=>{ $("#charts").innerHTML=`<div class="loading">The lookup tables did not load (${err.message}). Reload the page to try again.</div>`; });
 })();
 </script>

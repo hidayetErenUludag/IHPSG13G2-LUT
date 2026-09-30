@@ -75,6 +75,24 @@ def head(title, canonical, extra=""):
 {extra}"""
 
 
+def async_fonts(styles):
+    """Load the Google Fonts stylesheet without blocking first paint (display=optional avoids a later swap)."""
+    m = re.search(r'<link rel="stylesheet" href="(https://fonts.googleapis.com/[^"]+)">', styles)
+    if not m:
+        return styles
+    url = m.group(1)
+    return styles.replace(m.group(0),
+        f'<link rel="preload" as="style" href="{url}" onload="this.onload=null;this.rel=\'stylesheet\'">\n'
+        f'<noscript><link rel="stylesheet" href="{url}"></noscript>')
+
+
+def online_boot(script, index):
+    """Inline web/index.json so the first table request starts immediately."""
+    a = script.index('fetch("web/index.json")'); b = script.index(".catch(err=>")
+    return (script[:a] + 'Promise.resolve(' + json.dumps(index, separators=(",", ":")) + ').then(j=>{\n'
+            '  LUT=j; setDevice($("#dev").value); return useSet();\n})' + script[b:])
+
+
 def split_source(html):
     """sg13g2_lut.html is a body fragment: <title>, fonts/<style>, markup, <script>."""
     html = re.sub(r"<title>.*?</title>\n?", "", html, count=1)
@@ -137,19 +155,21 @@ if __name__ == "__main__":
     styles, markup, script = split_source(src)
 
     # 1) online page
-    online = (head(TITLE, SITE) + styles + "</head>\n<body>\n" + add_links(markup, True)
+    index = json.load(open("web/index.json"))
+    styles = async_fonts(styles)
+    preload = '<link rel="preload" href="web/sg13_lv_nmos_wf1.json" as="fetch" type="application/json" crossorigin="anonymous">\n'
+    online = (head(TITLE, SITE, preload) + styles + "</head>\n<body>\n" + add_links(markup, True)
               + '<noscript><p style="padding:16px">This calculator needs JavaScript.</p></noscript>\n<script>'
-              + script + "\n</body>\n</html>\n")
+              + online_boot(script, index) + "\n</body>\n</html>\n")
     open("index.html", "w", encoding="utf-8").write(online)
 
     # 2) offline page
-    index = json.load(open("web/index.json"))
     pack = pack_tables()
     s = script.replace(script[script.index("async function loadSet(name,wf){"):script.index("async function useSet(){")], OFFLINE_LOAD)
     s = s.replace(s[s.index('fetch("web/index.json")'):s.index(".catch(err=>")],
                   '''Promise.resolve(INDEX).then(j=>{
   if(typeof DecompressionStream==="undefined") throw new Error("this browser is too old; use a current Chrome, Edge, Firefox or Safari");
-  LUT=j; buildCharts(); setDevice($("#dev").value); return useSet();
+  LUT=j; setDevice($("#dev").value); return useSet();
 })''')
     m = markup.replace("Every value comes from", "This file is self-contained and works offline; values are stored "
                        "log-quantised to 16 bits (at most 0.05 % error). Every value comes from")
