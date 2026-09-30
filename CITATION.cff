@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+message: "If you use this tool, please cite it as below, and also cite the Open-LUT paper it is based on."
+title: "SG13G2 gm/ID Lookup: interactive gm/ID lookup tables for the IHP SG13G2 open PDK"
+type: software
+authors:
+  - family-names: "Uludağ"
+    given-names: "Hidayet Eren"
+    affiliation: "Özyeğin University"
+version: 1.0.0
+date-released: 2026-09-30
+license: Apache-2.0
+url: "https://hidayeterenuludag.github.io/IHPSG13G2-LUT/"
+repository-code: "https://github.com/hidayetErenUludag/IHPSG13G2-LUT"
+abstract: >-
+  Interactive gm/ID lookup tables and a MOSFET sizing calculator for the IHP SG13G2
+  130 nm BiCMOS open-source PDK. Covers LV and HV NMOS/PMOS over channel length,
+  VGS, VDS and finger width, generated from ngspice PSP103 operating-point sweeps
+  and checked against direct simulation.
+keywords:
+  - gm/ID
+  - lookup table
+  - IHP SG13G2
+  - open-source PDK
+  - analog IC design
+  - MOSFET sizing
+  - ngspice
+references:
+  - type: conference-paper
+    title: "Open-LUT: Interactive gm/ID Lookup Tables for MOSFET Sizing in Open-Source PDKs"
+    authors:
+      - family-names: "Khalid"
+        given-names: "Sihawi A."
+      - family-names: "Maestre"
+        given-names: "Susie E."
+      - family-names: "Madrid-Khalid"
+        given-names: "Karla M."
+    collection-title: "2025 10th International Conference on Integrated Circuits and Microsystems (ICICM)"
+    year: 2025
+    start: 344
+    end: 353
+    doi: "10.1109/ICICM66614.2025.11316023"
+  - type: software
+    title: "IHP-Open-PDK"
+    authors:
+      - name: "IHP GmbH"
+    url: "https://github.com/IHP-GmbH/IHP-Open-PDK"
+    license: Apache-2.0

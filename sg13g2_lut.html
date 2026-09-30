@@ -206,8 +206,8 @@ async function useSet(){
 }
 function setDevice(name){
   const dv=LUT.devices[name];
-  const ws=$("#wf"); const prevW=ws.value||"2";
-  ws.innerHTML=dv.wf.map(w=>`<option value="${w}">${w} µm</option>`).join(""); ws.value=String(dv.wf.includes(+prevW)?+prevW:2);
+  const ws=$("#wf"); const prevW=ws.value||"1";
+  ws.innerHTML=dv.wf.map(w=>`<option value="${w}">${w} µm</option>`).join(""); ws.value=String(dv.wf.includes(+prevW)?+prevW:1);
   const vs=$("#vds"), ls=$("#len");
   const prevV=parseFloat(vs.value), prevL=parseFloat(ls.value);
   vs.innerHTML=dv.vds.map((v,j)=>`<option value="${j}">${v.toFixed(2)} V</option>`).join("");
