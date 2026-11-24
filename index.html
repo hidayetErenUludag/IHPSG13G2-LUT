@@ -3,81 +3,148 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SG13G2 gm/ID Lookup Tables | IHP 130 nm Open PDK</title>
-<meta name="description" content="Free interactive gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm BiCMOS open-source PDK. Size LV and HV NMOS/PMOS by finger width and read W, VGS, gm/gds, fT and capacitances from ngspice PSP103 sweeps.">
+<title>IHP SG13G2 gm/ID Lookup Tables & MOSFET Sizing Calculator</title>
+<meta name="description" content="Free gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm open PDK. LV and HV NMOS/PMOS by finger width, from ngspice PSP103 sweeps.">
 <meta name="author" content="Hidayet Eren Uludağ">
-<meta name="keywords" content="gm/ID, lookup table, IHP SG13G2, 130 nm, BiCMOS, open-source PDK, analog IC design, MOSFET sizing, ngspice, PSP103">
+<meta name="keywords" content="gm/ID, gm/ID lookup table, IHP SG13G2, SG13G2 PDK, 130 nm BiCMOS, open-source PDK, analog IC design, MOSFET sizing, transistor sizing calculator, ngspice, PSP103">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="https://hidayeterenuludag.github.io/IHPSG13G2-LUT/">
+<link rel="author" href="https://github.com/hidayetErenUludag">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230C6B86'/%3E%3Cpath d='M6 24 C10 24 12 8 26 8' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
-<meta name="theme-color" content="#0C6B86">
+<link rel="alternate" type="text/plain" href="https://hidayeterenuludag.github.io/IHPSG13G2-LUT/llms.txt" title="Plain-text summary for language models">
+<meta name="theme-color" content="#F3F6F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0C1218" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="SG13G2 gm/ID Lookup">
-<meta property="og:title" content="SG13G2 gm/ID Lookup Tables | IHP 130 nm Open PDK">
-<meta property="og:description" content="Free interactive gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm BiCMOS open-source PDK. Size LV and HV NMOS/PMOS by finger width and read W, VGS, gm/gds, fT and capacitances from ngspice PSP103 sweeps.">
+<meta property="og:title" content="IHP SG13G2 gm/ID Lookup Tables & MOSFET Sizing Calculator">
+<meta property="og:description" content="Size SG13G2 MOSFETs from a gm/ID target and read the finger count, VGS, gm/gds, fT and capacitances in your browser. Free, open source, works offline.">
 <meta property="og:url" content="https://hidayeterenuludag.github.io/IHPSG13G2-LUT/">
 <meta property="og:image" content="https://hidayeterenuludag.github.io/IHPSG13G2-LUT/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="SG13G2 gm/ID lookup charts: ID/W, intrinsic gain, fT and VGS versus gm/ID">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="SG13G2 gm/ID Lookup Tables | IHP 130 nm Open PDK">
-<meta name="twitter:description" content="Free interactive gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm BiCMOS open-source PDK. Size LV and HV NMOS/PMOS by finger width and read W, VGS, gm/gds, fT and capacitances from ngspice PSP103 sweeps.">
+<meta name="twitter:title" content="IHP SG13G2 gm/ID Lookup Tables & MOSFET Sizing Calculator">
+<meta name="twitter:description" content="gm/ID sizing for IHP SG13G2: pick a device, L and finger width, get W, VGS, gain and fT.">
 <meta name="twitter:image" content="https://hidayeterenuludag.github.io/IHPSG13G2-LUT/preview.png">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "SG13G2 gm/ID Lookup", "url": "https://hidayeterenuludag.github.io/IHPSG13G2-LUT/", "description": "Free interactive gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm BiCMOS open-source PDK. Size LV and HV NMOS/PMOS by finger width and read W, VGS, gm/gds, fT and capacitances from ngspice PSP103 sweeps.", "applicationCategory": "DesignApplication", "operatingSystem": "Any (web browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "license": "https://www.apache.org/licenses/LICENSE-2.0", "codeRepository": "https://github.com/hidayetErenUludag/IHPSG13G2-LUT", "inLanguage": "en", "keywords": "gm/ID, lookup table, IHP SG13G2, 130 nm, BiCMOS, open-source PDK, analog IC design, MOSFET sizing, ngspice, PSP103", "image": "https://hidayeterenuludag.github.io/IHPSG13G2-LUT/preview.png", "author": {"@type": "Person", "name": "Hidayet Eren Uludağ", "affiliation": {"@type": "CollegeOrUniversity", "name": "Özyeğin University"}}, "isBasedOn": {"@type": "ScholarlyArticle", "name": "Open-LUT: Interactive gm/ID Lookup Tables for MOSFET Sizing in Open-Source PDKs", "author": ["Sihawi A. Khalid", "Susie E. Maestre", "Karla M. Madrid-Khalid"], "datePublished": "2025", "sameAs": "https://doi.org/10.1109/ICICM66614.2025.11316023"}}</script>
+<meta name="twitter:image:alt" content="SG13G2 gm/ID lookup charts: ID/W, intrinsic gain, fT and VGS versus gm/ID">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#website","url":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/","name":"SG13G2 gm/ID Lookup","inLanguage":"en","publisher":{"@id":"https://github.com/hidayetErenUludag#person"}},{"@type":"WebApplication","@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#app","name":"SG13G2 gm/ID Lookup","url":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/","description":"Free gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm open PDK. LV and HV NMOS/PMOS by finger width, from ngspice PSP103 sweeps.","applicationCategory":"DesignApplication","applicationSubCategory":"Analog IC design","operatingSystem":"Any (web browser)","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"softwareVersion":"1.1.0","dateModified":"2026-11-24","license":"https://www.apache.org/licenses/LICENSE-2.0","inLanguage":"en","keywords":"gm/ID, gm/ID lookup table, IHP SG13G2, SG13G2 PDK, 130 nm BiCMOS, open-source PDK, analog IC design, MOSFET sizing, transistor sizing calculator, ngspice, PSP103","image":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/preview.png","screenshot":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/preview.png","author":{"@id":"https://github.com/hidayetErenUludag#person"},"isPartOf":{"@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#website"},"isBasedOn":{"@type":"ScholarlyArticle","name":"Open-LUT: Interactive gm/ID Lookup Tables for MOSFET Sizing in Open-Source PDKs","author":[{"@type":"Person","name":"Sihawi A. Khalid"},{"@type":"Person","name":"Susie E. Maestre"},{"@type":"Person","name":"Karla M. Madrid-Khalid"}],"datePublished":"2025","sameAs":"https://doi.org/10.1109/ICICM66614.2025.11316023"},"mainEntityOfPage":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/"},{"@type":"SoftwareSourceCode","@id":"https://github.com/hidayetErenUludag/IHPSG13G2-LUT","name":"IHPSG13G2-LUT","codeRepository":"https://github.com/hidayetErenUludag/IHPSG13G2-LUT","programmingLanguage":["Python","JavaScript"],"license":"https://www.apache.org/licenses/LICENSE-2.0","author":{"@id":"https://github.com/hidayetErenUludag#person"},"targetProduct":{"@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#app"}},{"@type":"Dataset","@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#dataset","name":"IHP SG13G2 gm/ID MOSFET lookup tables (ngspice PSP103, mos_tt, 27 °C)","description":"Pre-computed DC operating-point lookup tables for the four MOSFETs of the IHP SG13G2 130 nm BiCMOS open-source PDK (sg13_lv_nmos, sg13_lv_pmos, sg13_hv_nmos, sg13_hv_pmos), for gm/ID-based analog transistor sizing. Each table sweeps VGS and VDS for every channel length at finger widths of 0.5, 1, 2, 5 and 10 µm (single finger, ng = 1), and stores ID, gm, gds, gmb, Vth, VDsat, Cgg, Cgs, Cgd and Cdd, plus drain thermal and flicker noise PSDs in the NumPy files. Simulated in ngspice-47 with the PSP103 model, typical corner mos_tt, 27 °C, VSB = 0; checked against direct simulation within 3 % for ID, gm and gds.","url":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/","sameAs":"https://github.com/hidayetErenUludag/IHPSG13G2-LUT","license":"https://www.apache.org/licenses/LICENSE-2.0","isAccessibleForFree":true,"version":"1.1.0","dateModified":"2026-11-24","creator":{"@id":"https://github.com/hidayetErenUludag#person"},"keywords":["gm/ID","lookup table","IHP SG13G2","MOSFET","analog IC design","open-source PDK","PSP103","ngspice"],"measurementTechnique":"ngspice-47 DC operating-point sweep of the IHP-Open-PDK PSP103 MOSFET models","variableMeasured":["drain current ID","transconductance gm","output conductance gds","body transconductance gmb","threshold voltage Vth","saturation voltage VDsat","gate capacitance Cgg","Cgs","Cgd","Cdd"],"isBasedOn":"https://github.com/IHP-GmbH/IHP-Open-PDK","distribution":[{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf0.5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf0.5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf1.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf1.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf10.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf10.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf2.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf2.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf0.5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf0.5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf1.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf1.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf10.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf10.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf2.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf2.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf0.5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf0.5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf1.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf1.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf10.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf10.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf2.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf2.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf0.5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf0.5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf1.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf1.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf10.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf10.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf2.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf2.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf5.npz"},{"@type":"DataDownload","encodingFormat":"text/html","name":"Offline calculator (single HTML file)","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/SG13G2_gmID_Lookup.html"}]},{"@type":"FAQPage","@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#faq","mainEntity":[{"@type":"Question","name":"What is the gm/ID sizing method?","acceptedAnswer":{"@type":"Answer","text":"gm/ID sizing picks the transconductance efficiency gm/ID to set how strongly a transistor is inverted, then reads current density, intrinsic gain and fT from tables simulated with the real device model instead of square-law equations. The method is described by Jespers and Murmann (Cambridge University Press, 2017)."}},{"@type":"Question","name":"Which IHP SG13G2 devices does this cover?","acceptedAnswer":{"@type":"Answer","text":"All four MOSFETs: sg13_lv_nmos and sg13_lv_pmos (1.2 V core, L = 0.13 to 5 µm), sg13_hv_nmos (3.3 V I/O, L = 0.45 to 5 µm) and sg13_hv_pmos (3.3 V I/O, L = 0.40 to 5 µm), each at finger widths of 0.5, 1, 2, 5 and 10 µm. The *_rf_* symbols use the same transistors with an RF model and are not tabulated separately."}},{"@type":"Question","name":"Why does finger width matter in SG13G2?","acceptedAnswer":{"@type":"Answer","text":"SG13G2 LV devices depend on finger width, not only total width: LV NMOS Vth falls from 0.29 V at a 1 µm finger to 0.21 V at a 50 µm finger. A table built at one width can mis-size other widths by up to 34 % in ID, so this tool sizes devices as ng fingers of width Wf, which scale exactly."}},{"@type":"Question","name":"How accurate are the values?","acceptedAnswer":{"@type":"Answer","text":"Devices sized from the tables and simulated directly in ngspice agree within 3 % for ID, gm and gds, and within 8 % for fT. All values are simulation results from the PSP103 models and have not been compared against measured silicon."}},{"@type":"Question","name":"Which process corner and temperature are used?","acceptedAnswer":{"@type":"Answer","text":"The typical corner mos_tt at 27 °C with VSB = 0, simulated in ngspice-47 with the PSP103 model from the IHP-Open-PDK. Other corners and temperatures are not included yet; regenerate the tables with gen_lut.py to add them."}},{"@type":"Question","name":"Can I use the tables offline or in Python?","acceptedAnswer":{"@type":"Answer","text":"Yes. The offline version is a single self-contained HTML file of about 4.5 MB. Full-precision NumPy .npz tables, including noise PSDs, are in the npz folder of the GitHub repository."}},{"@type":"Question","name":"Is it free to use, and how do I cite it?","acceptedAnswer":{"@type":"Answer","text":"Yes. Code, page and tables are released under the Apache License 2.0. Cite the Open-LUT paper by Khalid, Maestre and Madrid-Khalid (ICICM 2025), and this repository via its CITATION.cff file."}}]}]}</script>
 <link rel="preload" href="web/sg13_lv_nmos_wf1.json" as="fetch" type="application/json" crossorigin="anonymous">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=optional" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=optional"></noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=optional" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=optional"></noscript>
 <style>
 :root{
-  --ground:#EEF2F4; --surface:#FFFFFF; --ink:#15202A; --muted:#5A6874; --line:#D3DBE1; --soft:#E4EAEE;
-  --accent:#0C6B86; --accent-ink:#FFFFFF; --curve:#A9B7C2; --warn:#A45E00; --warn-bg:#FFF3E0;
-  --display:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;
+  --ground:#F3F6F8; --surface:#FFFFFF; --ink:#13202B; --muted:#52616E; --line:#D5DDE3; --soft:#E6ECF0;
+  --accent:#0C6B86; --accent-ink:#FFFFFF; --accent-soft:#E3F1F5; --curve:#AFBCC6;
+  --op:#B45309; --warn:#9A5200; --warn-bg:#FFF4E2; --shadow:0 1px 2px rgba(16,32,43,.05),0 4px 16px rgba(16,32,43,.04);
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+  --r:10px; --topbar:58px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     color-scheme:dark;
-    --ground:#0E141A; --surface:#151D25; --ink:#E3EAF0; --muted:#94A2AE; --line:#29343F; --soft:#1C2630;
-    --accent:#4DB5D3; --accent-ink:#06222B; --curve:#3E4D5A; --warn:#F0A643; --warn-bg:#2A2012;
+    --ground:#0C1218; --surface:#131C24; --ink:#E4EBF1; --muted:#97A5B1; --line:#26323D; --soft:#1B2630;
+    --accent:#4DB5D3; --accent-ink:#06222B; --accent-soft:#12303A; --curve:#3C4B58;
+    --op:#F5B544; --warn:#F0A643; --warn-bg:#2A2012; --shadow:none;
   }
 }
 :root[data-theme="dark"]{
   color-scheme:dark;
-  --ground:#0E141A; --surface:#151D25; --ink:#E3EAF0; --muted:#94A2AE; --line:#29343F; --soft:#1C2630;
-  --accent:#4DB5D3; --accent-ink:#06222B; --curve:#3E4D5A; --warn:#F0A643; --warn-bg:#2A2012;
+  --ground:#0C1218; --surface:#131C24; --ink:#E4EBF1; --muted:#97A5B1; --line:#26323D; --soft:#1B2630;
+  --accent:#4DB5D3; --accent-ink:#06222B; --accent-soft:#12303A; --curve:#3C4B58;
+  --op:#F5B544; --warn:#F0A643; --warn-bg:#2A2012; --shadow:none;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.5}
-.wrap{max-width:1240px;margin:0 auto;padding-inline:20px;padding-block:22px 40px;display:grid;gap:18px}
-header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
-h1{font-family:var(--display);font-weight:600;font-size:32px;line-height:1.05;margin:0;letter-spacing:.01em;text-wrap:balance}
-h1 small{display:block;font-family:var(--body);font-weight:400;font-size:14px;color:var(--muted);letter-spacing:0;margin-top:6px}
-.cond{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px}
-.cond span{border:1px solid var(--line);border-radius:4px;padding:2px 7px;background:var(--surface)}
-.bar{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:end;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
-.field{display:grid;gap:4px;min-width:0}
-.field label,.lbl{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
-select,input{font:500 14px/1.2 var(--mono);color:var(--ink);background:var(--ground);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-width:0}
-select:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.seg button{font:500 13px var(--body);background:var(--ground);color:var(--muted);border:0;padding:8px 12px;cursor:pointer}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--topbar) + 12px)}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:2px}
+code,kbd{font-family:var(--mono);font-size:.88em}
+.skip{position:absolute;left:12px;top:-60px;background:var(--accent);color:var(--accent-ink);padding:8px 12px;border-radius:6px;z-index:60}
+.skip:focus{top:10px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:50;height:var(--topbar);background:color-mix(in srgb,var(--ground) 86%,transparent);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.top .in{max-width:1240px;margin:0 auto;height:100%;padding-inline:20px;display:flex;align-items:center;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;color:var(--ink);text-decoration:none;white-space:nowrap}
+.brand svg{width:26px;height:26px;flex:none}
+.brand span{font-family:var(--mono);font-size:14px;letter-spacing:-.01em}
+.nav{display:flex;gap:2px;margin-left:auto}
+.nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:8px 11px;border-radius:7px;transition:color .15s,background-color .15s}
+.nav a:hover{color:var(--ink);background:var(--soft)}
+.iconbtn{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;transition:border-color .15s,color .15s}
+.iconbtn:hover{border-color:var(--accent);color:var(--accent)}
+.iconbtn svg{width:18px;height:18px}
+.tools{display:flex;gap:8px}
+@media (max-width:760px){.nav{display:none}.tools{margin-left:auto}}
+
+.wrap{max-width:1240px;margin:0 auto;padding-inline:20px;padding-block:8px 0;display:grid;gap:28px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:28px 40px;align-items:end;padding-block:36px 4px}
+@media (max-width:960px){.hero{grid-template-columns:1fr;padding-top:24px}}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;margin:0 0 14px;font:500 12.5px var(--mono);color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:5px 12px}
+h1{font-weight:700;font-size:clamp(30px,4.2vw,46px);line-height:1.08;letter-spacing:-.025em;margin:0;text-wrap:balance}
+h1 sub{font-size:.55em;letter-spacing:0}
+.lede{font-size:17px;color:var(--muted);margin:16px 0 0;max-width:62ch;text-wrap:pretty}
+.ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 16px;border-radius:8px;font:600 14px var(--body);text-decoration:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;transition:border-color .15s,background-color .15s,color .15s}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08);color:var(--accent-ink)}
+.btn svg{width:16px;height:16px;flex:none}
+.facts{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.facts li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
+.facts b{display:block;font:600 22px/1.2 var(--mono);letter-spacing:-.02em;color:var(--ink)}
+.facts span{font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion: no-preference){
+  .hero>*{animation:rise .5s cubic-bezier(.2,.7,.2,1) both}
+  .hero>*:nth-child(2){animation-delay:.08s}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+
+/* section heads */
+.sh{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 20px}
+h2{font-weight:650;font-size:24px;letter-spacing:-.015em;margin:0}
+.sh p{margin:0;color:var(--muted);font-size:14px;max-width:70ch}
+.cond{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+.cond li{border:1px solid var(--line);border-radius:5px;padding:2px 8px;background:var(--surface)}
+
+/* calculator */
+.calc{display:grid;gap:14px}
+.bar{display:flex;flex-wrap:wrap;gap:14px 18px;align-items:end;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow)}
+.field{display:grid;gap:5px;min-width:0}
+.field label.math{text-transform:none;letter-spacing:0;font-size:13px}
+.field label,.lbl{font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+select,input{font:500 14px/1.2 var(--mono);color:var(--ink);background:var(--ground);border:1px solid var(--line);border-radius:7px;padding:0 10px;height:40px;min-width:0;transition:border-color .15s}
+select{cursor:pointer}
+select:hover,input:hover{border-color:color-mix(in srgb,var(--accent) 50%,var(--line))}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;height:40px}
+.seg button{font:500 14px var(--body);background:var(--ground);color:var(--muted);border:0;padding:0 14px;cursor:pointer;transition:background-color .15s,color .15s}
+.seg button:hover{color:var(--ink)}
 .seg button+button{border-left:1px solid var(--line)}
 .seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.tip{display:flex;gap:12px;align-items:flex-start;background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);border-radius:var(--r);padding:12px 16px;font-size:14px}
+.tip svg{width:20px;height:20px;flex:none;color:var(--accent);margin-top:1px}
+.tip p{margin:0}
 .main{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:18px;align-items:start}
 @media (max-width:900px){.main{grid-template-columns:1fr}}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:14px}
-.panel h2{font-family:var(--display);font-weight:600;font-size:19px;margin:0;letter-spacing:.01em}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;gap:14px;box-shadow:var(--shadow)}
+.panel h3{font-weight:600;font-size:17px;margin:0}
 .inputs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .inputs .full{grid-column:1/-1}
 .inwrap{display:flex;align-items:center;gap:6px}
 .inwrap input{flex:1;width:100%}
 .unit{font:12px var(--mono);color:var(--muted);white-space:nowrap}
-.hint{font-size:12px;color:var(--muted);margin:0}
-.msg{font-size:13px;border-radius:6px;padding:8px 10px;background:var(--warn-bg);color:var(--warn);margin:0}
-table.out{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+abbr[title]{text-decoration:underline dotted;text-underline-offset:3px;cursor:help}
+.hint{font-size:12.5px;color:var(--muted);margin:0}
+.msg{font-size:13px;border-radius:7px;padding:8px 10px;background:var(--warn-bg);color:var(--warn);margin:0}
+table.out{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px}
 table.out td{padding:6px 0;border-bottom:1px solid var(--soft);vertical-align:baseline}
 table.out tr:last-child td{border-bottom:0}
 table.out td:first-child{color:var(--muted)}
@@ -85,88 +152,235 @@ table.out td:first-child b{color:var(--ink);font-weight:500}
 table.out td.v{text-align:right;font-family:var(--mono);font-weight:500}
 table.out td.u{padding-left:8px;width:52px;font:12px var(--mono);color:var(--muted)}
 tr.key td.v{color:var(--accent);font-size:16px}
-.sep td{padding-top:12px!important;font-size:11px;letter-spacing:.07em;text-transform:uppercase;font-weight:600}
+.sep td{padding-top:14px!important;font-size:11px;letter-spacing:.07em;text-transform:uppercase;font-weight:600}
+.side{display:grid;gap:10px;min-width:0}
+@media (min-width:901px){.side{position:sticky;top:calc(var(--topbar) + 14px)}}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);align-items:center}
+.sw{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid var(--op);vertical-align:-1px;margin-right:6px}
 .charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 @media (max-width:620px){.charts{grid-template-columns:1fr}}
-.chart{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 12px 8px;display:grid;gap:6px;min-width:0}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 12px 8px;display:grid;gap:6px;min-width:0;box-shadow:var(--shadow);transition:border-color .15s}
+.chart:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
 .chart .t{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
-.chart .t b{font-family:var(--display);font-weight:600;font-size:16px}
+.chart .t b{font-weight:600;font-size:15px}
 .chart .t span{font:11px var(--mono);color:var(--muted);text-align:right}
-.chart canvas{width:100%;height:230px;display:block;touch-action:none}
-.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--muted);align-items:center}
-.sw{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
-footer{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:90ch}
-a{color:var(--accent);text-underline-offset:2px}
-.refs{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:10px;max-width:100%}
-.refs h2{font-family:var(--display);font-weight:600;font-size:19px;margin:0}
-.refs ol{margin:0;padding-left:22px;display:grid;gap:8px;max-width:95ch}
-.refs li{line-height:1.5}
-.refs li i{font-style:italic}
-.bib{display:grid;gap:6px}
-.bib .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.bib pre{margin:0;overflow-x:auto;background:var(--ground);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font:12px/1.5 var(--mono);color:var(--ink)}
-.copy{font:500 12px var(--body);background:var(--ground);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer}
-.copy:hover{border-color:var(--accent)}
-footer code{font-family:var(--mono);font-size:11.5px}
-.loading{padding:40px;text-align:center;color:var(--muted)}
+.chart canvas{width:100%;height:230px;display:block;touch-action:none;cursor:crosshair}
+.loading{padding:40px;text-align:center;color:var(--muted);grid-column:1/-1}
 table.out:empty{display:block;height:961px}
 #range{min-height:3em}
-</style>
 
+/* generic cards / sections */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow)}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px}
+.grid3 .card h3{font-size:16px;font-weight:600;margin:0 0 8px;display:flex;align-items:center;gap:10px}
+.grid3 .card h3 svg{width:20px;height:20px;color:var(--accent);flex:none}
+.grid3 .card p{margin:0 0 8px;font-size:14px;color:var(--muted)}
+.grid3 .card p:last-child{margin-bottom:0}
+.card pre,.bib pre{margin:8px 0 0;overflow-x:auto;background:var(--ground);border:1px solid var(--line);border-radius:7px;padding:10px 12px;font:12.5px/1.55 var(--mono);color:var(--ink)}
+section.block{display:grid;gap:14px}
+
+/* static reference table */
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+table.ref{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums;min-width:680px}
+table.ref caption{caption-side:bottom;text-align:left;padding:10px 16px 12px;font-size:12.5px;color:var(--muted)}
+table.ref th,table.ref td{padding:8px 16px;text-align:right;border-bottom:1px solid var(--soft);white-space:nowrap}
+table.ref thead th{font-size:12.5px;font-weight:600;color:var(--muted);background:var(--ground)}
+table.ref th:first-child,table.ref td:first-child{text-align:left}
+table.ref td{font-family:var(--mono)}
+table.ref tbody tr:hover td{background:var(--ground)}
+table.ref tr.grp th{text-align:left;font-family:var(--mono);font-weight:600;font-size:13px;color:var(--accent);background:var(--surface);padding-top:14px}
+table.ref tr.grp th span{color:var(--muted);font-weight:400;font-family:var(--body)}
+
+/* faq */
+.faq{display:grid;gap:8px}
+.faq details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);transition:border-color .15s}
+.faq details[open]{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+.faq summary{cursor:pointer;list-style:none;padding:14px 18px;font-weight:600;font-size:15px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";width:9px;height:9px;flex:none;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+.faq .a{padding:0 18px 16px;color:var(--muted);font-size:14.5px;max-width:85ch}
+.faq .a p{margin:0}
+
+/* references */
+.refs ol{margin:0;padding-left:22px;display:grid;gap:10px;max-width:95ch;font-size:14px}
+.refs li{line-height:1.55}
+.bib{display:grid;gap:6px;margin-top:16px}
+.bib .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.copy{font:500 13px var(--body);background:var(--ground);color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:0 12px;height:34px;cursor:pointer;transition:border-color .15s}
+.copy:hover{border-color:var(--accent)}
+
+/* footer */
+.foot{margin-top:28px;border-top:1px solid var(--line);background:var(--surface)}
+.foot .in{max-width:1240px;margin:0 auto;padding:26px 20px 34px;display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;font-size:13.5px;color:var(--muted)}
+.foot p{margin:0 0 4px}
+.foot nav{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:flex-start}
+.foot strong{color:var(--ink);font-weight:600}
+</style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>SG13G2 gm/ID Lookup
-      <small>Size IHP 130 nm BiCMOS MOSFETs from a gm/ID target, then read W, V<sub>GS</sub>, intrinsic gain and f<sub>T</sub>. An SG13G2 port of the <a href="http://www.open-lut.org/">Open-LUT</a> approach by Khalid, Maestre and Madrid-Khalid; see <a href="#refs">references</a>.</small>
-    </h1>
-    <p class="links" style="margin:6px 0 0;font-size:13px"><a href="https://github.com/hidayetErenUludag/IHPSG13G2-LUT">Source on GitHub</a> · <a href="SG13G2_gmID_Lookup.html" download>Offline version (single HTML file)</a></p>
-    <div class="cond" aria-label="Characterisation conditions">
-      <span>ngspice-47 · PSP103</span><span>mos_tt</span><span>27 °C</span><span>V<sub>SB</sub> = 0</span><span>per finger, ng = 1</span>
+
+<a class="skip" href="#calc">Skip to the calculator</a>
+<header class="top">
+  <div class="in">
+    <a class="brand" href="#top" aria-label="SG13G2 gm/ID Lookup, back to top">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0C6B86"/><path d="M6 24 C10 24 12 8 26 8" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="14.6" cy="15.2" r="2.6" fill="#F5B544"/></svg>
+      <span>SG13G2 gm/ID</span>
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#calc">Calculator</a><a href="#reference">Reference values</a><a href="#method">Method</a><a href="#faq">FAQ</a><a href="#refs">Cite</a>
+    </nav>
+    <div class="tools">
+      <a class="iconbtn" href="https://github.com/hidayetErenUludag/IHPSG13G2-LUT" aria-label="Source code on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.7 5.38-5.27 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
+      <button type="button" class="iconbtn" id="theme" aria-label="Switch between light and dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z"/></svg></button>
     </div>
-  </header>
-
-  <div class="bar" role="group" aria-label="Device and bias">
-    <div class="field"><label for="dev">Device</label>
-      <select id="dev">
-        <option value="sg13_lv_nmos">sg13_lv_nmos · 1.2 V core</option>
-        <option value="sg13_lv_pmos">sg13_lv_pmos · 1.2 V core</option>
-        <option value="sg13_hv_nmos">sg13_hv_nmos · 3.3 V I/O</option>
-        <option value="sg13_hv_pmos">sg13_hv_pmos · 3.3 V I/O</option>
-      </select></div>
-    <div class="field"><label for="vds">|V<sub>DS</sub>|</label><select id="vds"><option>0.60 V</option></select></div>
-    <div class="field"><label for="len">L</label><select id="len"><option>0.50 µm</option></select></div>
-    <div class="field"><label for="wf">Finger width W<sub>f</sub></label><select id="wf"><option>1 µm</option></select></div>
-    <div class="field"><label>Size the device by</label>
-      <div class="seg" id="sizeby" role="radiogroup" aria-label="Size the device by">
-        <button type="button" data-k="id" aria-pressed="true">I<sub>D</sub></button>
-        <button type="button" data-k="gm" aria-pressed="false">g<sub>m</sub></button>
-        <button type="button" data-k="w" aria-pressed="false">W</button>
-      </div></div>
   </div>
+</header>
 
-  <div class="main">
-    <section class="panel" aria-labelledby="calc-h">
-      <h2 id="calc-h">Operating point</h2>
-      <div class="inputs">
-        <div class="field"><label for="gmid">g<sub>m</sub>/I<sub>D</sub></label>
-          <div class="inwrap"><input id="gmid" type="number" step="0.5" min="1" max="35" value="15"><span class="unit">S/A</span></div></div>
-        <div class="field"><label for="sizev" id="sizel">I<sub>D</sub></label>
-          <div class="inwrap"><input id="sizev" type="number" step="any" min="0" value="10"><span class="unit" id="sizeu">µA</span></div></div>
-        <p class="hint full" id="range"></p>
+<div class="wrap">
+<main id="top" style="display:grid;gap:44px">
+  <section class="hero" aria-labelledby="h1">
+    <div>
+      <p class="eyebrow">IHP SG13G2 · 130 nm BiCMOS open PDK</p>
+      <h1 id="h1">g<sub>m</sub>/I<sub>D</sub> lookup tables and MOSFET sizing calculator</h1>
+      <p class="lede">Pick a device, channel length and finger width, enter a g<sub>m</sub>/I<sub>D</sub> target, and read the finger count, V<sub>GS</sub>, intrinsic gain, f<sub>T</sub> and capacitances. Every number comes from ngspice PSP103 operating-point sweeps of the IHP-Open-PDK. An SG13G2 port of the <a href="http://www.open-lut.org/">Open-LUT</a> approach by Khalid, Maestre and Madrid-Khalid.</p>
+      <div class="ctas"><a class="btn primary" href="#calc">Open the calculator <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn" href="SG13G2_gmID_Lookup.html" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg> Offline version (4.5 MB)</a><a class="btn" href="https://github.com/hidayetErenUludag/IHPSG13G2-LUT"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 9-4 3 4 3M16 9l4 3-4 3"/></svg> Source and data</a></div>
+    </div>
+    <ul class="facts" aria-label="Coverage at a glance">
+      <li><b>4</b><span>devices: LV and HV, NMOS and PMOS</span></li>
+      <li><b>5</b><span>finger widths, 0.5 to 10 µm</span></li>
+      <li><b>0.13–5 µm</b><span>channel length, 16 values for LV</span></li>
+      <li><b>≤ 3 %</b><span>I<sub>D</sub>, g<sub>m</sub>, g<sub>ds</sub> error vs direct simulation</span></li>
+    </ul>
+  </section>
+
+  <section class="calc" id="calc" aria-labelledby="calc-h">
+    <div class="sh">
+      <h2 id="calc-h">Calculator</h2>
+      <ul class="cond" aria-label="Characterisation conditions">
+        <li>ngspice-47 · PSP103</li><li>mos_tt</li><li>27 °C</li><li>V<sub>SB</sub> = 0</li><li>per finger, ng = 1</li>
+      </ul>
+    </div>
+
+    <div class="bar" role="group" aria-label="Device and bias">
+      <div class="field"><label for="dev">Device</label>
+        <select id="dev">
+          <option value="sg13_lv_nmos">sg13_lv_nmos · 1.2 V core</option>
+          <option value="sg13_lv_pmos">sg13_lv_pmos · 1.2 V core</option>
+          <option value="sg13_hv_nmos">sg13_hv_nmos · 3.3 V I/O</option>
+          <option value="sg13_hv_pmos">sg13_hv_pmos · 3.3 V I/O</option>
+        </select></div>
+      <div class="field"><label for="vds">|V<sub>DS</sub>|</label><select id="vds"><option>0.60 V</option></select></div>
+      <div class="field"><label for="len">Length L</label><select id="len"><option>0.50 µm</option></select></div>
+      <div class="field"><label for="wf">Finger width W<sub>f</sub></label><select id="wf"><option>1 µm</option></select></div>
+      <div class="field"><span class="lbl" id="sizeby-l">Size by</span>
+        <div class="seg" id="sizeby" role="radiogroup" aria-labelledby="sizeby-l">
+          <button type="button" data-k="id" aria-pressed="true" title="Fix the drain current">I<sub>D</sub></button>
+          <button type="button" data-k="gm" aria-pressed="false" title="Fix the transconductance">g<sub>m</sub></button>
+          <button type="button" data-k="w" aria-pressed="false" title="Fix the total width">W</button>
+        </div></div>
+    </div>
+
+    <div class="tip" role="note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg>
+      <p><strong>Size by fingers, not by total width.</strong> SG13G2 LV devices change with finger width (LV NMOS V<sub>th</sub> drops from 0.29 V at a 1 µm finger to 0.21 V at 50 µm), while ng fingers of the same W<sub>f</sub> scale exactly. The calculator always returns ng × W<sub>f</sub>.</p>
+    </div>
+
+    <div class="main">
+      <section class="panel" aria-labelledby="op-h">
+        <h3 id="op-h">Operating point</h3>
+        <div class="inputs">
+          <div class="field"><label for="gmid" class="math">g<sub>m</sub>/I<sub>D</sub></label>
+            <div class="inwrap"><input id="gmid" type="number" step="0.5" min="1" max="35" value="15" inputmode="decimal"><span class="unit"><abbr title="siemens per ampere (1/V)">S/A</abbr></span></div></div>
+          <div class="field"><label for="sizev" id="sizel" class="math">I<sub>D</sub></label>
+            <div class="inwrap"><input id="sizev" type="number" step="any" min="0" value="10" inputmode="decimal"><span class="unit" id="sizeu">µA</span></div></div>
+          <p class="hint full" id="range"></p>
+        </div>
+        <p class="msg" id="msg" hidden></p>
+        <table class="out" id="out" aria-live="polite"></table>
+      </section>
+
+      <div class="side" role="region" aria-label="Lookup charts">
+        <div class="legend"><span><i class="sw" style="background:var(--accent)"></i>selected L</span><span><i class="sw" style="background:var(--curve)"></i>other L in the table</span><span><i class="dot"></i>operating point</span><span>hover a chart to read the selected-L curve</span></div>
+        <div class="charts" id="charts"><div class="loading">Loading lookup tables…</div></div>
       </div>
-      <p class="msg" id="msg" hidden></p>
-      <table class="out" id="out" aria-live="polite"></table>
-    </section>
+    </div>
+  </section>
 
-    <section aria-label="Lookup charts" style="display:grid;gap:10px;min-width:0">
-      <div class="legend"><span><i class="sw" style="background:var(--accent)"></i>selected L</span><span><i class="sw" style="background:var(--curve)"></i>other L in the table</span><span>● operating point · hover a chart to read the selected-L curve</span></div>
-      <div class="charts" id="charts"><div class="loading">Loading lookup tables…</div></div>
-    </section>
-  </div>
+  <section class="block" id="reference" aria-labelledby="ref-h">
+    <div class="sh">
+      <h2 id="ref-h">Reference values</h2>
+      <p>Precomputed from the same tables at a typical bias, W<sub>f</sub> = 1 µm. Use them for a first estimate, or when JavaScript is off.</p>
+    </div>
+    <div class="tablewrap"><table class="ref">
+<caption>W<sub>f</sub> = 1 µm, mos_tt, 27 °C, V<sub>SB</sub> = 0. L and |V<sub>DS</sub>| as listed per device (the calculator defaults). PMOS values are magnitudes. Linear interpolation along V<sub>GS</sub>.</caption>
+<thead><tr><th scope="col">g<sub>m</sub>/I<sub>D</sub> (S/A)</th><th scope="col">|V<sub>GS</sub>| (V)</th><th scope="col">|V<sub>th</sub>| (V)</th><th scope="col">I<sub>D</sub>/W (µA/µm)</th><th scope="col">g<sub>m</sub>/g<sub>ds</sub> (V/V)</th><th scope="col">f<sub>T</sub></th></tr></thead>
+<tbody><tr class="grp"><th colspan="6" scope="rowgroup">sg13_lv_nmos <span>· 1.2 V core NMOS · L = 0.50 µm · |V<sub>DS</sub>| = 0.60 V</span></th></tr>
+<tr><td>5</td><td>0.672</td><td>0.290</td><td>45</td><td>21.5</td><td>7.36 GHz</td></tr>
+<tr><td>10</td><td>0.452</td><td>0.290</td><td>9.58</td><td>26.7</td><td>3.58 GHz</td></tr>
+<tr><td>15</td><td>0.360</td><td>0.290</td><td>3.1</td><td>27.1</td><td>2.04 GHz</td></tr>
+<tr><td>20</td><td>0.306</td><td>0.290</td><td>1.23</td><td>28.2</td><td>1.30 GHz</td></tr>
+<tr><td>25</td><td>0.262</td><td>0.290</td><td>0.462</td><td>30.5</td><td>754 MHz</td></tr>
+</tbody>
+<tbody><tr class="grp"><th colspan="6" scope="rowgroup">sg13_lv_pmos <span>· 1.2 V core PMOS · L = 0.50 µm · |V<sub>DS</sub>| = 0.60 V</span></th></tr>
+<tr><td>5</td><td>0.745</td><td>0.364</td><td>12.7</td><td>46.5</td><td>2.12 GHz</td></tr>
+<tr><td>10</td><td>0.533</td><td>0.363</td><td>2.88</td><td>89.8</td><td>1.05 GHz</td></tr>
+<tr><td>15</td><td>0.448</td><td>0.363</td><td>1.02</td><td>126.0</td><td>620 MHz</td></tr>
+<tr><td>20</td><td>0.395</td><td>0.363</td><td>0.414</td><td>176.9</td><td>385 MHz</td></tr>
+<tr><td>25</td><td>0.351</td><td>0.362</td><td>0.156</td><td>268.3</td><td>218 MHz</td></tr>
+</tbody>
+<tbody><tr class="grp"><th colspan="6" scope="rowgroup">sg13_hv_nmos <span>· 3.3 V I/O NMOS · L = 1.00 µm · |V<sub>DS</sub>| = 1.60 V</span></th></tr>
+<tr><td>5</td><td>0.979</td><td>0.615</td><td>9.3</td><td>88.6</td><td>2.09 GHz</td></tr>
+<tr><td>10</td><td>0.762</td><td>0.614</td><td>2.09</td><td>104.5</td><td>1.02 GHz</td></tr>
+<tr><td>15</td><td>0.680</td><td>0.613</td><td>0.791</td><td>116.4</td><td>620 MHz</td></tr>
+<tr><td>20</td><td>0.627</td><td>0.613</td><td>0.331</td><td>128.6</td><td>385 MHz</td></tr>
+<tr><td>25</td><td>0.575</td><td>0.613</td><td>0.111</td><td>143.5</td><td>193 MHz</td></tr>
+</tbody>
+<tbody><tr class="grp"><th colspan="6" scope="rowgroup">sg13_hv_pmos <span>· 3.3 V I/O PMOS · L = 1.00 µm · |V<sub>DS</sub>| = 1.60 V</span></th></tr>
+<tr><td>5</td><td>1.020</td><td>0.670</td><td>2.42</td><td>594.0</td><td>535 MHz</td></tr>
+<tr><td>10</td><td>0.788</td><td>0.667</td><td>0.484</td><td>816.9</td><td>231 MHz</td></tr>
+<tr><td>15</td><td>0.690</td><td>0.665</td><td>0.149</td><td>918.4</td><td>120 MHz</td></tr>
+<tr><td>20</td><td>0.619</td><td>0.664</td><td>0.0459</td><td>973.6</td><td>57 MHz</td></tr>
+</tbody>
+</table></div>
+  </section>
 
-  <section class="refs" id="refs" aria-labelledby="refs-h">
-    <h2 id="refs-h">References</h2>
+  <section class="block" id="method" aria-labelledby="method-h">
+    <div class="sh"><h2 id="method-h">Method</h2></div>
+    <div class="grid3">
+      <div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15c3 0 4-8 12-9"/></svg>How the tables were made</h3>
+        <p>Every value comes from a DC operating-point sweep of the IHP-Open-PDK model: V<sub>GS</sub> in 20 mV steps (50 mV for HV), V<sub>DS</sub> in 50 mV steps (100 mV for HV), one single-finger device per L and finger width. Between grid points the page interpolates linearly along V<sub>GS</sub>; L, V<sub>DS</sub> and W<sub>f</sub> are grid values.</p></div>
+      <div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="4" height="16" rx="1"/><rect x="10" y="4" width="4" height="16" rx="1"/><rect x="16" y="4" width="4" height="16" rx="1"/></svg>Why finger width is an axis</h3>
+        <p>At the same bias, current per µm changes by about 25 % between 1 µm and 5 µm fingers, so a table built at a single width mis-sizes other widths by up to 34 % in I<sub>D</sub>. LV PMOS leaves its valid range above 10 µm. The calculator warns when rounding to whole fingers moves I<sub>D</sub> or g<sub>m</sub> more than 10 % from the target.</p></div>
+      <div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Accuracy</h3>
+        <p>Checked against direct simulation of the rounded device: I<sub>D</sub>, g<sub>m</sub> and g<sub>ds</sub> within 3 %, f<sub>T</sub> within 8 % (the table is conservative for multi-finger devices). Results are simulation only and have not been compared against measured silicon.</p></div>
+      <div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4v16M16 4v16M4 12h4M16 12h4"/></svg>Conventions</h3>
+        <p>C<sub>gg</sub> includes gate overlap capacitance, so f<sub>T</sub> = g<sub>m</sub>/(2π·C<sub>gg</sub>) matches PSP's own <code>fug</code>. C<sub>dd</sub> adds the drain junction and gate-drain overlap. PMOS values are magnitudes.</p></div>
+      <div class="card" style="grid-column:1/-1;min-width:0"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M13.5 6l-3 12"/></svg>Use the tables in Python</h3>
+        <p>Full-precision tables, including drain thermal-noise and flicker-noise PSDs, are in <a href="https://github.com/hidayetErenUludag/IHPSG13G2-LUT/tree/main/npz"><code>npz/lut_&lt;device&gt;_wf&lt;W<sub>f</sub>&gt;.npz</code></a>, with the generator <code>gen_lut.py</code> beside them. For ng fingers, multiply currents, conductances and capacitances by ng.</p>
+<pre>import numpy as np
+t = np.load("npz/lut_sg13_lv_nmos_wf2.npz")   # arrays shaped [L][VGS][VDS]
+gm_id = t["gm"] / t["id"]                      # S/A
+ft    = t["gm"] / (2 * np.pi * t["cgg"])       # Hz</pre></div>
+    </div>
+  </section>
+
+  <section class="block" id="faq" aria-labelledby="faq-h">
+    <div class="sh"><h2 id="faq-h">Frequently asked questions</h2></div>
+    <div class="faq"><details><summary>What is the gm/ID sizing method?</summary><div class="a"><p>gm/ID sizing picks the transconductance efficiency g<sub>m</sub>/I<sub>D</sub> to set how strongly a transistor is inverted, then reads current density, intrinsic gain and f<sub>T</sub> from tables simulated with the real device model instead of square-law equations. The method is described by Jespers and Murmann (Cambridge University Press, 2017).</p></div></details>
+<details><summary>Which IHP SG13G2 devices does this cover?</summary><div class="a"><p>All four MOSFETs: sg13_lv_nmos and sg13_lv_pmos (1.2 V core, L = 0.13 to 5 µm), sg13_hv_nmos (3.3 V I/O, L = 0.45 to 5 µm) and sg13_hv_pmos (3.3 V I/O, L = 0.40 to 5 µm), each at finger widths of 0.5, 1, 2, 5 and 10 µm. The *_rf_* symbols use the same transistors with an RF model and are not tabulated separately.</p></div></details>
+<details><summary>Why does finger width matter in SG13G2?</summary><div class="a"><p>SG13G2 LV devices depend on finger width, not only total width: LV NMOS V<sub>th</sub> falls from 0.29 V at a 1 µm finger to 0.21 V at a 50 µm finger. A table built at one width can mis-size other widths by up to 34 % in I<sub>D</sub>, so this tool sizes devices as ng fingers of width W<sub>f</sub>, which scale exactly.</p></div></details>
+<details><summary>How accurate are the values?</summary><div class="a"><p>Devices sized from the tables and simulated directly in ngspice agree within 3 % for I<sub>D</sub>, g<sub>m</sub> and g<sub>ds</sub>, and within 8 % for f<sub>T</sub>. All values are simulation results from the PSP103 models and have not been compared against measured silicon.</p></div></details>
+<details><summary>Which process corner and temperature are used?</summary><div class="a"><p>The typical corner mos_tt at 27 °C with V<sub>SB</sub> = 0, simulated in ngspice-47 with the PSP103 model from the IHP-Open-PDK. Other corners and temperatures are not included yet; regenerate the tables with gen_lut.py to add them.</p></div></details>
+<details><summary>Can I use the tables offline or in Python?</summary><div class="a"><p>Yes. The offline version is a single self-contained HTML file of about 4.5 MB. Full-precision NumPy .npz tables, including noise PSDs, are in the npz folder of the GitHub repository.</p></div></details>
+<details><summary>Is it free to use, and how do I cite it?</summary><div class="a"><p>Yes. Code, page and tables are released under the Apache License 2.0. Cite the Open-LUT paper by Khalid, Maestre and Madrid-Khalid (ICICM 2025), and this repository via its CITATION.cff file.</p></div></details></div>
+  </section>
+
+  <section class="block refs" id="refs" aria-labelledby="refs-h">
+    <div class="sh"><h2 id="refs-h">References and citation</h2>
+      <p>If you use this tool in published work, cite the Open-LUT paper below, and this repository via GitHub's “Cite this repository” button.</p></div>
+    <div class="card">
     <ol>
       <li>S. A. Khalid, S. E. Maestre and K. M. Madrid-Khalid, "Open-LUT: Interactive g<sub>m</sub>/I<sub>D</sub> Lookup Tables for MOSFET Sizing in Open-Source PDKs," in <i>2025 10th International Conference on Integrated Circuits and Microsystems (ICICM)</i>, Hefei, China, 2025, pp. 344–353, doi: <a href="https://doi.org/10.1109/ICICM66614.2025.11316023">10.1109/ICICM66614.2025.11316023</a>. Web tool for SKY130: <a href="http://www.open-lut.org/">open-lut.org</a>. This page follows its calculator layout and extends the idea to IHP SG13G2 with finger-width tables.</li>
       <li>IHP GmbH, <i>IHP-Open-PDK: SG13G2 130 nm BiCMOS open-source process design kit</i>, Apache-2.0. <a href="https://github.com/IHP-GmbH/IHP-Open-PDK">github.com/IHP-GmbH/IHP-Open-PDK</a>. Source of the PSP103 MOSFET models (mos_tt corner) used for every table.</li>
@@ -175,7 +389,7 @@ table.out:empty{display:block;height:961px}
       <li><i>ngspice</i> circuit simulator with OSDI/OpenVAF model loading. <a href="https://ngspice.sourceforge.io/">ngspice.sourceforge.io</a>.</li>
     </ol>
     <div class="bib">
-      <div class="row"><span class="lbl">Cite Open-LUT (BibTeX)</span><button type="button" class="copy" id="copybib">Copy</button></div>
+      <div class="row"><span class="lbl" id="bib-l">Cite Open-LUT (BibTeX)</span><button type="button" class="copy" id="copybib" aria-describedby="bib-l">Copy BibTeX</button></div>
 <pre id="bibtex">@INPROCEEDINGS{khalid2025openlut,
   author    = {Khalid, Sihawi A. and Maestre, Susie E. and Madrid-Khalid, Karla M.},
   title     = {{Open-LUT}: Interactive $g_m/I_D$ Lookup Tables for {MOSFET} Sizing in Open-Source {PDKs}},
@@ -186,16 +400,27 @@ table.out:empty{display:block;height:961px}
   doi       = {10.1109/ICICM66614.2025.11316023}
 }</pre>
     </div>
+    </div>
   </section>
-
-  <footer>
-    <div>Every value comes from a DC operating-point sweep of the IHP-Open-PDK model: V<sub>GS</sub> in 20 mV steps (50 mV for HV), V<sub>DS</sub> in 50 mV steps (100 mV for HV), one single-finger device per L and finger width. Between grid points the page interpolates linearly along V<sub>GS</sub>; L, V<sub>DS</sub> and W<sub>f</sub> are grid values.</div>
-    <div>Size by fingers, not by total width. In SG13G2 the LV devices change with finger width (LV NMOS V<sub>th</sub> drops from 0.29 V at 1 µm to 0.21 V at 50 µm; LV PMOS leaves its valid range above 10 µm), while ng fingers of the same W<sub>f</sub> scale exactly. Checked against direct simulation of the rounded device: I<sub>D</sub>, g<sub>m</sub> and g<sub>ds</sub> within 3 %, f<sub>T</sub> within 8 % (the table is conservative for multi-finger devices).</div>
-    <div>C<sub>gg</sub> includes gate overlap capacitance, so f<sub>T</sub> = g<sub>m</sub>/(2π·C<sub>gg</sub>) matches PSP's own <code>fug</code>. C<sub>dd</sub> adds the drain junction and gate-drain overlap. PMOS values are magnitudes. Full-precision tables (<code>npz/lut_&lt;device&gt;_wf&lt;W<sub>f</sub>&gt;.npz</code>, including noise PSDs) and the generator <code>gen_lut.py</code> are in <code>eda/designs/ihp_lut</code>.</div>
-  </footer>
+</main>
 </div>
 
-<noscript><p style="padding:16px">This calculator needs JavaScript.</p></noscript>
+<footer class="foot">
+  <div class="in">
+    <div>
+      <p><strong>SG13G2 gm/ID Lookup</strong> by <a href="https://github.com/hidayetErenUludag">Hidayet Eren Uludağ</a>, Electrical and Electronics Engineering, Özyeğin University, Istanbul.</p>
+      <p>Code, page and tables under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>; device models © IHP GmbH. Simulation data, not measured silicon.</p>
+      <p>Version 1.1.0 · tables built with ngspice-47 and PSP103 · page updated <time datetime="2026-11-24">2026-11-24</time></p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="https://github.com/hidayetErenUludag/IHPSG13G2-LUT">GitHub</a>
+      <a href="https://github.com/hidayetErenUludag/IHPSG13G2-LUT/blob/main/CITATION.cff">CITATION.cff</a>
+      <a href="http://www.open-lut.org/">Open-LUT (SKY130)</a>
+      <a href="https://github.com/IHP-GmbH/IHP-Open-PDK">IHP-Open-PDK</a>
+    </nav>
+  </div>
+</footer>
+<noscript><p style="max-width:1240px;margin:0 auto 24px;padding:0 20px">The interactive calculator needs JavaScript. The reference values, method notes and downloadable tables on this page work without it.</p></noscript>
 <script>
 (()=>{
 const $=s=>document.querySelector(s);
@@ -355,7 +580,7 @@ function drawAll(s,only){
   const curves=D.L.map((_,k)=>curve(k,j));
   // read phase: one style read and every canvas size, before any drawing
   const cs=getComputedStyle(document.documentElement), v=n=>cs.getPropertyValue(n).trim();
-  const col={ink:v("--ink"),muted:v("--muted"),line:v("--soft"),curve:v("--curve"),acc:v("--accent"),surf:v("--surface")};
+  const col={ink:v("--ink"),muted:v("--muted"),line:v("--soft"),curve:v("--curve"),acc:v("--accent"),surf:v("--surface"),op:v("--op")};
   const list=only?[only]:CH;
   const boxes=list.map(c=>{ const cv=document.getElementById(c.id); return cv?{cv,w:cv.clientWidth,h:cv.clientHeight}:null; });
   // write phase
@@ -393,8 +618,8 @@ function drawChart(c,curves,ksel,s,box,col){
   path(curves[ksel],col.acc,2.2);
   // operating point
   if(s){ const y=c.y(s.point); if(isFinite(y)){ const X=fx(s.point.gmid),Y=fy(y);
-    g.fillStyle=col.surf; g.beginPath(); g.arc(X,Y,5.5,0,TAU); g.fill(); g.strokeStyle=col.acc; g.lineWidth=2; g.stroke();
-    g.fillStyle=col.acc; g.beginPath(); g.arc(X,Y,2.3,0,TAU); g.fill(); } }
+    g.fillStyle=col.surf; g.beginPath(); g.arc(X,Y,6,0,TAU); g.fill(); g.strokeStyle=col.op; g.lineWidth=2.2; g.stroke();
+    g.fillStyle=col.op; g.beginPath(); g.arc(X,Y,2.4,0,TAU); g.fill(); } }
   // hover readout on the selected curve
   const rd=document.getElementById(c.id+"_r");
   if(c.hover!=null){ const gx=X0+(c.hover-m.l)/(w-m.l-m.r)*(X1-X0);
@@ -424,10 +649,18 @@ $("#copybib").addEventListener("click",async e=>{
   const btn=e.currentTarget, txt=$("#bibtex").textContent;
   try{ await navigator.clipboard.writeText(txt); btn.textContent="Copied"; }
   catch{ const r=document.createRange(); r.selectNodeContents($("#bibtex")); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); btn.textContent="Selected, press Ctrl+C"; }
-  setTimeout(()=>btn.textContent="Copy",2000);
+  setTimeout(()=>btn.textContent="Copy BibTeX",2000);
 });
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>drawAll(lastS));
 new MutationObserver(()=>drawAll(lastS)).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+
+const root=document.documentElement;
+try{ const t=localStorage.getItem("sg13-theme"); if(t==="dark"||t==="light") root.dataset.theme=t; }catch{}
+$("#theme").addEventListener("click",()=>{
+  const cur=root.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+  const nxt=cur==="dark"?"light":"dark"; root.dataset.theme=nxt;
+  try{ localStorage.setItem("sg13-theme",nxt); }catch{}
+});
 
 buildCharts();
 Promise.resolve({"meta":{"pdk":"IHP SG13G2","corner":"mos_tt","temp":27,"vsb":0,"wf":[0.5,1.0,2.0,5.0,10.0],"note":"One file per device and finger width Wf (ng=1). Multi-finger devices scale linearly with ng. cgg includes overlap caps.","layout":"each array is float32, shape [nL][nVGS][nVDS], row-major"},"devices":{"sg13_lv_nmos":{"L":[0.13,0.15,0.18,0.2,0.25,0.3,0.35,0.4,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":1.2,"vgs":[0.0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2,0.22,0.24,0.26,0.28,0.3,0.32,0.34,0.36,0.38,0.4,0.42,0.44,0.46,0.48,0.5,0.52,0.54,0.56,0.58,0.6,0.62,0.64,0.66,0.68,0.7,0.72,0.74,0.76,0.78,0.8,0.82,0.84,0.86,0.88,0.9,0.92,0.94,0.96,0.98,1.0,1.02,1.04,1.06,1.08,1.1,1.12,1.14,1.16,1.18,1.2],"vds":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2],"wf":[0.5,1.0,2.0,5.0,10.0]},"sg13_lv_pmos":{"L":[0.13,0.15,0.18,0.2,0.25,0.3,0.35,0.4,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":1.2,"vgs":[0.0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2,0.22,0.24,0.26,0.28,0.3,0.32,0.34,0.36,0.38,0.4,0.42,0.44,0.46,0.48,0.5,0.52,0.54,0.56,0.58,0.6,0.62,0.64,0.66,0.68,0.7,0.72,0.74,0.76,0.78,0.8,0.82,0.84,0.86,0.88,0.9,0.92,0.94,0.96,0.98,1.0,1.02,1.04,1.06,1.08,1.1,1.12,1.14,1.16,1.18,1.2],"vds":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2],"wf":[0.5,1.0,2.0,5.0,10.0]},"sg13_hv_nmos":{"L":[0.45,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":3.3,"vgs":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2.0,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55,2.6,2.65,2.7,2.75,2.8,2.85,2.9,2.95,3.0,3.05,3.1,3.15,3.2,3.25,3.3],"vds":[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3.0,3.1,3.2,3.3],"wf":[0.5,1.0,2.0,5.0,10.0]},"sg13_hv_pmos":{"L":[0.4,0.45,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":3.3,"vgs":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2.0,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55,2.6,2.65,2.7,2.75,2.8,2.85,2.9,2.95,3.0,3.05,3.1,3.15,3.2,3.25,3.3],"vds":[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3.0,3.1,3.2,3.3],"wf":[0.5,1.0,2.0,5.0,10.0]}}}).then(j=>{
