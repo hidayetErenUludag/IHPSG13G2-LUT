@@ -1,6 +1,6 @@
 # SG13G2 gm/ID Lookup
 
-> Free gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm open PDK. LV and HV NMOS/PMOS by finger width, from ngspice PSP103 sweeps.
+> Free gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm open PDK. LV and HV NMOS/PMOS by finger width, with noise and mismatch.
 
 Interactive page: https://hidayeterenuludag.github.io/IHPSG13G2-LUT/
 Source and data: https://github.com/hidayetErenUludag/IHPSG13G2-LUT
@@ -8,7 +8,7 @@ Offline calculator: https://hidayeterenuludag.github.io/IHPSG13G2-LUT/SG13G2_gmI
 Author: Hidayet Eren Uludağ, Özyeğin University. License: Apache-2.0. Updated 2026-11-24.
 
 ## What it does
-Sizes IHP SG13G2 MOSFETs from a gm/ID target. Inputs: device, |VDS|, channel length L, finger width Wf, gm/ID, and one of ID, gm or total W. Outputs: finger count ng x Wf, W, ID, gm, gds, gmb, VGS, Vth, Vov, VDsat, gm/gds, intrinsic gain in dB, fT and Cgg/Cgs/Cgd/Cdd.
+Sizes IHP SG13G2 MOSFETs from a gm/ID target. Inputs: device, |VDS|, channel length L, finger width Wf, gm/ID, and one of ID, gm or total W. Outputs: finger count ng x Wf, W, ID, gm, gds, gmb, VGS, Vth, Vov, VDsat, gm/gds, intrinsic gain in dB, fT, Cgg/Cgs/Cgd/Cdd; noise (gamma, flicker corner, input-referred noise density and band-integrated rms); and mismatch from the PDK model (sigma Vth, sigma ID/ID, pair offset, mirror error). A second configuration B can be compared side by side.
 
 ## Conditions
 ngspice-47, PSP103 models from IHP-Open-PDK, corner mos_tt, 27 C, VSB = 0, single-finger devices (ng = 1) at Wf = 0.5, 1, 2, 5, 10 um. Size by fingers, not total width: LV device characteristics depend on finger width.
@@ -65,13 +65,19 @@ All four MOSFETs: sg13_lv_nmos and sg13_lv_pmos (1.2 V core, L = 0.13 to 5 µm),
 SG13G2 LV devices depend on finger width, not only total width: LV NMOS Vth falls from 0.29 V at a 1 µm finger to 0.21 V at a 50 µm finger. A table built at one width can mis-size other widths by up to 34 % in ID, so this tool sizes devices as ng fingers of width Wf, which scale exactly.
 
 **How accurate are the values?**
-Devices sized from the tables and simulated directly in ngspice agree within 3 % for ID, gm and gds, and within 8 % for fT. All values are simulation results from the PSP103 models and have not been compared against measured silicon.
+Devices sized from the tables and simulated directly in ngspice agree within 3 % for ID, gm and gds, and within 8 % for fT. Drain noise agrees with an ngspice .noise run within 5 %, and the mismatch estimate with a 2000-sample ngspice Monte Carlo of the PDK's mismatch model within 10 % (4 % for L ≥ 0.5 µm). All values are simulation results from the PSP103 models and have not been compared against measured silicon.
+
+**Does it give noise and mismatch?**
+Yes. For the sized device the calculator shows the thermal noise factor γ, the flicker corner frequency, the input-referred noise density (white and at a frequency you choose), the drain noise current and the input-referred noise integrated over a band. Mismatch comes from the PDK's own model: σ(Vth) and σ(ID)/ID of one device, the input offset of a differential pair and the current error of a mirror pair, all one sigma.
+
+**Can I compare two devices?**
+Yes. Press + B next to Size by to add a second configuration with its own device, |VDS|, L and finger width. Both are sized for the same gm/ID and target; the table shows them side by side and the charts draw B as a dashed curve.
 
 **Which process corner and temperature are used?**
 The typical corner mos_tt at 27 °C with VSB = 0, simulated in ngspice-47 with the PSP103 model from the IHP-Open-PDK. Other corners and temperatures are not included yet; regenerate the tables with gen_lut.py to add them.
 
 **Can I use the tables offline or in Python?**
-Yes. The offline version is a single self-contained HTML file of about 4.5 MB. Full-precision NumPy .npz tables, including noise PSDs, are in the npz folder of the GitHub repository.
+Yes. The offline version is a single self-contained HTML file of about 5.5 MB. Full-precision NumPy .npz tables, including noise PSDs, are in the npz folder of the GitHub repository.
 
 **Is it free to use, and how do I cite it?**
 Yes. Code, page and tables are released under the Apache License 2.0. Cite the Open-LUT paper by Khalid, Maestre and Madrid-Khalid (ICICM 2025), and this repository via its CITATION.cff file.

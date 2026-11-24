@@ -14,15 +14,15 @@ SITE = "https://hidayeterenuludag.github.io/IHPSG13G2-LUT/"
 REPO = "https://github.com/hidayetErenUludag/IHPSG13G2-LUT"
 AUTHOR_URL = "https://github.com/hidayetErenUludag"
 BUILD_DATE = datetime.date.today().isoformat()
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 TITLE = "IHP SG13G2 gm/ID Lookup Tables & MOSFET Sizing Calculator"
 # Search result snippet: keep under ~155 characters.
 DESC = ("Free gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm open PDK. "
-        "LV and HV NMOS/PMOS by finger width, from ngspice PSP103 sweeps.")
+        "LV and HV NMOS/PMOS by finger width, with noise and mismatch.")
 # Social cards get their own wording so link previews do not repeat the search snippet.
-OG_DESC = ("Size SG13G2 MOSFETs from a gm/ID target and read the finger count, VGS, gm/gds, fT and "
-           "capacitances in your browser. Free, open source, works offline.")
-TW_DESC = "gm/ID sizing for IHP SG13G2: pick a device, L and finger width, get W, VGS, gain and fT."
+OG_DESC = ("Size SG13G2 MOSFETs from a gm/ID target and read the finger count, VGS, gm/gds, fT, capacitances, "
+           "noise and mismatch in your browser, or compare two devices side by side. Free, open source, works offline.")
+TW_DESC = "gm/ID sizing for IHP SG13G2: pick a device, L and finger width, get W, VGS, gain, fT, noise and offset."
 KEYWORDS = ("gm/ID, gm/ID lookup table, IHP SG13G2, SG13G2 PDK, 130 nm BiCMOS, open-source PDK, analog IC design, "
             "MOSFET sizing, transistor sizing calculator, ngspice, PSP103")
 FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E"
@@ -47,13 +47,23 @@ FAQ = [
      "tool sizes devices as ng fingers of width W<sub>f</sub>, which scale exactly."),
     ("How accurate are the values?",
      "Devices sized from the tables and simulated directly in ngspice agree within 3 % for I<sub>D</sub>, g<sub>m</sub> and "
-     "g<sub>ds</sub>, and within 8 % for f<sub>T</sub>. All values are simulation results from the PSP103 models and have not "
+     "g<sub>ds</sub>, and within 8 % for f<sub>T</sub>. Drain noise agrees with an ngspice .noise run within 5 %, and the "
+     "mismatch estimate with a 2000-sample ngspice Monte Carlo of the PDK's mismatch model within 10 % (4 % for L ≥ 0.5 µm). All values are simulation results from the PSP103 models and have not "
      "been compared against measured silicon."),
+    ("Does it give noise and mismatch?",
+     "Yes. For the sized device the calculator shows the thermal noise factor γ, the flicker corner frequency, the "
+     "input-referred noise density (white and at a frequency you choose), the drain noise current and the input-referred "
+     "noise integrated over a band. Mismatch comes from the PDK's own model: σ(V<sub>th</sub>) and σ(I<sub>D</sub>)/I<sub>D</sub> "
+     "of one device, the input offset of a differential pair and the current error of a mirror pair, all one sigma."),
+    ("Can I compare two devices?",
+     "Yes. Press + B next to Size by to add a second configuration with its own device, |V<sub>DS</sub>|, L and finger width. "
+     "Both are sized for the same g<sub>m</sub>/I<sub>D</sub> and target; the table shows them side by side and the charts "
+     "draw B as a dashed curve."),
     ("Which process corner and temperature are used?",
      "The typical corner mos_tt at 27 °C with V<sub>SB</sub> = 0, simulated in ngspice-47 with the PSP103 model from the "
      "IHP-Open-PDK. Other corners and temperatures are not included yet; regenerate the tables with gen_lut.py to add them."),
     ("Can I use the tables offline or in Python?",
-     "Yes. The offline version is a single self-contained HTML file of about 4.5 MB. Full-precision NumPy .npz tables, "
+     "Yes. The offline version is a single self-contained HTML file of about %OFFLINE_MB% MB. Full-precision NumPy .npz tables, "
      "including noise PSDs, are in the npz folder of the GitHub repository."),
     ("Is it free to use, and how do I cite it?",
      "Yes. Code, page and tables are released under the Apache License 2.0. Cite the Open-LUT paper by Khalid, Maestre and "
@@ -107,7 +117,8 @@ def jsonld(index):
          "keywords": ["gm/ID", "lookup table", "IHP SG13G2", "MOSFET", "analog IC design", "open-source PDK", "PSP103", "ngspice"],
          "measurementTechnique": "ngspice-47 DC operating-point sweep of the IHP-Open-PDK PSP103 MOSFET models",
          "variableMeasured": ["drain current ID", "transconductance gm", "output conductance gds", "body transconductance gmb",
-                              "threshold voltage Vth", "saturation voltage VDsat", "gate capacitance Cgg", "Cgs", "Cgd", "Cdd"],
+                              "threshold voltage Vth", "saturation voltage VDsat", "gate capacitance Cgg", "Cgs", "Cgd", "Cdd",
+                              "drain thermal-noise PSD", "flicker-noise PSD at 1 Hz"],
          "isBasedOn": "https://github.com/IHP-GmbH/IHP-Open-PDK", "distribution": dist},
         {"@type": "FAQPage", "@id": SITE + "#faq",
          "mainEntity": [{"@type": "Question", "name": q,
@@ -220,7 +231,9 @@ def llms_txt(rows):
          "## What it does",
          "Sizes IHP SG13G2 MOSFETs from a gm/ID target. Inputs: device, |VDS|, channel length L, finger width Wf, gm/ID, "
          "and one of ID, gm or total W. Outputs: finger count ng x Wf, W, ID, gm, gds, gmb, VGS, Vth, Vov, VDsat, "
-         "gm/gds, intrinsic gain in dB, fT and Cgg/Cgs/Cgd/Cdd.", "",
+         "gm/gds, intrinsic gain in dB, fT, Cgg/Cgs/Cgd/Cdd; noise (gamma, flicker corner, input-referred noise density "
+         "and band-integrated rms); and mismatch from the PDK model (sigma Vth, sigma ID/ID, pair offset, mirror error). "
+         "A second configuration B can be compared side by side.", "",
          "## Conditions",
          "ngspice-47, PSP103 models from IHP-Open-PDK, corner mos_tt, 27 C, VSB = 0, single-finger devices (ng = 1) at "
          "Wf = 0.5, 1, 2, 5, 10 um. Size by fingers, not total width: LV device characteristics depend on finger width.", "",
@@ -290,7 +303,7 @@ ICON_GH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wid
 def add_links(markup, offline_link, rows):
     btns = f'<a class="btn primary" href="#calc">Open the calculator {ICON_PLAY}</a>'
     if offline_link:
-        btns += f'<a class="btn" href="SG13G2_gmID_Lookup.html" download>{ICON_DL} Offline version (4.5 MB)</a>'
+        btns += f'<a class="btn" href="SG13G2_gmID_Lookup.html" download>{ICON_DL} Offline version ({OFFLINE_MB} MB)</a>'
     btns += f'<a class="btn" href="{REPO}">{ICON_GH} Source and data</a>'
     return (markup.replace("<!--LINKS-->", f'<div class="ctas">{btns}</div>', 1)
                   .replace("<!--REFTABLE-->", ref_table_html(rows), 1)
@@ -337,7 +350,9 @@ OFFLINE_LOAD = '''async function loadSet(name,wf){
 }
 '''
 
-if __name__ == "__main__":
+OFFLINE_MB = "?"
+
+def build(pack):
     src = open("sg13g2_lut.html", encoding="utf-8").read()
     styles, markup, script = split_source(src)
 
@@ -354,8 +369,7 @@ if __name__ == "__main__":
     open("index.html", "w", encoding="utf-8").write(online)
 
     # 2) offline page
-    pack = pack_tables()
-    s = script.replace(script[script.index("async function loadSet(name,wf){"):script.index("async function useSet(){")], OFFLINE_LOAD)
+    s = script.replace(script[script.index("async function loadSet(name,wf){"):script.index("async function useSet(")], OFFLINE_LOAD)
     s = s.replace(s[s.index('fetch("web/index.json")'):s.index(".catch(err=>")],
                   '''Promise.resolve(INDEX).then(j=>{
   if(typeof DecompressionStream==="undefined") throw new Error("this browser is too old; use a current Chrome, Edge, Firefox or Safari");
@@ -371,5 +385,15 @@ if __name__ == "__main__":
     open("sitemap.xml", "w", encoding="utf-8").write(sitemap_xml())
     open("llms.txt", "w", encoding="utf-8").write(llms_txt(rows))
 
+
+
+if __name__ == "__main__":
+    pack = pack_tables(); faq0 = list(FAQ)
+    for guess in (f"{len(json.dumps(pack, separators=(',', ':')))/1e6 + 0.15:.1f}", None):
+        OFFLINE_MB = guess or f"{os.path.getsize('SG13G2_gmID_Lookup.html')/1e6:.1f}"
+        FAQ[:] = [(q, a.replace("%OFFLINE_MB%", OFFLINE_MB)) for q, a in faq0]
+        build(pack)
+        if f"{os.path.getsize('SG13G2_gmID_Lookup.html')/1e6:.1f}" == OFFLINE_MB:
+            break
     for f in ("index.html", "SG13G2_gmID_Lookup.html", "llms.txt"):
         print(f"{f}: {os.path.getsize(f)/1e6:.2f} MB")
