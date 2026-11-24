@@ -7,45 +7,115 @@
 
 Run from the repository root after gen_lut.py:  python3 build_html.py
 """
-import json, base64, gzip, glob, re, os
+import json, base64, gzip, glob, re, os, datetime
 import numpy as np
 
 SITE = "https://hidayeterenuludag.github.io/IHPSG13G2-LUT/"
 REPO = "https://github.com/hidayetErenUludag/IHPSG13G2-LUT"
-TITLE = "SG13G2 gm/ID Lookup Tables | IHP 130 nm Open PDK"
-DESC = ("Free interactive gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm "
-        "BiCMOS open-source PDK. Size LV and HV NMOS/PMOS by finger width and read W, VGS, gm/gds, fT "
-        "and capacitances from ngspice PSP103 sweeps.")
+AUTHOR_URL = "https://github.com/hidayetErenUludag"
+BUILD_DATE = datetime.date.today().isoformat()
+VERSION = "1.1.0"
+TITLE = "IHP SG13G2 gm/ID Lookup Tables & MOSFET Sizing Calculator"
+# Search result snippet: keep under ~155 characters.
+DESC = ("Free gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm open PDK. "
+        "LV and HV NMOS/PMOS by finger width, from ngspice PSP103 sweeps.")
+# Social cards get their own wording so link previews do not repeat the search snippet.
+OG_DESC = ("Size SG13G2 MOSFETs from a gm/ID target and read the finger count, VGS, gm/gds, fT and "
+           "capacitances in your browser. Free, open source, works offline.")
+TW_DESC = "gm/ID sizing for IHP SG13G2: pick a device, L and finger width, get W, VGS, gain and fT."
+KEYWORDS = ("gm/ID, gm/ID lookup table, IHP SG13G2, SG13G2 PDK, 130 nm BiCMOS, open-source PDK, analog IC design, "
+            "MOSFET sizing, transistor sizing calculator, ngspice, PSP103")
 FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E"
            "%3Crect width='32' height='32' rx='6' fill='%230C6B86'/%3E"
            "%3Cpath d='M6 24 C10 24 12 8 26 8' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")
+DEVICE_ROLE = {"sg13_lv_nmos": "1.2 V core NMOS", "sg13_lv_pmos": "1.2 V core PMOS",
+               "sg13_hv_nmos": "3.3 V I/O NMOS", "sg13_hv_pmos": "3.3 V I/O PMOS"}
 
-JSONLD = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "SG13G2 gm/ID Lookup",
-    "url": SITE,
-    "description": DESC,
-    "applicationCategory": "DesignApplication",
-    "operatingSystem": "Any (web browser)",
-    "isAccessibleForFree": True,
-    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"},
-    "license": "https://www.apache.org/licenses/LICENSE-2.0",
-    "codeRepository": REPO,
-    "inLanguage": "en",
-    "keywords": "gm/ID, lookup table, IHP SG13G2, 130 nm, BiCMOS, open-source PDK, analog IC design, MOSFET sizing, ngspice, PSP103",
-    "image": SITE + "preview.png",
-    "author": {"@type": "Person", "name": "Hidayet Eren Uludağ",
-               "affiliation": {"@type": "CollegeOrUniversity", "name": "Özyeğin University"}},
-    "isBasedOn": {"@type": "ScholarlyArticle",
-                  "name": "Open-LUT: Interactive gm/ID Lookup Tables for MOSFET Sizing in Open-Source PDKs",
-                  "author": ["Sihawi A. Khalid", "Susie E. Maestre", "Karla M. Madrid-Khalid"],
-                  "datePublished": "2025",
-                  "sameAs": "https://doi.org/10.1109/ICICM66614.2025.11316023"},
-}
+# Visible FAQ and FAQPage structured data come from this one list, so they cannot drift apart.
+FAQ = [
+    ("What is the gm/ID sizing method?",
+     "gm/ID sizing picks the transconductance efficiency g<sub>m</sub>/I<sub>D</sub> to set how strongly a transistor is inverted, "
+     "then reads current density, intrinsic gain and f<sub>T</sub> from tables simulated with the real device model instead of "
+     "square-law equations. The method is described by Jespers and Murmann (Cambridge University Press, 2017)."),
+    ("Which IHP SG13G2 devices does this cover?",
+     "All four MOSFETs: sg13_lv_nmos and sg13_lv_pmos (1.2 V core, L = 0.13 to 5 µm), sg13_hv_nmos (3.3 V I/O, L = 0.45 to 5 µm) "
+     "and sg13_hv_pmos (3.3 V I/O, L = 0.40 to 5 µm), each at finger widths of 0.5, 1, 2, 5 and 10 µm. "
+     "The *_rf_* symbols use the same transistors with an RF model and are not tabulated separately."),
+    ("Why does finger width matter in SG13G2?",
+     "SG13G2 LV devices depend on finger width, not only total width: LV NMOS V<sub>th</sub> falls from 0.29 V at a 1 µm finger "
+     "to 0.21 V at a 50 µm finger. A table built at one width can mis-size other widths by up to 34 % in I<sub>D</sub>, so this "
+     "tool sizes devices as ng fingers of width W<sub>f</sub>, which scale exactly."),
+    ("How accurate are the values?",
+     "Devices sized from the tables and simulated directly in ngspice agree within 3 % for I<sub>D</sub>, g<sub>m</sub> and "
+     "g<sub>ds</sub>, and within 8 % for f<sub>T</sub>. All values are simulation results from the PSP103 models and have not "
+     "been compared against measured silicon."),
+    ("Which process corner and temperature are used?",
+     "The typical corner mos_tt at 27 °C with V<sub>SB</sub> = 0, simulated in ngspice-47 with the PSP103 model from the "
+     "IHP-Open-PDK. Other corners and temperatures are not included yet; regenerate the tables with gen_lut.py to add them."),
+    ("Can I use the tables offline or in Python?",
+     "Yes. The offline version is a single self-contained HTML file of about 4.5 MB. Full-precision NumPy .npz tables, "
+     "including noise PSDs, are in the npz folder of the GitHub repository."),
+    ("Is it free to use, and how do I cite it?",
+     "Yes. Code, page and tables are released under the Apache License 2.0. Cite the Open-LUT paper by Khalid, Maestre and "
+     "Madrid-Khalid (ICICM 2025), and this repository via its CITATION.cff file."),
+]
 
 
-def head(title, canonical, extra=""):
+def strip_tags(h):
+    return re.sub(r"<[^>]+>", "", h)
+
+
+def jsonld(index):
+    person = {"@type": "Person", "@id": AUTHOR_URL + "#person", "name": "Hidayet Eren Uludağ", "url": AUTHOR_URL,
+              "sameAs": [AUTHOR_URL],
+              "affiliation": {"@type": "CollegeOrUniversity", "name": "Özyeğin University", "url": "https://www.ozyegin.edu.tr/"}}
+    openlut = {"@type": "ScholarlyArticle",
+               "name": "Open-LUT: Interactive gm/ID Lookup Tables for MOSFET Sizing in Open-Source PDKs",
+               "author": [{"@type": "Person", "name": n} for n in ("Sihawi A. Khalid", "Susie E. Maestre", "Karla M. Madrid-Khalid")],
+               "datePublished": "2025", "sameAs": "https://doi.org/10.1109/ICICM66614.2025.11316023"}
+    lic = "https://www.apache.org/licenses/LICENSE-2.0"
+    dist = [{"@type": "DataDownload", "encodingFormat": "application/octet-stream",
+             "name": os.path.basename(f), "contentUrl": SITE + f.replace(os.sep, "/")}
+            for f in sorted(glob.glob("npz/lut_sg13_*.npz"))]
+    dist.append({"@type": "DataDownload", "encodingFormat": "text/html", "name": "Offline calculator (single HTML file)",
+                 "contentUrl": SITE + "SG13G2_gmID_Lookup.html"})
+    return {"@context": "https://schema.org", "@graph": [
+        {"@type": "WebSite", "@id": SITE + "#website", "url": SITE, "name": "SG13G2 gm/ID Lookup",
+         "inLanguage": "en", "publisher": {"@id": AUTHOR_URL + "#person"}},
+        {"@type": "WebApplication", "@id": SITE + "#app", "name": "SG13G2 gm/ID Lookup", "url": SITE,
+         "description": DESC, "applicationCategory": "DesignApplication", "applicationSubCategory": "Analog IC design",
+         "operatingSystem": "Any (web browser)", "browserRequirements": "Requires JavaScript",
+         "isAccessibleForFree": True, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"},
+         "softwareVersion": VERSION, "dateModified": BUILD_DATE, "license": lic, "inLanguage": "en",
+         "keywords": KEYWORDS, "image": SITE + "preview.png", "screenshot": SITE + "preview.png",
+         "author": {"@id": AUTHOR_URL + "#person"}, "isPartOf": {"@id": SITE + "#website"},
+         "isBasedOn": openlut, "mainEntityOfPage": SITE},
+        {"@type": "SoftwareSourceCode", "@id": REPO, "name": "IHPSG13G2-LUT", "codeRepository": REPO,
+         "programmingLanguage": ["Python", "JavaScript"], "license": lic, "author": {"@id": AUTHOR_URL + "#person"},
+         "targetProduct": {"@id": SITE + "#app"}},
+        {"@type": "Dataset", "@id": SITE + "#dataset",
+         "name": "IHP SG13G2 gm/ID MOSFET lookup tables (ngspice PSP103, mos_tt, 27 °C)",
+         "description": ("Pre-computed DC operating-point lookup tables for the four MOSFETs of the IHP SG13G2 130 nm BiCMOS "
+                         "open-source PDK (sg13_lv_nmos, sg13_lv_pmos, sg13_hv_nmos, sg13_hv_pmos), for gm/ID-based analog "
+                         "transistor sizing. Each table sweeps VGS and VDS for every channel length at finger widths of 0.5, 1, 2, "
+                         "5 and 10 µm (single finger, ng = 1), and stores ID, gm, gds, gmb, Vth, VDsat, Cgg, Cgs, Cgd and Cdd, "
+                         "plus drain thermal and flicker noise PSDs in the NumPy files. Simulated in ngspice-47 with the PSP103 "
+                         "model, typical corner mos_tt, 27 °C, VSB = 0; checked against direct simulation within 3 % for ID, gm "
+                         "and gds."),
+         "url": SITE, "sameAs": REPO, "license": lic, "isAccessibleForFree": True, "version": VERSION,
+         "dateModified": BUILD_DATE, "creator": {"@id": AUTHOR_URL + "#person"},
+         "keywords": ["gm/ID", "lookup table", "IHP SG13G2", "MOSFET", "analog IC design", "open-source PDK", "PSP103", "ngspice"],
+         "measurementTechnique": "ngspice-47 DC operating-point sweep of the IHP-Open-PDK PSP103 MOSFET models",
+         "variableMeasured": ["drain current ID", "transconductance gm", "output conductance gds", "body transconductance gmb",
+                              "threshold voltage Vth", "saturation voltage VDsat", "gate capacitance Cgg", "Cgs", "Cgd", "Cdd"],
+         "isBasedOn": "https://github.com/IHP-GmbH/IHP-Open-PDK", "distribution": dist},
+        {"@type": "FAQPage", "@id": SITE + "#faq",
+         "mainEntity": [{"@type": "Question", "name": q,
+                         "acceptedAnswer": {"@type": "Answer", "text": strip_tags(a)}} for q, a in FAQ]},
+    ]}
+
+
+def head(title, canonical, index, extra=""):
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -54,14 +124,19 @@ def head(title, canonical, extra=""):
 <title>{title}</title>
 <meta name="description" content="{DESC}">
 <meta name="author" content="Hidayet Eren Uludağ">
-<meta name="keywords" content="{JSONLD['keywords']}">
+<meta name="keywords" content="{KEYWORDS}">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="{canonical}">
+<link rel="author" href="{AUTHOR_URL}">
 <link rel="icon" href="{FAVICON}">
-<meta name="theme-color" content="#0C6B86">
+<link rel="alternate" type="text/plain" href="{SITE}llms.txt" title="Plain-text summary for language models">
+<meta name="theme-color" content="#F3F6F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0C1218" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="SG13G2 gm/ID Lookup">
 <meta property="og:title" content="{title}">
-<meta property="og:description" content="{DESC}">
+<meta property="og:description" content="{OG_DESC}">
 <meta property="og:url" content="{canonical}">
 <meta property="og:image" content="{SITE}preview.png">
 <meta property="og:image:width" content="1200">
@@ -69,10 +144,112 @@ def head(title, canonical, extra=""):
 <meta property="og:image:alt" content="SG13G2 gm/ID lookup charts: ID/W, intrinsic gain, fT and VGS versus gm/ID">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{title}">
-<meta name="twitter:description" content="{DESC}">
+<meta name="twitter:description" content="{TW_DESC}">
 <meta name="twitter:image" content="{SITE}preview.png">
-<script type="application/ld+json">{json.dumps(JSONLD, ensure_ascii=False)}</script>
+<meta name="twitter:image:alt" content="SG13G2 gm/ID lookup charts: ID/W, intrinsic gain, fT and VGS versus gm/ID">
+<script type="application/ld+json">{json.dumps(jsonld(index), ensure_ascii=False, separators=(",", ":"))}</script>
 {extra}"""
+
+
+# ---------- static content rendered at build time (readable without JavaScript) ----------
+def _nearest(arr, x):
+    return min(range(len(arr)), key=lambda i: abs(arr[i] - x))
+
+
+def ref_points(index, wf=1.0, targets=(5, 10, 15, 20, 25)):
+    """Mirror of the page's solve(): strong-inversion side of the gm/ID peak, linear interpolation along VGS."""
+    rows = []
+    for dev, dv in index["devices"].items():
+        j = json.load(open(f"web/{dev}_wf{wf:g}.json"))
+        a = {k: np.frombuffer(base64.b64decode(v), dtype=np.float32).astype(np.float64) for k, v in j["data"].items()}
+        nG, nD = len(dv["vgs"]), len(dv["vds"])
+        k = _nearest(dv["L"], 1.0 if "hv" in dev else 0.5); jj = _nearest(dv["vds"], dv["vmax"] / 2)
+        at = lambda key, i: a[key][(k * nG + i) * nD + jj]
+        pts = [i for i in range(nG) if at("id", i) > 1e-13]
+        gmid = [at("gm", i) / at("id", i) for i in pts]
+        pk = int(np.argmax(gmid)); pts, gmid = pts[pk:], gmid[pk:]
+        out = []
+        for t in targets:
+            if not (gmid[-1] <= t <= gmid[0]): continue
+            n = next(n for n in range(len(pts) - 1) if gmid[n] >= t >= gmid[n + 1])
+            f = 0 if gmid[n] == gmid[n + 1] else (gmid[n] - t) / (gmid[n] - gmid[n + 1])
+            L = lambda key: at(key, pts[n]) + (at(key, pts[n + 1]) - at(key, pts[n])) * f
+            vgs = dv["vgs"][pts[n]] + (dv["vgs"][pts[n + 1]] - dv["vgs"][pts[n]]) * f
+            idw = L("id") / (wf * 1e-6)          # A/m, numerically equal to µA/µm
+            out.append(dict(gmid=t, vgs=vgs, vth=L("vth"), idw=idw, gain=L("gm") / L("gds"),
+                            ft=L("gm") / (2 * np.pi * L("cgg"))))
+        rows.append(dict(dev=dev, L=dv["L"][k], vds=dv["vds"][jj], pts=out))
+    return rows
+
+
+def _ft(x):
+    return f"{x/1e9:.2f} GHz" if x >= 1e9 else f"{x/1e6:.0f} MHz"
+
+
+def _idw(x):
+    return f"{x:.3g}"
+
+
+def ref_table_html(rows):
+    h = ['<div class="tablewrap"><table class="ref">',
+         '<caption>W<sub>f</sub> = 1 µm, mos_tt, 27 °C, V<sub>SB</sub> = 0. L and |V<sub>DS</sub>| as listed per device '
+         '(the calculator defaults). PMOS values are magnitudes. Linear interpolation along V<sub>GS</sub>.</caption>',
+         '<thead><tr><th scope="col">g<sub>m</sub>/I<sub>D</sub> (S/A)</th><th scope="col">|V<sub>GS</sub>| (V)</th>'
+         '<th scope="col">|V<sub>th</sub>| (V)</th><th scope="col">I<sub>D</sub>/W (µA/µm)</th>'
+         '<th scope="col">g<sub>m</sub>/g<sub>ds</sub> (V/V)</th><th scope="col">f<sub>T</sub></th></tr></thead>']
+    for r in rows:
+        h.append(f'<tbody><tr class="grp"><th colspan="6" scope="rowgroup">{r["dev"]} '
+                 f'<span>· {DEVICE_ROLE[r["dev"]]} · L = {r["L"]:.2f} µm · |V<sub>DS</sub>| = {r["vds"]:.2f} V</span></th></tr>')
+        for p in r["pts"]:
+            h.append(f'<tr><td>{p["gmid"]}</td><td>{p["vgs"]:.3f}</td><td>{p["vth"]:.3f}</td><td>{_idw(p["idw"])}</td>'
+                     f'<td>{p["gain"]:.1f}</td><td>{_ft(p["ft"])}</td></tr>')
+        h.append('</tbody>')
+    h.append('</table></div>')
+    return "\n".join(h)
+
+
+def faq_html():
+    return "\n".join(f'<details><summary>{q}</summary><div class="a"><p>{a}</p></div></details>' for q, a in FAQ)
+
+
+def llms_txt(rows):
+    t = [f"# SG13G2 gm/ID Lookup", "",
+         f"> {DESC}", "",
+         f"Interactive page: {SITE}", f"Source and data: {REPO}", f"Offline calculator: {SITE}SG13G2_gmID_Lookup.html",
+         f"Author: Hidayet Eren Uludağ, Özyeğin University. License: Apache-2.0. Updated {BUILD_DATE}.", "",
+         "## What it does",
+         "Sizes IHP SG13G2 MOSFETs from a gm/ID target. Inputs: device, |VDS|, channel length L, finger width Wf, gm/ID, "
+         "and one of ID, gm or total W. Outputs: finger count ng x Wf, W, ID, gm, gds, gmb, VGS, Vth, Vov, VDsat, "
+         "gm/gds, intrinsic gain in dB, fT and Cgg/Cgs/Cgd/Cdd.", "",
+         "## Conditions",
+         "ngspice-47, PSP103 models from IHP-Open-PDK, corner mos_tt, 27 C, VSB = 0, single-finger devices (ng = 1) at "
+         "Wf = 0.5, 1, 2, 5, 10 um. Size by fingers, not total width: LV device characteristics depend on finger width.", "",
+         "## Accuracy",
+         "Versus direct ngspice simulation of sized devices: ID, gm, gds within 3 %; fT within 8 %. Simulation only, "
+         "not measured silicon.", "",
+         "## Reference values (Wf = 1 um)"]
+    for r in rows:
+        t.append(f"\n### {r['dev']} ({DEVICE_ROLE[r['dev']]}), L = {r['L']:.2f} um, |VDS| = {r['vds']:.2f} V")
+        t.append("| gm/ID (S/A) | VGS (V) | Vth (V) | ID/W (uA/um) | gm/gds | fT |")
+        t.append("|---|---|---|---|---|---|")
+        for p in r["pts"]:
+            t.append(f"| {p['gmid']} | {p['vgs']:.3f} | {p['vth']:.3f} | {_idw(p['idw'])} | {p['gain']:.1f} | {_ft(p['ft'])} |")
+    t += ["", "## FAQ"] + [f"\n**{q}**\n{strip_tags(a)}" for q, a in FAQ]
+    t += ["", "## Cite", "Khalid, Maestre and Madrid-Khalid, \"Open-LUT: Interactive gm/ID Lookup Tables for MOSFET Sizing "
+          "in Open-Source PDKs,\" ICICM 2025, doi:10.1109/ICICM66614.2025.11316023; and this repository (CITATION.cff)."]
+    return "\n".join(t) + "\n"
+
+
+def sitemap_xml():
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>{SITE}</loc>
+    <lastmod>{BUILD_DATE}</lastmod>
+    <image:image><image:loc>{SITE}preview.png</image:loc></image:image>
+  </url>
+</urlset>
+"""
 
 
 def async_fonts(styles):
@@ -96,20 +273,30 @@ def online_boot(script, index):
 def split_source(html):
     """sg13g2_lut.html is a body fragment: <title>, fonts/<style>, markup, <script>."""
     html = re.sub(r"<title>.*?</title>\n?", "", html, count=1)
-    styles, rest = html.split('<div class="wrap">', 1)
+    if "<!--BODY-->" in html:
+        styles, rest = html.split("<!--BODY-->", 1); lead = ""
+    else:
+        styles, rest = html.split('<div class="wrap">', 1); lead = '<div class="wrap">'
     markup, script = rest.split("<script>", 1)
     styles = styles.replace("body{background:var(--ground)", "body{margin:0;background:var(--ground)")
-    return styles, '<div class="wrap">' + markup, script
+    return styles, lead + markup, script
 
 
-def add_links(markup, offline_link):
-    links = f'<a href="{REPO}">Source on GitHub</a>'
+ICON_PLAY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
+ICON_DL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>'
+ICON_GH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 9-4 3 4 3M16 9l4 3-4 3"/></svg>'
+
+
+def add_links(markup, offline_link, rows):
+    btns = f'<a class="btn primary" href="#calc">Open the calculator {ICON_PLAY}</a>'
     if offline_link:
-        links += ' · <a href="SG13G2_gmID_Lookup.html" download>Offline version (single HTML file)</a>'
-    return markup.replace(
-        '<div class="cond" aria-label="Characterisation conditions">',
-        f'<p class="links" style="margin:6px 0 0;font-size:13px">{links}</p>\n    '
-        '<div class="cond" aria-label="Characterisation conditions">', 1)
+        btns += f'<a class="btn" href="SG13G2_gmID_Lookup.html" download>{ICON_DL} Offline version (4.5 MB)</a>'
+    btns += f'<a class="btn" href="{REPO}">{ICON_GH} Source and data</a>'
+    return (markup.replace("<!--LINKS-->", f'<div class="ctas">{btns}</div>', 1)
+                  .replace("<!--REFTABLE-->", ref_table_html(rows), 1)
+                  .replace("<!--FAQ-->", faq_html(), 1)
+                  .replace("<!--UPDATED-->", f"Version {VERSION} · tables built with ngspice-47 and PSP103 · page updated "
+                           f'<time datetime="{BUILD_DATE}">{BUILD_DATE}</time>', 1))
 
 
 def pack_tables():
@@ -158,8 +345,11 @@ if __name__ == "__main__":
     index = json.load(open("web/index.json"))
     styles = async_fonts(styles)
     preload = '<link rel="preload" href="web/sg13_lv_nmos_wf1.json" as="fetch" type="application/json" crossorigin="anonymous">\n'
-    online = (head(TITLE, SITE, preload) + styles + "</head>\n<body>\n" + add_links(markup, True)
-              + '<noscript><p style="padding:16px">This calculator needs JavaScript.</p></noscript>\n<script>'
+    rows = ref_points(index)
+    NOSCRIPT = ('<noscript><p style="max-width:1240px;margin:0 auto 24px;padding:0 20px">The interactive calculator needs '
+                'JavaScript. The reference values, method notes and downloadable tables on this page work without it.</p></noscript>\n')
+    online = (head(TITLE, SITE, index, preload) + styles + "</head>\n<body>\n" + add_links(markup, True, rows)
+              + NOSCRIPT + '<script>'
               + online_boot(script, index) + "\n</body>\n</html>\n")
     open("index.html", "w", encoding="utf-8").write(online)
 
@@ -173,10 +363,13 @@ if __name__ == "__main__":
 })''')
     m = markup.replace("Every value comes from", "This file is self-contained and works offline; values are stored "
                        "log-quantised to 16 bits (at most 0.05 % error). Every value comes from")
-    offline = (head(TITLE, SITE) + styles + "</head>\n<body>\n" + add_links(m, False)
+    offline = (head(TITLE, SITE, index) + styles + "</head>\n<body>\n" + add_links(m, False, rows)
                + "<script>\nconst INDEX=" + json.dumps(index, separators=(",", ":")) + ";\nconst PACK="
                + json.dumps(pack, separators=(",", ":")) + ";\n</script>\n<script>" + s + "\n</body>\n</html>\n")
     open("SG13G2_gmID_Lookup.html", "w", encoding="utf-8").write(offline)
 
-    for f in ("index.html", "SG13G2_gmID_Lookup.html"):
+    open("sitemap.xml", "w", encoding="utf-8").write(sitemap_xml())
+    open("llms.txt", "w", encoding="utf-8").write(llms_txt(rows))
+
+    for f in ("index.html", "SG13G2_gmID_Lookup.html", "llms.txt"):
         print(f"{f}: {os.path.getsize(f)/1e6:.2f} MB")
