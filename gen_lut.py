@@ -3,11 +3,14 @@
 IHP SG13G2 gm/ID lookup-table generator (Open-LUT style).
 Sweeps VGS x VDS for a list of L and finger widths Wf (ng=1), VSB = 0, TT corner, 27 C,
 and stores PSP103 operating-point values per point.
-Output: lut_<device>.npz  (full precision)  +  lut_web.json (float32/base64 for the web viewer)
+Output: npz/lut_<device>_wf<Wf>.npz (full precision) + web/<device>_wf<Wf>.json (float32/base64 for the page)
++ web/index.json (grids and the PDK's mismatch coefficients per device).
 Run inside IIC-OSIC-TOOLS:  python3 gen_lut.py [device ...]
+Rewrite web/*.json from the existing npz files without simulating:  python3 gen_lut.py --web
 """
-import os, sys, subprocess, json, base64, time
+import os, re, sys, subprocess, json, base64, time
 import numpy as np
+from concurrent.futures import ThreadPoolExecutor
 
 PDK = os.path.join(os.environ.get("PDK_ROOT", "/foss/pdks"), "ihp-sg13g2")
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -57,14 +60,16 @@ def run_one(dev, cfg, L, W=10e-6):
     inst = f"n.xm1.n{dev}"
     saves = " ".join(f"@{inst}[{p}]" for p in OPV)
     raw = os.path.join(WORK, f"{dev}_W{W*1e6:g}_L{L:g}.raw")
+    # mm_ok=0: newer PDKs include the mismatch models in mos_tt, which would make every run a random sample
     net = f"""* LUT {dev} L={L}u
 .lib {cfg['lib']} mos_tt
 .temp 27
 Vd d 0 0
 Vg g 0 0
-XM1 d g 0 0 {dev} w={W} l={L}u ng=1 m=1
+XM1 d g 0 0 {dev} w={W} l={L}u ng=1 m=1 mm_ok=0
 .options gmin=1e-15 reltol=1e-4 abstol=1e-14 itl1=500 itl2=500
 .control
+set num_threads=1
 set filetype=ascii
 save {saves}
 dc Vg 0 {s*cfg['vmax']} {s*cfg['vgs_step']} Vd 0 {s*cfg['vmax']} {s*cfg['vds_step']}
@@ -106,10 +111,9 @@ write {raw}
 def build(dev, wf):
     cfg = DEVICES[dev]; t0 = time.time(); W = wf*1e-6
     res = {}
-    for L in cfg["L"]:
-        vg, vd, o = run_one(dev, cfg, L, W)
-        for p in OPV: res.setdefault(p, []).append(o[p])
-        pass
+    with ThreadPoolExecutor(os.cpu_count()) as ex:   # one single-threaded ngspice process per L
+        for vg, vd, o in ex.map(lambda L: run_one(dev, cfg, L, W), cfg["L"]):
+            for p in OPV: res.setdefault(p, []).append(o[p])
     A = {p: np.array(v) for p, v in res.items()}      # shape (nL, nVGS, nVDS)
     tab = dict(
         id   = np.abs(A["ids"]),
@@ -130,21 +134,46 @@ def build(dev, wf):
     print(f"{dev} Wf={wf}u: {len(cfg['L'])} L x {len(vg)} VGS x {len(vd)} VDS in {time.time()-t0:.1f}s", flush=True)
     return dict(L=cfg["L"], vgs=vg.tolist(), vds=vd.tolist(), W=W, wf=wf, vmax=cfg["vmax"], tab=tab)
 
+def mismatch_params(dev):
+    """The PDK's per-instance mismatch for this device, read from sg13g2_mos{lv,hv}_mismatch.lib (one sigma):
+    delvto = A_VT/sqrt(W*L) with A_VT in V*um, factuo (mobility factor, not area-scaled), dw and dl (absolute, m)."""
+    path = os.path.join(PDK, "libs.tech", "ngspice", "models", f"sg13g2_mos{dev[5:7]}_mismatch.lib")
+    txt = open(path).read(); name = "sg13g2" + dev[4:]
+    get = lambda k: float(re.search(rf"\.param\s+{name}_{k}_mm\s*=\s*([-\d.eE+]+)", txt).group(1))
+    return dict(avt=get("delvto"), factuo=get("factuo"), dw=get("dw"), dl=get("dl"))
+
+def flicker_exponent(dev):
+    """EFO of the device's PSP model card: flicker noise goes as sfl / f^EF (HV PMOS has 1.152, not 1)."""
+    txt = open(os.path.join(PDK, "libs.tech", "ngspice", "models", f"sg13g2_mos{dev[5:7]}_parm.lib")).read()
+    card = re.search(rf"\.model\s+sg13g2{dev[4:]}_psp\b(.*?)(?=\n\.model|\Z)", txt, re.S).group(1)
+    return float(re.search(r"\befo\s*=\s*([-\d.eE+]+)", card).group(1))
+
+def index_entry(dev):
+    cfg = DEVICES[dev]
+    return dict(L=cfg["L"], vmax=cfg["vmax"], vgs=grid(cfg["vmax"], cfg["vgs_step"]).tolist(),
+                vds=grid(cfg["vmax"], cfg["vds_step"]).tolist(), wf=WF, mm=mismatch_params(dev),
+                ef=flicker_exponent(dev))
+
+WEB_KEYS = ("id", "gm", "gds", "gmb", "vth", "vdsat", "cgg", "cgs", "cgd", "cdd", "sid", "sfl")
+def write_web(dev, wf, tab):
+    json.dump({"dev": dev, "wf": wf, "data": {k: b64(tab[k]) for k in WEB_KEYS}},
+              open(os.path.join(HERE, "web", f"{dev}_wf{wf:g}.json"), "w"))
+
 def b64(a): return base64.b64encode(np.ascontiguousarray(a, dtype=np.float32).tobytes()).decode()
 
 if __name__ == "__main__":
-    devs = sys.argv[1:] or list(DEVICES)
+    web_only = "--web" in sys.argv
+    devs = [a for a in sys.argv[1:] if a != "--web"] or list(DEVICES)
     os.makedirs(os.path.join(HERE, "npz"), exist_ok=True); os.makedirs(os.path.join(HERE, "web"), exist_ok=True)
     index = {"meta": dict(pdk="IHP SG13G2", corner="mos_tt", temp=27, vsb=0, wf=WF,
-                          note="One file per device and finger width Wf (ng=1). Multi-finger devices scale linearly with ng. cgg includes overlap caps.",
+                          note="One file per device and finger width Wf (ng=1). Multi-finger devices scale linearly with ng. cgg includes overlap caps. "
+                               "sid: drain thermal-noise PSD (A^2/Hz); sfl: flicker-noise PSD at 1 Hz (A^2/Hz), scaling as 1/f^ef. "
+                               "mm: the PDK's one-sigma mismatch per instance (avt in V*um, factuo relative, dw and dl in m).",
                           layout="each array is float32, shape [nL][nVGS][nVDS], row-major"), "devices": {}}
     for dev in devs:
-        cfg = DEVICES[dev]
-        index["devices"][dev] = dict(L=cfg["L"], vmax=cfg["vmax"], vgs=grid(cfg["vmax"], cfg["vgs_step"]).tolist(),
-                                     vds=grid(cfg["vmax"], cfg["vds_step"]).tolist(), wf=WF)
+        index["devices"][dev] = index_entry(dev)
         for wf in WF:
-            d = build(dev, wf)
-            json.dump({"dev": dev, "wf": wf, "data": {k: b64(v) for k, v in d["tab"].items() if k not in ("sid", "sfl")}},
-                      open(os.path.join(HERE, "web", f"{dev}_wf{wf:g}.json"), "w"))
+            tab = dict(np.load(os.path.join(HERE, "npz", f"lut_{dev}_wf{wf:g}.npz"))) if web_only else build(dev, wf)["tab"]
+            write_web(dev, wf, tab)
     json.dump(index, open(os.path.join(HERE, "web", "index.json"), "w"))
     print("done")

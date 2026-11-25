@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>IHP SG13G2 gm/ID Lookup Tables & MOSFET Sizing Calculator</title>
-<meta name="description" content="Free gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm open PDK. LV and HV NMOS/PMOS by finger width, from ngspice PSP103 sweeps.">
+<meta name="description" content="Free gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm open PDK. LV and HV NMOS/PMOS by finger width, with noise and mismatch.">
 <meta name="author" content="Hidayet Eren Uludağ">
 <meta name="keywords" content="gm/ID, gm/ID lookup table, IHP SG13G2, SG13G2 PDK, 130 nm BiCMOS, open-source PDK, analog IC design, MOSFET sizing, transistor sizing calculator, ngspice, PSP103">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
@@ -18,7 +18,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="SG13G2 gm/ID Lookup">
 <meta property="og:title" content="IHP SG13G2 gm/ID Lookup Tables & MOSFET Sizing Calculator">
-<meta property="og:description" content="Size SG13G2 MOSFETs from a gm/ID target and read the finger count, VGS, gm/gds, fT and capacitances in your browser. Free, open source, works offline.">
+<meta property="og:description" content="Size SG13G2 MOSFETs from a gm/ID target and read the finger count, VGS, gm/gds, fT, capacitances, noise and mismatch in your browser, or compare two devices side by side. Free, open source, works offline.">
 <meta property="og:url" content="https://hidayeterenuludag.github.io/IHPSG13G2-LUT/">
 <meta property="og:image" content="https://hidayeterenuludag.github.io/IHPSG13G2-LUT/preview.png">
 <meta property="og:image:width" content="1200">
@@ -26,10 +26,10 @@
 <meta property="og:image:alt" content="SG13G2 gm/ID lookup charts: ID/W, intrinsic gain, fT and VGS versus gm/ID">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="IHP SG13G2 gm/ID Lookup Tables & MOSFET Sizing Calculator">
-<meta name="twitter:description" content="gm/ID sizing for IHP SG13G2: pick a device, L and finger width, get W, VGS, gain and fT.">
+<meta name="twitter:description" content="gm/ID sizing for IHP SG13G2: pick a device, L and finger width, get W, VGS, gain, fT, noise and offset.">
 <meta name="twitter:image" content="https://hidayeterenuludag.github.io/IHPSG13G2-LUT/preview.png">
 <meta name="twitter:image:alt" content="SG13G2 gm/ID lookup charts: ID/W, intrinsic gain, fT and VGS versus gm/ID">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#website","url":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/","name":"SG13G2 gm/ID Lookup","inLanguage":"en","publisher":{"@id":"https://github.com/hidayetErenUludag#person"}},{"@type":"WebApplication","@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#app","name":"SG13G2 gm/ID Lookup","url":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/","description":"Free gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm open PDK. LV and HV NMOS/PMOS by finger width, from ngspice PSP103 sweeps.","applicationCategory":"DesignApplication","applicationSubCategory":"Analog IC design","operatingSystem":"Any (web browser)","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"softwareVersion":"1.1.0","dateModified":"2026-11-24","license":"https://www.apache.org/licenses/LICENSE-2.0","inLanguage":"en","keywords":"gm/ID, gm/ID lookup table, IHP SG13G2, SG13G2 PDK, 130 nm BiCMOS, open-source PDK, analog IC design, MOSFET sizing, transistor sizing calculator, ngspice, PSP103","image":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/preview.png","screenshot":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/preview.png","author":{"@id":"https://github.com/hidayetErenUludag#person"},"isPartOf":{"@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#website"},"isBasedOn":{"@type":"ScholarlyArticle","name":"Open-LUT: Interactive gm/ID Lookup Tables for MOSFET Sizing in Open-Source PDKs","author":[{"@type":"Person","name":"Sihawi A. Khalid"},{"@type":"Person","name":"Susie E. Maestre"},{"@type":"Person","name":"Karla M. Madrid-Khalid"}],"datePublished":"2025","sameAs":"https://doi.org/10.1109/ICICM66614.2025.11316023"},"mainEntityOfPage":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/"},{"@type":"SoftwareSourceCode","@id":"https://github.com/hidayetErenUludag/IHPSG13G2-LUT","name":"IHPSG13G2-LUT","codeRepository":"https://github.com/hidayetErenUludag/IHPSG13G2-LUT","programmingLanguage":["Python","JavaScript"],"license":"https://www.apache.org/licenses/LICENSE-2.0","author":{"@id":"https://github.com/hidayetErenUludag#person"},"targetProduct":{"@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#app"}},{"@type":"Dataset","@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#dataset","name":"IHP SG13G2 gm/ID MOSFET lookup tables (ngspice PSP103, mos_tt, 27 °C)","description":"Pre-computed DC operating-point lookup tables for the four MOSFETs of the IHP SG13G2 130 nm BiCMOS open-source PDK (sg13_lv_nmos, sg13_lv_pmos, sg13_hv_nmos, sg13_hv_pmos), for gm/ID-based analog transistor sizing. Each table sweeps VGS and VDS for every channel length at finger widths of 0.5, 1, 2, 5 and 10 µm (single finger, ng = 1), and stores ID, gm, gds, gmb, Vth, VDsat, Cgg, Cgs, Cgd and Cdd, plus drain thermal and flicker noise PSDs in the NumPy files. Simulated in ngspice-47 with the PSP103 model, typical corner mos_tt, 27 °C, VSB = 0; checked against direct simulation within 3 % for ID, gm and gds.","url":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/","sameAs":"https://github.com/hidayetErenUludag/IHPSG13G2-LUT","license":"https://www.apache.org/licenses/LICENSE-2.0","isAccessibleForFree":true,"version":"1.1.0","dateModified":"2026-11-24","creator":{"@id":"https://github.com/hidayetErenUludag#person"},"keywords":["gm/ID","lookup table","IHP SG13G2","MOSFET","analog IC design","open-source PDK","PSP103","ngspice"],"measurementTechnique":"ngspice-47 DC operating-point sweep of the IHP-Open-PDK PSP103 MOSFET models","variableMeasured":["drain current ID","transconductance gm","output conductance gds","body transconductance gmb","threshold voltage Vth","saturation voltage VDsat","gate capacitance Cgg","Cgs","Cgd","Cdd"],"isBasedOn":"https://github.com/IHP-GmbH/IHP-Open-PDK","distribution":[{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf0.5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf0.5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf1.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf1.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf10.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf10.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf2.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf2.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf0.5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf0.5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf1.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf1.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf10.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf10.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf2.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf2.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf0.5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf0.5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf1.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf1.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf10.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf10.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf2.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf2.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf0.5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf0.5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf1.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf1.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf10.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf10.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf2.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf2.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf5.npz"},{"@type":"DataDownload","encodingFormat":"text/html","name":"Offline calculator (single HTML file)","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/SG13G2_gmID_Lookup.html"}]},{"@type":"FAQPage","@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#faq","mainEntity":[{"@type":"Question","name":"What is the gm/ID sizing method?","acceptedAnswer":{"@type":"Answer","text":"gm/ID sizing picks the transconductance efficiency gm/ID to set how strongly a transistor is inverted, then reads current density, intrinsic gain and fT from tables simulated with the real device model instead of square-law equations. The method is described by Jespers and Murmann (Cambridge University Press, 2017)."}},{"@type":"Question","name":"Which IHP SG13G2 devices does this cover?","acceptedAnswer":{"@type":"Answer","text":"All four MOSFETs: sg13_lv_nmos and sg13_lv_pmos (1.2 V core, L = 0.13 to 5 µm), sg13_hv_nmos (3.3 V I/O, L = 0.45 to 5 µm) and sg13_hv_pmos (3.3 V I/O, L = 0.40 to 5 µm), each at finger widths of 0.5, 1, 2, 5 and 10 µm. The *_rf_* symbols use the same transistors with an RF model and are not tabulated separately."}},{"@type":"Question","name":"Why does finger width matter in SG13G2?","acceptedAnswer":{"@type":"Answer","text":"SG13G2 LV devices depend on finger width, not only total width: LV NMOS Vth falls from 0.29 V at a 1 µm finger to 0.21 V at a 50 µm finger. A table built at one width can mis-size other widths by up to 34 % in ID, so this tool sizes devices as ng fingers of width Wf, which scale exactly."}},{"@type":"Question","name":"How accurate are the values?","acceptedAnswer":{"@type":"Answer","text":"Devices sized from the tables and simulated directly in ngspice agree within 3 % for ID, gm and gds, and within 8 % for fT. All values are simulation results from the PSP103 models and have not been compared against measured silicon."}},{"@type":"Question","name":"Which process corner and temperature are used?","acceptedAnswer":{"@type":"Answer","text":"The typical corner mos_tt at 27 °C with VSB = 0, simulated in ngspice-47 with the PSP103 model from the IHP-Open-PDK. Other corners and temperatures are not included yet; regenerate the tables with gen_lut.py to add them."}},{"@type":"Question","name":"Can I use the tables offline or in Python?","acceptedAnswer":{"@type":"Answer","text":"Yes. The offline version is a single self-contained HTML file of about 4.5 MB. Full-precision NumPy .npz tables, including noise PSDs, are in the npz folder of the GitHub repository."}},{"@type":"Question","name":"Is it free to use, and how do I cite it?","acceptedAnswer":{"@type":"Answer","text":"Yes. Code, page and tables are released under the Apache License 2.0. Cite the Open-LUT paper by Khalid, Maestre and Madrid-Khalid (ICICM 2025), and this repository via its CITATION.cff file."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#website","url":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/","name":"SG13G2 gm/ID Lookup","inLanguage":"en","publisher":{"@id":"https://github.com/hidayetErenUludag#person"}},{"@type":"WebApplication","@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#app","name":"SG13G2 gm/ID Lookup","url":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/","description":"Free gm/ID lookup tables and MOSFET sizing calculator for the IHP SG13G2 130 nm open PDK. LV and HV NMOS/PMOS by finger width, with noise and mismatch.","applicationCategory":"DesignApplication","applicationSubCategory":"Analog IC design","operatingSystem":"Any (web browser)","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"softwareVersion":"1.2.0","dateModified":"2026-11-25","license":"https://www.apache.org/licenses/LICENSE-2.0","inLanguage":"en","keywords":"gm/ID, gm/ID lookup table, IHP SG13G2, SG13G2 PDK, 130 nm BiCMOS, open-source PDK, analog IC design, MOSFET sizing, transistor sizing calculator, ngspice, PSP103","image":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/preview.png","screenshot":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/preview.png","author":{"@id":"https://github.com/hidayetErenUludag#person"},"isPartOf":{"@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#website"},"isBasedOn":{"@type":"ScholarlyArticle","name":"Open-LUT: Interactive gm/ID Lookup Tables for MOSFET Sizing in Open-Source PDKs","author":[{"@type":"Person","name":"Sihawi A. Khalid"},{"@type":"Person","name":"Susie E. Maestre"},{"@type":"Person","name":"Karla M. Madrid-Khalid"}],"datePublished":"2025","sameAs":"https://doi.org/10.1109/ICICM66614.2025.11316023"},"mainEntityOfPage":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/"},{"@type":"SoftwareSourceCode","@id":"https://github.com/hidayetErenUludag/IHPSG13G2-LUT","name":"IHPSG13G2-LUT","codeRepository":"https://github.com/hidayetErenUludag/IHPSG13G2-LUT","programmingLanguage":["Python","JavaScript"],"license":"https://www.apache.org/licenses/LICENSE-2.0","author":{"@id":"https://github.com/hidayetErenUludag#person"},"targetProduct":{"@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#app"}},{"@type":"Dataset","@id":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/#dataset","name":"IHP SG13G2 gm/ID MOSFET lookup tables (ngspice PSP103, mos_tt, 27 °C)","description":"Pre-computed DC operating-point lookup tables for the four MOSFETs of the IHP SG13G2 130 nm BiCMOS open-source PDK (sg13_lv_nmos, sg13_lv_pmos, sg13_hv_nmos, sg13_hv_pmos), for gm/ID-based analog transistor sizing. Each table sweeps VGS and VDS for every channel length at finger widths of 0.5, 1, 2, 5 and 10 µm (single finger, ng = 1), and stores ID, gm, gds, gmb, Vth, VDsat, Cgg, Cgs, Cgd and Cdd, plus drain thermal and flicker noise PSDs in the NumPy files. Simulated in ngspice-47 with the PSP103 model, typical corner mos_tt, 27 °C, VSB = 0; checked against direct simulation within 3 % for ID, gm and gds.","url":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/","sameAs":"https://github.com/hidayetErenUludag/IHPSG13G2-LUT","license":"https://www.apache.org/licenses/LICENSE-2.0","isAccessibleForFree":true,"version":"1.2.0","dateModified":"2026-11-25","creator":{"@id":"https://github.com/hidayetErenUludag#person"},"keywords":["gm/ID","lookup table","IHP SG13G2","MOSFET","analog IC design","open-source PDK","PSP103","ngspice"],"measurementTechnique":"ngspice-47 DC operating-point sweep of the IHP-Open-PDK PSP103 MOSFET models","variableMeasured":["drain current ID","transconductance gm","output conductance gds","body transconductance gmb","threshold voltage Vth","saturation voltage VDsat","gate capacitance Cgg","Cgs","Cgd","Cdd","drain thermal-noise PSD","flicker-noise PSD at 1 Hz"],"isBasedOn":"https://github.com/IHP-GmbH/IHP-Open-PDK","distribution":[{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf0.5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf0.5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf1.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf1.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf10.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf10.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf2.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf2.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_nmos_wf5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_nmos_wf5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf0.5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf0.5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf1.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf1.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf10.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf10.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf2.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf2.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_hv_pmos_wf5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_hv_pmos_wf5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf0.5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf0.5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf1.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf1.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf10.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf10.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf2.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf2.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_nmos_wf5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_nmos_wf5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf0.5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf0.5.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf1.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf1.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf10.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf10.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf2.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf2.npz"},{"@type":"DataDownload","encodingFormat":"application/octet-stream","name":"lut_sg13_lv_pmos_wf5.npz","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/npz/lut_sg13_lv_pmos_wf5.npz"},{"@type":"DataDownload","encodingFormat":"text/html","name":"Offline calculator (single HTML file)","contentUrl":"https://hidayeterenuludag.github.io/IHPSG13G2-LUT/SG13G2_gmID_Lookup.html"}]}]}</script>
 <link rel="preload" href="web/sg13_lv_nmos_wf1.json" as="fetch" type="application/json" crossorigin="anonymous">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,7 +39,7 @@
 :root{
   --ground:#F3F6F8; --surface:#FFFFFF; --ink:#13202B; --muted:#52616E; --line:#D5DDE3; --soft:#E6ECF0;
   --accent:#0C6B86; --accent-ink:#FFFFFF; --accent-soft:#E3F1F5; --curve:#AFBCC6;
-  --op:#B45309; --warn:#9A5200; --warn-bg:#FFF4E2; --shadow:0 1px 2px rgba(16,32,43,.05),0 4px 16px rgba(16,32,43,.04);
+  --op:#B45309; --cmp:#7048C8; --cmp-ink:#FFFFFF; --warn:#9A5200; --warn-bg:#FFF4E2; --shadow:0 1px 2px rgba(16,32,43,.05),0 4px 16px rgba(16,32,43,.04);
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
   --r:10px; --topbar:58px;
@@ -49,14 +49,14 @@
     color-scheme:dark;
     --ground:#0C1218; --surface:#131C24; --ink:#E4EBF1; --muted:#97A5B1; --line:#26323D; --soft:#1B2630;
     --accent:#4DB5D3; --accent-ink:#06222B; --accent-soft:#12303A; --curve:#3C4B58;
-    --op:#F5B544; --warn:#F0A643; --warn-bg:#2A2012; --shadow:none;
+    --op:#F5B544; --cmp:#B49CFF; --cmp-ink:#1C1036; --warn:#F0A643; --warn-bg:#2A2012; --shadow:none;
   }
 }
 :root[data-theme="dark"]{
   color-scheme:dark;
   --ground:#0C1218; --surface:#131C24; --ink:#E4EBF1; --muted:#97A5B1; --line:#26323D; --soft:#1B2630;
   --accent:#4DB5D3; --accent-ink:#06222B; --accent-soft:#12303A; --curve:#3C4B58;
-  --op:#F5B544; --warn:#F0A643; --warn-bg:#2A2012; --shadow:none;
+  --op:#F5B544; --cmp:#B49CFF; --cmp-ink:#1C1036; --warn:#F0A643; --warn-bg:#2A2012; --shadow:none;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--topbar) + 12px)}
@@ -163,12 +163,29 @@ tr.key td.v{color:var(--accent);font-size:16px}
 .chart{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 12px 8px;display:grid;gap:6px;min-width:0;box-shadow:var(--shadow);transition:border-color .15s}
 .chart:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
 .chart .t{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
-.chart .t b{font-weight:600;font-size:15px}
+.chart .t b{font-weight:600;font-size:15px;white-space:nowrap}
 .chart .t span{font:11px var(--mono);color:var(--muted);text-align:right}
-.chart canvas{width:100%;height:230px;display:block;touch-action:none;cursor:crosshair}
+.chart canvas{width:100%;height:210px;display:block;touch-action:none;cursor:crosshair}
 .loading{padding:40px;text-align:center;color:var(--muted);grid-column:1/-1}
-table.out:empty{display:block;height:961px}
+table.out:empty{display:block;height:1420px}
 #range{min-height:3em}
+[hidden]{display:none!important}
+.tog{font:500 14px var(--body);height:40px;padding:0 14px;border:1px solid var(--line);border-radius:7px;background:var(--ground);color:var(--muted);cursor:pointer;transition:background-color .15s,color .15s,border-color .15s}
+.tog:hover{color:var(--ink);border-color:var(--cmp)}
+.tog[aria-pressed="true"]{background:var(--cmp);border-color:var(--cmp);color:var(--cmp-ink)}
+.tag{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:7px;font:600 14px var(--mono);align-self:center;flex:none}
+.tag.a{background:var(--accent);color:var(--accent-ink)}
+.tag.b{background:var(--cmp);color:var(--cmp-ink)}
+.bar.b{border-color:color-mix(in srgb,var(--cmp) 45%,var(--line))}
+.bar .note{font-size:12.5px;color:var(--muted);align-self:center;max-width:36ch;margin:0}
+@media (min-width:901px){.main.cmp{grid-template-columns:minmax(0,520px) minmax(0,1fr)}}
+@media (max-width:420px){.nz{grid-template-columns:1fr 1fr}.nz .field:first-child{grid-column:1/-1}}
+.nz{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+table.out tr.hd td{font:600 12px var(--mono);color:var(--muted);padding:0 0 4px;border-bottom:0}
+table.out tr.hd td.v{text-align:right}
+.sw.a{background:var(--accent)}
+.sw.b{background:repeating-linear-gradient(90deg,var(--cmp) 0 6px,transparent 6px 9px)}
+.dot.b{border-color:var(--cmp)}
 
 /* generic cards / sections */
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow)}
@@ -192,16 +209,15 @@ table.ref tbody tr:hover td{background:var(--ground)}
 table.ref tr.grp th{text-align:left;font-family:var(--mono);font-weight:600;font-size:13px;color:var(--accent);background:var(--surface);padding-top:14px}
 table.ref tr.grp th span{color:var(--muted);font-weight:400;font-family:var(--body)}
 
-/* faq */
-.faq{display:grid;gap:8px}
-.faq details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);transition:border-color .15s}
-.faq details[open]{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
-.faq summary{cursor:pointer;list-style:none;padding:14px 18px;font-weight:600;font-size:15px;display:flex;justify-content:space-between;gap:16px;align-items:center}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"";width:9px;height:9px;flex:none;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s}
-.faq details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
-.faq .a{padding:0 18px 16px;color:var(--muted);font-size:14.5px;max-width:85ch}
-.faq .a p{margin:0}
+/* collapsible section */
+details.fold>summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);transition:border-color .15s}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary:hover,details.fold[open]>summary{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+details.fold>summary::after{content:"";width:10px;height:10px;flex:none;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s}
+details.fold[open]>summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+details.fold>summary .sh{flex:1}
+details.fold>summary .d{color:var(--muted);font-size:14px;max-width:70ch}
+details.fold>.tablewrap{margin-top:14px}
 
 /* references */
 .refs ol{margin:0;padding-left:22px;display:grid;gap:10px;max-width:95ch;font-size:14px}
@@ -229,7 +245,7 @@ table.ref tr.grp th span{color:var(--muted);font-weight:400;font-family:var(--bo
       <span>SG13G2 gm/ID</span>
     </a>
     <nav class="nav" aria-label="Sections">
-      <a href="#calc">Calculator</a><a href="#reference">Reference values</a><a href="#method">Method</a><a href="#faq">FAQ</a><a href="#refs">Cite</a>
+      <a href="#calc">Calculator</a><a href="#reference">Reference values</a><a href="#method">Method</a><a href="#refs">Cite</a>
     </nav>
     <div class="tools">
       <a class="iconbtn" href="https://github.com/hidayetErenUludag/IHPSG13G2-LUT" aria-label="Source code on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.7 5.38-5.27 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
@@ -244,8 +260,8 @@ table.ref tr.grp th span{color:var(--muted);font-weight:400;font-family:var(--bo
     <div>
       <p class="eyebrow">IHP SG13G2 · 130 nm BiCMOS open PDK</p>
       <h1 id="h1">g<sub>m</sub>/I<sub>D</sub> lookup tables and MOSFET sizing calculator</h1>
-      <p class="lede">Pick a device, channel length and finger width, enter a g<sub>m</sub>/I<sub>D</sub> target, and read the finger count, V<sub>GS</sub>, intrinsic gain, f<sub>T</sub> and capacitances. Every number comes from ngspice PSP103 operating-point sweeps of the IHP-Open-PDK. An SG13G2 port of the <a href="http://www.open-lut.org/">Open-LUT</a> approach by Khalid, Maestre and Madrid-Khalid.</p>
-      <div class="ctas"><a class="btn primary" href="#calc">Open the calculator <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn" href="SG13G2_gmID_Lookup.html" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg> Offline version (4.5 MB)</a><a class="btn" href="https://github.com/hidayetErenUludag/IHPSG13G2-LUT"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 9-4 3 4 3M16 9l4 3-4 3"/></svg> Source and data</a></div>
+      <p class="lede">Pick a device, channel length and finger width, enter a g<sub>m</sub>/I<sub>D</sub> target, and read the finger count, V<sub>GS</sub>, intrinsic gain, f<sub>T</sub>, capacitances, noise and mismatch. Compare two devices or lengths side by side. Every number comes from ngspice PSP103 operating-point sweeps of the IHP-Open-PDK. An SG13G2 port of the <a href="http://www.open-lut.org/">Open-LUT</a> approach by Khalid, Maestre and Madrid-Khalid.</p>
+      <div class="ctas"><a class="btn primary" href="#calc">Open the calculator <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn" href="SG13G2_gmID_Lookup.html" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg> Offline version (5.5 MB)</a><a class="btn" href="https://github.com/hidayetErenUludag/IHPSG13G2-LUT"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 9-4 3 4 3M16 9l4 3-4 3"/></svg> Source and data</a></div>
     </div>
     <ul class="facts" aria-label="Coverage at a glance">
       <li><b>4</b><span>devices: LV and HV, NMOS and PMOS</span></li>
@@ -264,6 +280,7 @@ table.ref tr.grp th span{color:var(--muted);font-weight:400;font-family:var(--bo
     </div>
 
     <div class="bar" role="group" aria-label="Device and bias">
+      <span class="tag a cmp-only" hidden aria-hidden="true">A</span>
       <div class="field"><label for="dev">Device</label>
         <select id="dev">
           <option value="sg13_lv_nmos">sg13_lv_nmos · 1.2 V core</option>
@@ -280,6 +297,23 @@ table.ref tr.grp th span{color:var(--muted);font-weight:400;font-family:var(--bo
           <button type="button" data-k="gm" aria-pressed="false" title="Fix the transconductance">g<sub>m</sub></button>
           <button type="button" data-k="w" aria-pressed="false" title="Fix the total width">W</button>
         </div></div>
+      <div class="field"><span class="lbl" id="cmp-l">Compare</span>
+        <button type="button" class="tog" id="cmp" aria-pressed="false" aria-labelledby="cmp-l" title="Add a second device, length or finger width (B) at the same gm/ID and size target">+ B</button></div>
+    </div>
+
+    <div class="bar b" id="barB" role="group" aria-label="Comparison device and bias (B)" hidden>
+      <span class="tag b" aria-hidden="true">B</span>
+      <div class="field"><label for="devB">Device</label>
+        <select id="devB">
+          <option value="sg13_lv_nmos">sg13_lv_nmos · 1.2 V core</option>
+          <option value="sg13_lv_pmos">sg13_lv_pmos · 1.2 V core</option>
+          <option value="sg13_hv_nmos">sg13_hv_nmos · 3.3 V I/O</option>
+          <option value="sg13_hv_pmos">sg13_hv_pmos · 3.3 V I/O</option>
+        </select></div>
+      <div class="field"><label for="vdsB">|V<sub>DS</sub>|</label><select id="vdsB"><option>0.60 V</option></select></div>
+      <div class="field"><label for="lenB">Length L</label><select id="lenB"><option>0.50 µm</option></select></div>
+      <div class="field"><label for="wfB">Finger width W<sub>f</sub></label><select id="wfB"><option>1 µm</option></select></div>
+      <p class="note">B uses the same g<sub>m</sub>/I<sub>D</sub> and size target as A.</p>
     </div>
 
     <div class="tip" role="note">
@@ -296,24 +330,31 @@ table.ref tr.grp th span{color:var(--muted);font-weight:400;font-family:var(--bo
           <div class="field"><label for="sizev" id="sizel" class="math">I<sub>D</sub></label>
             <div class="inwrap"><input id="sizev" type="number" step="any" min="0" value="10" inputmode="decimal"><span class="unit" id="sizeu">µA</span></div></div>
           <p class="hint full" id="range"></p>
+          <div class="nz full">
+            <div class="field"><label for="nf">Noise at f</label>
+              <div class="inwrap"><input id="nf" type="text" value="1k" spellcheck="false" autocomplete="off" title="Spot frequency, e.g. 100, 1k, 10M"><span class="unit">Hz</span></div></div>
+            <div class="field"><label for="nf1">Band from</label>
+              <div class="inwrap"><input id="nf1" type="text" value="1" spellcheck="false" autocomplete="off" title="Lower edge of the integration band"><span class="unit">Hz</span></div></div>
+            <div class="field"><label for="nf2">to</label>
+              <div class="inwrap"><input id="nf2" type="text" value="1M" spellcheck="false" autocomplete="off" title="Upper edge of the integration band"><span class="unit">Hz</span></div></div>
+          </div>
         </div>
         <p class="msg" id="msg" hidden></p>
         <table class="out" id="out" aria-live="polite"></table>
       </section>
 
       <div class="side" role="region" aria-label="Lookup charts">
-        <div class="legend"><span><i class="sw" style="background:var(--accent)"></i>selected L</span><span><i class="sw" style="background:var(--curve)"></i>other L in the table</span><span><i class="dot"></i>operating point</span><span>hover a chart to read the selected-L curve</span></div>
+        <div class="legend"><span><i class="sw a"></i>selected L<span class="cmp-only" hidden> (A)</span></span><span><i class="sw" style="background:var(--curve)"></i>other L in the table<span class="cmp-only" hidden> (A)</span></span><span class="cmp-only" hidden><i class="sw b"></i>B</span><span><i class="dot"></i>operating point</span><span class="cmp-only" hidden><i class="dot b"></i>B</span><span>hover a chart to read the selected-L curve</span></div>
         <div class="charts" id="charts"><div class="loading">Loading lookup tables…</div></div>
       </div>
     </div>
   </section>
 
   <section class="block" id="reference" aria-labelledby="ref-h">
-    <div class="sh">
-      <h2 id="ref-h">Reference values</h2>
-      <p>Precomputed from the same tables at a typical bias, W<sub>f</sub> = 1 µm. Use them for a first estimate, or when JavaScript is off.</p>
-    </div>
-    <div class="tablewrap"><table class="ref">
+    <details class="fold">
+      <summary><span class="sh"><h2 id="ref-h">Reference values</h2>
+        <span class="d">Precomputed from the same tables at a typical bias, W<sub>f</sub> = 1 µm. Use them for a first estimate, or when JavaScript is off.</span></span></summary>
+      <div class="tablewrap"><table class="ref">
 <caption>W<sub>f</sub> = 1 µm, mos_tt, 27 °C, V<sub>SB</sub> = 0. L and |V<sub>DS</sub>| as listed per device (the calculator defaults). PMOS values are magnitudes. Linear interpolation along V<sub>GS</sub>.</caption>
 <thead><tr><th scope="col">g<sub>m</sub>/I<sub>D</sub> (S/A)</th><th scope="col">|V<sub>GS</sub>| (V)</th><th scope="col">|V<sub>th</sub>| (V)</th><th scope="col">I<sub>D</sub>/W (µA/µm)</th><th scope="col">g<sub>m</sub>/g<sub>ds</sub> (V/V)</th><th scope="col">f<sub>T</sub></th></tr></thead>
 <tbody><tr class="grp"><th colspan="6" scope="rowgroup">sg13_lv_nmos <span>· 1.2 V core NMOS · L = 0.50 µm · |V<sub>DS</sub>| = 0.60 V</span></th></tr>
@@ -344,6 +385,7 @@ table.ref tr.grp th span{color:var(--muted);font-weight:400;font-family:var(--bo
 <tr><td>20</td><td>0.619</td><td>0.664</td><td>0.0459</td><td>973.6</td><td>57 MHz</td></tr>
 </tbody>
 </table></div>
+    </details>
   </section>
 
   <section class="block" id="method" aria-labelledby="method-h">
@@ -357,24 +399,17 @@ table.ref tr.grp th span{color:var(--muted);font-weight:400;font-family:var(--bo
         <p>Checked against direct simulation of the rounded device: I<sub>D</sub>, g<sub>m</sub> and g<sub>ds</sub> within 3 %, f<sub>T</sub> within 8 % (the table is conservative for multi-finger devices). Results are simulation only and have not been compared against measured silicon.</p></div>
       <div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4v16M16 4v16M4 12h4M16 12h4"/></svg>Conventions</h3>
         <p>C<sub>gg</sub> includes gate overlap capacitance, so f<sub>T</sub> = g<sub>m</sub>/(2π·C<sub>gg</sub>) matches PSP's own <code>fug</code>. C<sub>dd</sub> adds the drain junction and gate-drain overlap. PMOS values are magnitudes.</p></div>
+      <div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h3l2-6 3 12 3-9 2 5 2-2h5"/></svg>Noise</h3>
+        <p>The tables hold PSP's drain thermal-noise PSD S<sub>id</sub> and flicker-noise PSD at 1 Hz S<sub>fl</sub> per bias point. Drain noise is ng·(S<sub>id</sub> + S<sub>fl</sub>/f<sup>EF</sup>), input-referred noise is that divided by g<sub>m</sub><sup>2</sup>, γ = S<sub>id</sub>/(4kT·g<sub>m</sub>) and the flicker corner f<sub>c</sub> = (S<sub>fl</sub>/S<sub>id</sub>)<sup>1/EF</sup>. EF is the model's flicker exponent: 1 for three devices, 1.152 for HV PMOS. Checked against ngspice <code>.noise</code> of the sized device within 5 %.</p></div>
+      <div class="card"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20c2-9 5-14 8-14s6 5 8 14"/><path d="M12 6v14"/></svg>Mismatch</h3>
+        <p>From the PDK's own mismatch model (one sigma per instance): V<sub>th</sub> with A<sub>VT</sub>/√(WL), plus mobility, ΔW and ΔL terms that do not shrink with area. ΔL also shifts V<sub>th</sub> and I<sub>D</sub> through short-channel effects, taken from the tables at neighbouring L. A matched pair has √2 times the single-device spread; its offset is √2·σ(I<sub>D</sub>)/I<sub>D</sub> divided by g<sub>m</sub>/I<sub>D</sub>. Checked against a 2000-sample ngspice Monte Carlo within 10 % (4 % for L ≥ 0.5 µm).</p></div>
       <div class="card" style="grid-column:1/-1;min-width:0"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M13.5 6l-3 12"/></svg>Use the tables in Python</h3>
-        <p>Full-precision tables, including drain thermal-noise and flicker-noise PSDs, are in <a href="https://github.com/hidayetErenUludag/IHPSG13G2-LUT/tree/main/npz"><code>npz/lut_&lt;device&gt;_wf&lt;W<sub>f</sub>&gt;.npz</code></a>, with the generator <code>gen_lut.py</code> beside them. For ng fingers, multiply currents, conductances and capacitances by ng.</p>
+        <p>Full-precision tables, including drain thermal-noise and flicker-noise PSDs, are in <a href="https://github.com/hidayetErenUludag/IHPSG13G2-LUT/tree/main/npz"><code>npz/lut_&lt;device&gt;_wf&lt;W<sub>f</sub>&gt;.npz</code></a>, with the generator <code>gen_lut.py</code> and the checks <code>verify.py</code> and <code>mismatch_mc.py</code> beside them. For ng fingers, multiply currents, conductances and capacitances by ng.</p>
 <pre>import numpy as np
 t = np.load("npz/lut_sg13_lv_nmos_wf2.npz")   # arrays shaped [L][VGS][VDS]
 gm_id = t["gm"] / t["id"]                      # S/A
 ft    = t["gm"] / (2 * np.pi * t["cgg"])       # Hz</pre></div>
     </div>
-  </section>
-
-  <section class="block" id="faq" aria-labelledby="faq-h">
-    <div class="sh"><h2 id="faq-h">Frequently asked questions</h2></div>
-    <div class="faq"><details><summary>What is the gm/ID sizing method?</summary><div class="a"><p>gm/ID sizing picks the transconductance efficiency g<sub>m</sub>/I<sub>D</sub> to set how strongly a transistor is inverted, then reads current density, intrinsic gain and f<sub>T</sub> from tables simulated with the real device model instead of square-law equations. The method is described by Jespers and Murmann (Cambridge University Press, 2017).</p></div></details>
-<details><summary>Which IHP SG13G2 devices does this cover?</summary><div class="a"><p>All four MOSFETs: sg13_lv_nmos and sg13_lv_pmos (1.2 V core, L = 0.13 to 5 µm), sg13_hv_nmos (3.3 V I/O, L = 0.45 to 5 µm) and sg13_hv_pmos (3.3 V I/O, L = 0.40 to 5 µm), each at finger widths of 0.5, 1, 2, 5 and 10 µm. The *_rf_* symbols use the same transistors with an RF model and are not tabulated separately.</p></div></details>
-<details><summary>Why does finger width matter in SG13G2?</summary><div class="a"><p>SG13G2 LV devices depend on finger width, not only total width: LV NMOS V<sub>th</sub> falls from 0.29 V at a 1 µm finger to 0.21 V at a 50 µm finger. A table built at one width can mis-size other widths by up to 34 % in I<sub>D</sub>, so this tool sizes devices as ng fingers of width W<sub>f</sub>, which scale exactly.</p></div></details>
-<details><summary>How accurate are the values?</summary><div class="a"><p>Devices sized from the tables and simulated directly in ngspice agree within 3 % for I<sub>D</sub>, g<sub>m</sub> and g<sub>ds</sub>, and within 8 % for f<sub>T</sub>. All values are simulation results from the PSP103 models and have not been compared against measured silicon.</p></div></details>
-<details><summary>Which process corner and temperature are used?</summary><div class="a"><p>The typical corner mos_tt at 27 °C with V<sub>SB</sub> = 0, simulated in ngspice-47 with the PSP103 model from the IHP-Open-PDK. Other corners and temperatures are not included yet; regenerate the tables with gen_lut.py to add them.</p></div></details>
-<details><summary>Can I use the tables offline or in Python?</summary><div class="a"><p>Yes. The offline version is a single self-contained HTML file of about 4.5 MB. Full-precision NumPy .npz tables, including noise PSDs, are in the npz folder of the GitHub repository.</p></div></details>
-<details><summary>Is it free to use, and how do I cite it?</summary><div class="a"><p>Yes. Code, page and tables are released under the Apache License 2.0. Cite the Open-LUT paper by Khalid, Maestre and Madrid-Khalid (ICICM 2025), and this repository via its CITATION.cff file.</p></div></details></div>
   </section>
 
   <section class="block refs" id="refs" aria-labelledby="refs-h">
@@ -410,7 +445,7 @@ ft    = t["gm"] / (2 * np.pi * t["cgg"])       # Hz</pre></div>
     <div>
       <p><strong>SG13G2 gm/ID Lookup</strong> by <a href="https://github.com/hidayetErenUludag">Hidayet Eren Uludağ</a>, Electrical and Electronics Engineering, Özyeğin University, Istanbul.</p>
       <p>Code, page and tables under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>; device models © IHP GmbH. Simulation data, not measured silicon.</p>
-      <p>Version 1.1.0 · tables built with ngspice-47 and PSP103 · page updated <time datetime="2026-11-24">2026-11-24</time></p>
+      <p>Version 1.2.0 · tables built with ngspice-47 and PSP103 · page updated <time datetime="2026-11-25">2026-11-25</time></p>
     </div>
     <nav aria-label="Footer">
       <a href="https://github.com/hidayetErenUludag/IHPSG13G2-LUT">GitHub</a>
@@ -424,12 +459,15 @@ ft    = t["gm"] / (2 * np.pi * t["cgg"])       # Hz</pre></div>
 <script>
 (()=>{
 const $=s=>document.querySelector(s);
-const TAU=2*Math.PI;
-let LUT=null, D=null, sizeBy="id";
+const TAU=2*Math.PI, KT=1.380649e-23*300.15;   // 27 °C, the characterisation temperature
+let LUT=null, sizeBy="id", cmp=false;
+// A is the main configuration; B is the optional comparison (same gm/ID and size target)
+const S={A:{dev:"#dev",vds:"#vds",len:"#len",wf:"#wf",D:null,err:""},
+         B:{dev:"#devB",vds:"#vdsB",len:"#lenB",wf:"#wfB",D:null,err:""}};
 
 const fmtSI=(x,unit)=>{ // returns [num,unit]
   if(!isFinite(x)) return ["—",unit];
-  const p=[[1e9,"G"],[1e6,"M"],[1e3,"k"],[1,""],[1e-3,"m"],[1e-6,"µ"],[1e-9,"n"],[1e-12,"p"],[1e-15,"f"],[1e-18,"a"]];
+  const p=[[1e9,"G"],[1e6,"M"],[1e3,"k"],[1,""],[1e-3,"m"],[1e-6,"µ"],[1e-9,"n"],[1e-12,"p"],[1e-15,"f"],[1e-18,"a"],[1e-21,"z"]];
   const a=Math.abs(x); let s=p.find(q=>a>=q[0]*0.9995)||p[p.length-1];
   if(a===0) s=[1,""];
   const v=x/s[0]; const d=Math.abs(v)>=100?1:Math.abs(v)>=10?2:3;
@@ -437,6 +475,8 @@ const fmtSI=(x,unit)=>{ // returns [num,unit]
 };
 const mS=x=>isFinite(x)?String(+(x*1e3).toPrecision(4)):"—";
 const fix=(x,d)=>isFinite(x)?x.toFixed(d):"—";
+const pct=x=>isFinite(x)?(x*100).toFixed(x<0.1?2:1):"—";
+const area=x=>isFinite(x)?String(+x.toPrecision(3)):"—";
 
 function decode(b64){
   const bin=atob(b64); const u=new Uint8Array(bin.length);
@@ -453,105 +493,175 @@ async function loadSet(name,wf){
   }
   return cache[key];
 }
-async function useSet(){
-  const name=$("#dev").value, wf=parseFloat($("#wf").value), dv=LUT.devices[name];
+async function useSet(side){
+  const sides=side?[side]:(cmp?["A","B"]:["A"]);
   $("#out").style.opacity=.45;
-  try{ const a=await loadSet(name,wf);
-    D={name, L:dv.L, vgs:dv.vgs, vds:dv.vds, nG:dv.vgs.length, nD:dv.vds.length, a, vmax:dv.vmax, wf, W:wf*1e-6};
-    render();
-  }catch(err){ $("#msg").textContent=`The table for ${name} at Wf = ${wf} µm did not load (${err.message}). Pick it again to retry.`; $("#msg").hidden=false; }
+  await Promise.all(sides.map(async sd=>{
+    const s=S[sd], name=$(s.dev).value, wf=parseFloat($(s.wf).value), dv=LUT.devices[name];
+    try{ const a=await loadSet(name,wf);
+      s.D={name, L:dv.L, vgs:dv.vgs, vds:dv.vds, nG:dv.vgs.length, nD:dv.vds.length, a, vmax:dv.vmax, wf, W:wf*1e-6, mm:dv.mm||null, ef:dv.ef||1}; s.err="";
+    }catch(err){ s.D=null; s.err=`The table for ${name} at Wf = ${wf} µm did not load (${err.message}). Pick it again to retry.`; }
+  }));
+  render();
   $("#out").style.opacity=1;
 }
-function setDevice(name){
-  const dv=LUT.devices[name];
-  const ws=$("#wf"); const prevW=ws.value||"1";
+function setDevice(name,sd="A"){
+  const s=S[sd], dv=LUT.devices[name];
+  const ws=$(s.wf); const prevW=ws.value||"1";
   ws.innerHTML=dv.wf.map(w=>`<option value="${w}">${w} µm</option>`).join(""); ws.value=String(dv.wf.includes(+prevW)?+prevW:1);
-  const vs=$("#vds"), ls=$("#len");
-  const prevV=parseFloat(vs.value), prevL=parseFloat(ls.value);
+  const vs=$(s.vds), ls=$(s.len);
   vs.innerHTML=dv.vds.map((v,j)=>`<option value="${j}">${v.toFixed(2)} V</option>`).join("");
   ls.innerHTML=dv.L.map((l,k)=>`<option value="${k}">${l.toFixed(2)} µm</option>`).join("");
   vs.value=String(nearest(dv.vds,dv.vmax/2));
-  const lTarget = name.includes("hv")?1.0:0.5;
-  ls.value=String(nearest(dv.L,lTarget));
+  ls.value=String(nearest(dv.L,name.includes("hv")?1.0:0.5));
 }
 const nearest=(arr,x)=>{let b=0;for(let i=1;i<arr.length;i++) if(Math.abs(arr[i]-x)<Math.abs(arr[b]-x)) b=i; return b;};
-const at=(k,i,j,key)=>D.a[key][(k*D.nG+i)*D.nD+j];
+const at=(D,k,i,j,key)=>D.a[key][(k*D.nG+i)*D.nD+j];
 
 // curve along VGS for one L and VDS, strong-inversion side of the gm/ID peak
-function curve(k,j){
-  const pts=[];
+function curve(D,k,j){
+  const pts=[], noise=!!(D.a.sid&&D.a.sfl);
   for(let i=0;i<D.nG;i++){
-    const id=at(k,i,j,"id"); if(!(id>1e-13)) continue;
-    const gm=at(k,i,j,"gm"), gds=at(k,i,j,"gds"), cgg=at(k,i,j,"cgg");
-    pts.push({i, vgs:D.vgs[i], gmid:gm/id, idw:id/D.W, gmgds:gm/gds, ft:gm/(TAU*cgg)});
+    const id=at(D,k,i,j,"id"); if(!(id>1e-13)) continue;
+    const gm=at(D,k,i,j,"gm"), gds=at(D,k,i,j,"gds"), cgg=at(D,k,i,j,"cgg");
+    const sid=noise?at(D,k,i,j,"sid"):NaN, sfl=noise?at(D,k,i,j,"sfl"):NaN;
+    pts.push({i, vgs:D.vgs[i], gmid:gm/id, idw:id/D.W, gmgds:gm/gds, ft:gm/(TAU*cgg), fc:Math.pow(sfl/sid,1/D.ef), gam:sid/(4*KT*gm)});
   }
   let pk=0; pts.forEach((p,n)=>{ if(p.gmid>pts[pk].gmid) pk=n; });
   return pts.slice(pk);
 }
 
-function solve(){
-  const k=+$("#len").value, j=+$("#vds").value, t=parseFloat($("#gmid").value);
-  const c=curve(k,j);
+// frequencies: plain numbers or SI suffixes (100, 1k, 2.5M, 10meg, 1G); "m" is milli, "M" is mega
+const FSUF={"":1,k:1e3,K:1e3,M:1e6,meg:1e6,Meg:1e6,MEG:1e6,G:1e9,m:1e-3};
+const parseF=s=>{ const m=String(s).trim().replace(/\s*hz$/i,"").match(/^(\d*\.?\d+(?:[eE][+-]?\d+)?)\s*(meg|Meg|MEG|[kKMGm]?)$/); return m?parseFloat(m[1])*FSUF[m[2]]:NaN; };
+const fHz=x=>tickSI(x,"Hz");
+function noiseIn(){
+  const f=parseF($("#nf").value), f1=parseF($("#nf1").value), f2=parseF($("#nf2").value);
+  let msg="";
+  if(!(f>0)) msg="Enter the noise frequency as a number, e.g. 1k or 10M (Hz).";
+  else if(!(f1>0&&f2>f1)) msg="Enter a noise band with 0 < from < to, e.g. 1 to 1M (Hz).";
+  return {f, f1, f2, msg};
+}
+
+function evalSide(sd,t,val,nz){
+  const s=S[sd], D=s.D; if(!D) return {err:s.err||"Loading…"};
+  const k=+$(s.len).value, j=+$(s.vds).value;
+  const c=curve(D,k,j);
   const gmax=c.length?c[0].gmid:NaN, gmin=c.length?c[c.length-1].gmid:NaN;
-  $("#range").textContent=`gm/ID reachable at this L and VDS: ${fix(gmin,1)} to ${fix(gmax,1)} S/A (weak inversion near the top, strong inversion at the bottom).`;
-  const msg=$("#msg"); msg.hidden=true;
-  if(!isFinite(t)){ msg.textContent="Enter a gm/ID value in S/A."; msg.hidden=false; return null; }
-  if(t>gmax){ msg.textContent=`gm/ID = ${t} is above the weak-inversion limit for this device (max ${fix(gmax,1)} S/A). Lower it.`; msg.hidden=false; return null; }
-  if(t<gmin){ msg.textContent=`gm/ID = ${t} needs VGS above ${D.vmax} V at this L. Raise gm/ID or pick a shorter L.`; msg.hidden=false; return null; }
+  const base={D,k,j,gmin,gmax};
+  if(!isFinite(t)) return {...base,err:"Enter a gm/ID value in S/A."};
+  if(t>gmax) return {...base,err:`gm/ID = ${t} is above the weak-inversion limit for this device (max ${fix(gmax,1)} S/A). Lower it.`};
+  if(t<gmin) return {...base,err:`gm/ID = ${t} needs VGS above ${D.vmax} V at this L. Raise gm/ID or pick a shorter L.`};
   let n=0; while(n<c.length-1 && !(c[n].gmid>=t && c[n+1].gmid<=t)) n++;
   const p0=c[n], p1=c[Math.min(n+1,c.length-1)];
   const f=p0.gmid===p1.gmid?0:(p0.gmid-t)/(p0.gmid-p1.gmid);
   const i0=p0.i, i1=p1.i;
-  const lerp=key=>{const a=at(k,i0,j,key), b=at(k,i1,j,key); return a+(b-a)*f;};
-  const r={}; for(const key of ["id","gm","gds","gmb","vth","vdsat","cgg","cgs","cgd","cdd"]) r[key]=lerp(key);
+  const lerpAt=(kk,key)=>{ if(!D.a[key]) return NaN; const a=at(D,kk,i0,j,key), b=at(D,kk,i1,j,key); return a+(b-a)*f; };
+  const r={}; for(const key of ["id","gm","gds","gmb","vth","vdsat","cgg","cgs","cgd","cdd","sid","sfl"]) r[key]=lerpAt(k,key);
   r.vgs=D.vgs[i0]+(D.vgs[i1]-D.vgs[i0])*f;
-  r.gmid=t; return {k,j,r,point:{gmid:t, idw:r.id/D.W, gmgds:r.gm/r.gds, ft:r.gm/(TAU*r.cgg), vgs:r.vgs}};
-}
-
-function render(){
-  const s=solve(); const out=$("#out");
-  if(!s){ out.innerHTML=""; drawAll(null); return; }
-  const {r,k,j}=s; const W0=D.W;
-  const val=parseFloat($("#sizev").value);
+  // size: whole fingers of the characterised finger width
   let exact=NaN;
   if(sizeBy==="id") exact=(val*1e-6)/r.id;
   if(sizeBy==="gm") exact=(val*1e-3)/r.gm;
-  if(sizeBy==="w")  exact=(val*1e-6)/W0;
-  const scale=isFinite(exact)&&exact>0?Math.max(1,Math.round(exact)):NaN;
-  const W=W0*scale;
-  const dev=scale/exact-1;
-  if(isFinite(dev)&&Math.abs(dev)>0.1&&sizeBy!=="w"){ const m=$("#msg"); m.textContent=`Rounding to ${scale} whole finger${scale>1?"s":""} moves ${sizeBy==="id"?"ID":"gm"} ${dev>0?"+":""}${(dev*100).toFixed(0)} % from the target. Pick a smaller finger width to land closer.`; m.hidden=false; }
-  const row=(name,x,unit,cls="")=>{const [v,u]=unit===null?[x,""]:fmtSI(x,unit);return `<tr class="${cls}"><td>${name}</td><td class="v">${v}</td><td class="u">${u}</td></tr>`;};
-  const plain=(name,v,u,cls="")=>`<tr class="${cls}"><td>${name}</td><td class="v">${v}</td><td class="u">${u}</td></tr>`;
-  const ft=r.gm/(TAU*r.cgg);
-  out.innerHTML=
-    `<tr class="sep"><td colspan="3">Size</td></tr>`+
-    plain("<b>Fingers</b>",isFinite(scale)?`${scale} × ${D.wf}`:"—","µm","key")+
-    row("<b>W</b> = ng · W<sub>f</sub>",W,"m","key")+
-    row("W for exact target",W0*exact,"m")+
-    plain("L",D.L[k].toFixed(2),"µm")+
-    row("<b>I<sub>D</sub></b>",r.id*scale,"A","key")+
-    plain("<b>g<sub>m</sub></b>",mS(r.gm*scale),"mS")+
-    row("g<sub>ds</sub>",r.gds*scale,"S")+
-    plain("g<sub>mb</sub>",mS(r.gmb*scale),"mS")+
-    `<tr class="sep"><td colspan="3">Bias (independent of W)</td></tr>`+
-    plain("<b>|V<sub>GS</sub>|</b>",fix(r.vgs,3),"V","key")+
-    plain("|V<sub>th</sub>|",fix(r.vth,3),"V")+
-    plain("V<sub>ov</sub> = V<sub>GS</sub> − V<sub>th</sub>",fix(r.vgs-r.vth,3),"V")+
-    plain("|V<sub>Dsat</sub>|",fix(r.vdsat,3),"V")+
-    plain("|V<sub>DS</sub>|",D.vds[j].toFixed(2),"V")+
-    plain("I<sub>D</sub>/W",fix(r.id/W0,3),"µA/µm")+
-    `<tr class="sep"><td colspan="3">Figures of merit</td></tr>`+
-    plain("<b>g<sub>m</sub>/g<sub>ds</sub></b>",fix(r.gm/r.gds,1),"V/V","key")+
-    plain("Intrinsic gain",fix(20*Math.log10(r.gm/r.gds),1),"dB")+
-    row("<b>f<sub>T</sub></b>",ft,"Hz","key")+
-    plain("g<sub>m</sub>/I<sub>D</sub> · f<sub>T</sub>",fix(r.gmid*ft/1e9,1),"GHz/V")+
-    `<tr class="sep"><td colspan="3">Capacitance (for this W)</td></tr>`+
-    row("C<sub>gg</sub>",r.cgg*scale,"F")+
-    row("C<sub>gs</sub>",r.cgs*scale,"F")+
-    row("C<sub>gd</sub>",r.cgd*scale,"F")+
-    row("C<sub>dd</sub>",r.cdd*scale,"F");
-  drawAll(s);
+  if(sizeBy==="w")  exact=(val*1e-6)/D.W;
+  const ng=isFinite(exact)&&exact>0?Math.max(1,Math.round(exact)):NaN;
+  const warn=[], dev=ng/exact-1;
+  if(isFinite(dev)&&Math.abs(dev)>0.1&&sizeBy!=="w") warn.push(`Rounding to ${ng} whole finger${ng>1?"s":""} moves ${sizeBy==="id"?"ID":"gm"} ${dev>0?"+":""}${(dev*100).toFixed(0)} % from the target. Pick a smaller finger width to land closer.`);
+  const W=D.W*ng, Lum=D.L[k], gmT=r.gm*ng, ft=r.gm/(TAU*r.cgg);
+  // noise: drain PSD ng*(sid + sfl/f^EF), input-referred = drain / gm^2
+  const Sd=fq=>ng*(r.sid+r.sfl/Math.pow(fq,D.ef));
+  const flick=(a,b)=>D.ef===1?Math.log(b/a):(Math.pow(b,1-D.ef)-Math.pow(a,1-D.ef))/(1-D.ef);
+  const o={
+    fingers:isFinite(ng)?`${ng} × ${D.wf}`:"—", W, Wx:D.W*exact, L:Lum, area:W*1e6*Lum,
+    id:r.id*ng, gm:gmT, gds:r.gds*ng, gmb:r.gmb*ng,
+    vgs:r.vgs, vth:r.vth, vov:r.vgs-r.vth, vdsat:r.vdsat, vds:D.vds[j], idw:r.id/D.W,
+    av:r.gm/r.gds, ft, gmidft:t*ft,
+    cgg:r.cgg*ng, cgs:r.cgs*ng, cgd:r.cgd*ng, cdd:r.cdd*ng,
+    gam:r.sid/(4*KT*r.gm), fc:Math.pow(r.sfl/r.sid,1/D.ef),
+    vnw:Math.sqrt(ng*r.sid)/gmT,
+    vnf:nz.f>0?Math.sqrt(Sd(nz.f))/gmT:NaN, inf:nz.f>0?Math.sqrt(Sd(nz.f)):NaN,
+    vnb:nz.f2>nz.f1&&nz.f1>0?Math.sqrt(ng*(r.sid*(nz.f2-nz.f1)+r.sfl*flick(nz.f1,nz.f2)))/gmT:NaN,
+    svt:NaN, sir:NaN, vos:NaN, mir:NaN,
+  };
+  if(D.vds[j]-r.vdsat<0.05) warn.push(`|VDS| = ${D.vds[j].toFixed(2)} V is within 50 mV of VDsat (${fix(r.vdsat,3)} V): the device is at the edge of saturation.`);
+  // mismatch (PDK model, one sigma): A_VT/sqrt(WL), mobility, dW, and dL through dVth/dL and dlnID/dL at this VGS
+  if(D.mm&&isFinite(ng)){
+    const nL=D.L.length, ka=Math.max(k-1,0), kb=Math.min(k+1,nL-1), dLg=D.L[kb]-D.L[ka];
+    const sv=dLg>0?(lerpAt(kb,"vth")-lerpAt(ka,"vth"))/dLg:0, si=dLg>0?(Math.log(lerpAt(kb,"id"))-Math.log(lerpAt(ka,"id")))/dLg:-1/Lum;
+    const dl=D.mm.dl*1e6, sa=D.mm.avt/Math.sqrt(W*1e6*Lum);
+    o.svt=Math.hypot(sa,sv*dl);
+    o.sir=Math.sqrt((t*sa)**2+D.mm.factuo**2+(D.mm.dw/W)**2+(si*dl)**2);
+    o.vos=Math.SQRT2*o.sir/t; o.mir=Math.SQRT2*o.sir;
+  }
+  return {...base,o,warn,point:{gmid:t, idw:r.id/D.W, gmgds:r.gm/r.gds, ft, vgs:r.vgs, fc:o.fc, gam:o.gam}};
+}
+
+const P=(v,u)=>[v,u];
+function rows(nz){
+  const F=x=>x>0?fHz(x):"f";
+  return [
+    ["Size"],
+    ["<b>Fingers</b>",o=>P(o.fingers,"µm"),"key"],
+    ["<b>W</b> = ng · W<sub>f</sub>",o=>fmtSI(o.W,"m"),"key"],
+    ["W for exact target",o=>fmtSI(o.Wx,"m")],
+    ["L",o=>P(o.L.toFixed(2),"µm")],
+    ["Gate area W · L",o=>P(area(o.area),"µm²")],
+    ["<b>I<sub>D</sub></b>",o=>fmtSI(o.id,"A"),"key"],
+    ["<b>g<sub>m</sub></b>",o=>P(mS(o.gm),"mS")],
+    ["g<sub>ds</sub>",o=>fmtSI(o.gds,"S")],
+    ["g<sub>mb</sub>",o=>P(mS(o.gmb),"mS")],
+    ["Bias (independent of W)"],
+    ["<b>|V<sub>GS</sub>|</b>",o=>P(fix(o.vgs,3),"V"),"key"],
+    ["|V<sub>th</sub>|",o=>P(fix(o.vth,3),"V")],
+    ["V<sub>ov</sub> = V<sub>GS</sub> − V<sub>th</sub>",o=>P(fix(o.vov,3),"V")],
+    ["|V<sub>Dsat</sub>|",o=>P(fix(o.vdsat,3),"V")],
+    ["|V<sub>DS</sub>|",o=>P(o.vds.toFixed(2),"V")],
+    ["I<sub>D</sub>/W",o=>P(fix(o.idw,3),"µA/µm")],
+    ["Figures of merit"],
+    ["<b>g<sub>m</sub>/g<sub>ds</sub></b>",o=>P(fix(o.av,1),"V/V"),"key"],
+    ["Intrinsic gain",o=>P(fix(20*Math.log10(o.av),1),"dB")],
+    ["<b>f<sub>T</sub></b>",o=>fmtSI(o.ft,"Hz"),"key"],
+    ["g<sub>m</sub>/I<sub>D</sub> · f<sub>T</sub>",o=>P(fix(o.gmidft/1e9,1),"GHz/V")],
+    ["Capacitance (for this W)"],
+    ["C<sub>gg</sub>",o=>fmtSI(o.cgg,"F")],
+    ["C<sub>gs</sub>",o=>fmtSI(o.cgs,"F")],
+    ["C<sub>gd</sub>",o=>fmtSI(o.cgd,"F")],
+    ["C<sub>dd</sub>",o=>fmtSI(o.cdd,"F")],
+    ["Noise (for this W, 27 °C)"],
+    ["Thermal noise factor γ",o=>P(fix(o.gam,2),"")],
+    ["Flicker corner f<sub>c</sub>",o=>fmtSI(o.fc,"Hz")],
+    ["Input noise, white",o=>fmtSI(o.vnw,"V/√Hz")],
+    [`<b>Input noise at ${F(nz.f)}</b>`,o=>fmtSI(o.vnf,"V/√Hz"),"key"],
+    [`Drain noise at ${F(nz.f)}`,o=>fmtSI(o.inf,"A/√Hz")],
+    [`Input noise, ${F(nz.f1)} to ${F(nz.f2)}`,o=>fmtSI(o.vnb,"V rms")],
+    ["Mismatch, 1σ (PDK model)"],
+    ["σ(V<sub>th</sub>), one device",o=>fmtSI(o.svt,"V")],
+    ["σ(I<sub>D</sub>)/I<sub>D</sub>, one device",o=>P(pct(o.sir),"%")],
+    ["<b>Pair offset σ(V<sub>OS</sub>)</b>",o=>fmtSI(o.vos,"V"),"key"],
+    ["Mirror pair σ(ΔI/I)",o=>P(pct(o.mir),"%")],
+  ];
+}
+
+function render(){
+  const t=parseFloat($("#gmid").value), val=parseFloat($("#sizev").value), nz=noiseIn();
+  const sides=cmp?["A","B"]:["A"], R={};
+  sides.forEach(sd=>R[sd]=evalSide(sd,t,val,nz));
+  const pre=sd=>cmp?sd+": ":"";
+  $("#range").textContent="gm/ID reachable at this L and VDS: "+sides.map(sd=>pre(sd)+(isFinite(R[sd].gmin)?`${fix(R[sd].gmin,1)} to ${fix(R[sd].gmax,1)} S/A`:"—")).join("; ")+" (weak inversion near the top, strong inversion at the bottom).";
+  const lines=[]; sides.forEach(sd=>{ const x=R[sd]; if(x.err) lines.push(pre(sd)+x.err); (x.warn||[]).forEach(w=>lines.push(pre(sd)+w)); });
+  if(nz.msg) lines.push(nz.msg);
+  const msg=$("#msg"); msg.replaceChildren(...lines.map(s=>{ const d=document.createElement("div"); d.textContent=s; return d; })); msg.hidden=!lines.length;
+  const out=$("#out");
+  if(!sides.some(sd=>R[sd].o)){ out.innerHTML=""; drawAll(R); return; }
+  const cell=(x,fn)=>{ if(!x.o) return `<td class="v">—</td><td class="u"></td>`; const [v,u]=fn(x.o); return `<td class="v">${v}</td><td class="u">${u}</td>`; };
+  let h=cmp?`<tr class="hd"><td></td><td class="v" colspan="2"><span class="tag a">A</span></td><td class="v" colspan="2"><span class="tag b">B</span></td></tr>`:"";
+  for(const row of rows(nz)){
+    if(row.length===1){ h+=`<tr class="sep"><td colspan="${1+2*sides.length}">${row[0]}</td></tr>`; continue; }
+    const [lab,fn,cls=""]=row;
+    h+=`<tr class="${cls}"><td>${lab}</td>${sides.map(sd=>cell(R[sd],fn)).join("")}</tr>`;
+  }
+  out.innerHTML=h;
+  drawAll(R);
 }
 
 /* ---------- charts ---------- */
@@ -562,32 +672,35 @@ const CH=[
   {id:"c_av",  title:"g<sub>m</sub>/g<sub>ds</sub> vs g<sub>m</sub>/I<sub>D</sub>", unit:"V/V, log", y:p=>p.gmgds, log:true, tick:v=>tickSI(v,""), fmt:v=>v.toFixed(1)+" V/V"},
   {id:"c_ft",  title:"f<sub>T</sub> vs g<sub>m</sub>/I<sub>D</sub>", unit:"log", y:p=>p.ft, log:true, tick:v=>tickSI(v,"Hz"), fmt:v=>fmtSI(v,"Hz").join(" ")},
   {id:"c_vgs", title:"|V<sub>GS</sub>| vs g<sub>m</sub>/I<sub>D</sub>", unit:"linear", y:p=>p.vgs, log:false, tick:v=>v.toFixed(2)+" V", fmt:v=>v.toFixed(3)+" V"},
+  {id:"c_fc",  title:"Flicker corner f<sub>c</sub> vs g<sub>m</sub>/I<sub>D</sub>", unit:"any W, log", y:p=>p.fc, log:true, tick:v=>tickSI(v,"Hz"), fmt:v=>fmtSI(v,"Hz").join(" ")},
+  {id:"c_gam", title:"Thermal noise factor γ vs g<sub>m</sub>/I<sub>D</sub>", unit:"linear", y:p=>p.gam, log:false, tick:v=>v.toFixed(2), fmt:v=>v.toFixed(3)},
 ];
 function buildCharts(){
   $("#charts").innerHTML=CH.map(c=>`<figure class="chart" style="margin:0"><div class="t"><b>${c.title}</b><span id="${c.id}_r">${c.unit}</span></div><canvas id="${c.id}" aria-label="${c.title.replace(/<[^>]+>/g,"")}"></canvas></figure>`).join("");
   CH.forEach(c=>{
     const cv=$("#"+c.id);
-    const redraw=()=>{ if(!c.raf) c.raf=requestAnimationFrame(()=>{ c.raf=0; drawAll(lastS,c); }); };
+    const redraw=()=>{ if(!c.raf) c.raf=requestAnimationFrame(()=>{ c.raf=0; drawAll(lastR,c); }); };
     cv.addEventListener("pointermove",e=>{ c.hover=e.offsetX; redraw(); });
     cv.addEventListener("pointerleave",()=>{ c.hover=null; redraw(); });
   });
-  new ResizeObserver(()=>drawAll(lastS)).observe($("#charts"));
+  new ResizeObserver(()=>drawAll(lastR)).observe($("#charts"));
 }
-let lastS=null;
-function drawAll(s,only){
-  lastS=s; if(!D) return;
-  const j=+$("#vds").value, ksel=+$("#len").value;
-  const curves=D.L.map((_,k)=>curve(k,j));
+let lastR=null;
+function drawAll(R,only){
+  lastR=R; const A=S.A.D; if(!A||!R) return;
+  const ksel=+$(S.A.len).value;
+  const curves=A.L.map((_,k)=>curve(A,k,+$(S.A.vds).value));
+  const cb=cmp&&S.B.D?curve(S.B.D,+$(S.B.len).value,+$(S.B.vds).value):null;
   // read phase: one style read and every canvas size, before any drawing
   const cs=getComputedStyle(document.documentElement), v=n=>cs.getPropertyValue(n).trim();
-  const col={ink:v("--ink"),muted:v("--muted"),line:v("--soft"),curve:v("--curve"),acc:v("--accent"),surf:v("--surface"),op:v("--op")};
+  const col={ink:v("--ink"),muted:v("--muted"),line:v("--soft"),curve:v("--curve"),acc:v("--accent"),surf:v("--surface"),op:v("--op"),cmp:v("--cmp")};
   const list=only?[only]:CH;
   const boxes=list.map(c=>{ const cv=document.getElementById(c.id); return cv?{cv,w:cv.clientWidth,h:cv.clientHeight}:null; });
   // write phase
-  list.forEach((c,i)=>{ if(boxes[i]) drawChart(c,curves,ksel,s,boxes[i],col); });
+  list.forEach((c,i)=>{ if(boxes[i]) drawChart(c,curves,ksel,R.A,cb,cmp?R.B:null,boxes[i],col); });
 }
 function niceLogTicks(lo,hi){const t=[];for(let e=Math.floor(Math.log10(lo));e<=Math.ceil(Math.log10(hi));e++) t.push(Math.pow(10,e));return t;}
-function drawChart(c,curves,ksel,s,box,col){
+function drawChart(c,curves,ksel,sA,cb,sB,box,col){
   const cv=box.cv, w=box.w, h=box.h, dpr=window.devicePixelRatio||1;
   if(!w) return;
   cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
@@ -595,8 +708,10 @@ function drawChart(c,curves,ksel,s,box,col){
   const m={l:66,r:10,t:8,b:30};
   const X0=2, X1=32;
   let ylo=Infinity, yhi=-Infinity;
-  curves.forEach(cu=>cu.forEach(p=>{ if(p.gmid<X0||p.gmid>X1) return; const y=c.y(p); if(!(y>0)&&c.log) return; if(isFinite(y)){ylo=Math.min(ylo,y);yhi=Math.max(yhi,y);} }));
-  if(!isFinite(ylo)) return;
+  const span=cu=>cu.forEach(p=>{ if(p.gmid<X0||p.gmid>X1) return; const y=c.y(p); if(!(y>0)&&c.log) return; if(isFinite(y)){ylo=Math.min(ylo,y);yhi=Math.max(yhi,y);} });
+  curves.forEach(span); if(cb) span(cb);
+  const rd=document.getElementById(c.id+"_r");
+  if(!isFinite(ylo)){ rd.textContent="no data"; return; }
   if(c.log){ ylo=Math.pow(10,Math.floor(Math.log10(ylo))); yhi=Math.pow(10,Math.ceil(Math.log10(yhi))); }
   else { ylo=0; yhi=Math.ceil(yhi*10)/10; }
   const fx=x=>m.l+(x-X0)/(X1-X0)*(w-m.l-m.r);
@@ -612,22 +727,24 @@ function drawChart(c,curves,ksel,s,box,col){
   g.fillText("gm/ID (S/A)",(m.l+w-m.r)/2,h-13);
   // curves
   g.save(); g.beginPath(); g.rect(m.l,m.t,w-m.l-m.r,h-m.t-m.b); g.clip();
-  const path=(cu,stroke,lw)=>{ g.strokeStyle=stroke; g.lineWidth=lw; g.beginPath(); let on=false;
-    cu.forEach(p=>{ const y=c.y(p); if(!(isFinite(y))||(c.log&&!(y>0))) {on=false;return;} const X=fx(p.gmid),Y=fy(y); if(!on){g.moveTo(X,Y);on=true;} else g.lineTo(X,Y); }); g.stroke(); };
+  const path=(cu,stroke,lw,dash)=>{ g.strokeStyle=stroke; g.lineWidth=lw; g.setLineDash(dash||[]); g.beginPath(); let on=false;
+    cu.forEach(p=>{ const y=c.y(p); if(!(isFinite(y))||(c.log&&!(y>0))) {on=false;return;} const X=fx(p.gmid),Y=fy(y); if(!on){g.moveTo(X,Y);on=true;} else g.lineTo(X,Y); }); g.stroke(); g.setLineDash([]); };
   curves.forEach((cu,k)=>{ if(k!==ksel) path(cu,col.curve,1); });
   path(curves[ksel],col.acc,2.2);
-  // operating point
-  if(s){ const y=c.y(s.point); if(isFinite(y)){ const X=fx(s.point.gmid),Y=fy(y);
-    g.fillStyle=col.surf; g.beginPath(); g.arc(X,Y,6,0,TAU); g.fill(); g.strokeStyle=col.op; g.lineWidth=2.2; g.stroke();
-    g.fillStyle=col.op; g.beginPath(); g.arc(X,Y,2.4,0,TAU); g.fill(); } }
-  // hover readout on the selected curve
-  const rd=document.getElementById(c.id+"_r");
+  if(cb) path(cb,col.cmp,2.2,[7,4]);
+  // operating points
+  const opMark=(s,stroke)=>{ if(!s||!s.point) return; const y=c.y(s.point); if(!(isFinite(y))||(c.log&&!(y>0))) return; const X=fx(s.point.gmid),Y=fy(y);
+    g.fillStyle=col.surf; g.beginPath(); g.arc(X,Y,6,0,TAU); g.fill(); g.strokeStyle=stroke; g.lineWidth=2.2; g.stroke();
+    g.fillStyle=stroke; g.beginPath(); g.arc(X,Y,2.4,0,TAU); g.fill(); };
+  opMark(sA,col.op); opMark(sB,col.cmp);
+  // hover readout on the selected curve(s)
   if(c.hover!=null){ const gx=X0+(c.hover-m.l)/(w-m.l-m.r)*(X1-X0);
-    const cu=curves[ksel]; let best=null; cu.forEach(p=>{ if(!best||Math.abs(p.gmid-gx)<Math.abs(best.gmid-gx)) best=p; });
-    if(best){ const X=fx(best.gmid), y=c.y(best), Y=fy(y);
-      g.strokeStyle=col.muted; g.setLineDash([3,3]); g.lineWidth=1; g.beginPath(); g.moveTo(X,m.t); g.lineTo(X,h-m.b); g.stroke(); g.setLineDash([]);
-      g.fillStyle=col.acc; g.beginPath(); g.arc(X,Y,3.5,0,TAU); g.fill();
-      rd.textContent=`gm/ID ${best.gmid.toFixed(1)} → ${c.fmt(y)}`; }
+    const near=cu=>{ let best=null; cu.forEach(p=>{ const y=c.y(p); if(!isFinite(y)||(c.log&&!(y>0))) return; if(!best||Math.abs(p.gmid-gx)<Math.abs(best.gmid-gx)) best=p; }); return best&&Math.abs(best.gmid-gx)<1.5?best:null; };
+    const ba=near(curves[ksel]), bb=cb?near(cb):null;
+    g.strokeStyle=col.muted; g.setLineDash([3,3]); g.lineWidth=1; g.beginPath(); g.moveTo(c.hover,m.t); g.lineTo(c.hover,h-m.b); g.stroke(); g.setLineDash([]);
+    [[ba,col.acc],[bb,col.cmp]].forEach(([b,cl])=>{ if(!b) return; g.fillStyle=cl; g.beginPath(); g.arc(fx(b.gmid),fy(c.y(b)),3.5,0,TAU); g.fill(); });
+    const txt=b=>b?c.fmt(c.y(b)):"—";
+    rd.textContent=cb?`gm/ID ${gx.toFixed(1)} → A ${txt(ba)} · B ${txt(bb)}`:(ba?`gm/ID ${ba.gmid.toFixed(1)} → ${txt(ba)}`:c.unit);
   } else rd.textContent=c.unit;
   g.restore();
 }
@@ -640,19 +757,38 @@ function setSizeBy(k){
   $("#sizel").innerHTML=sizeMeta[k][0]; $("#sizeu").textContent=sizeMeta[k][1]; $("#sizev").value=sizeMeta[k][2];
   render();
 }
+function setCompare(on){
+  if(!LUT) return;
+  cmp=on; $("#cmp").setAttribute("aria-pressed",String(on)); $("#cmp").textContent=on?"− B":"+ B";
+  $("#barB").hidden=!on; document.querySelector(".main").classList.toggle("cmp",on);
+  document.querySelectorAll(".cmp-only").forEach(e=>e.hidden=!on);
+  if(on&&!S.B.D){   // first time: start B as a copy of A, two lengths longer
+    $("#devB").value=$("#dev").value; setDevice($("#devB").value,"B");
+    $("#wfB").value=$("#wf").value; $("#vdsB").value=$("#vds").value;
+    $("#lenB").value=String(Math.min(+$("#len").value+2,LUT.devices[$("#devB").value].L.length-1));
+    useSet("B");
+  } else render();
+}
 document.querySelectorAll("#sizeby button").forEach(b=>b.addEventListener("click",()=>setSizeBy(b.dataset.k)));
-$("#dev").addEventListener("change",e=>{ setDevice(e.target.value); useSet(); });
-$("#wf").addEventListener("change",useSet);
-["#vds","#len"].forEach(s=>$(s).addEventListener("change",render));
-["#gmid","#sizev"].forEach(s=>$(s).addEventListener("input",render));
+$("#dev").addEventListener("change",e=>{ setDevice(e.target.value); useSet("A"); });
+$("#wf").addEventListener("change",()=>useSet("A"));
+$("#devB").addEventListener("change",e=>{ setDevice(e.target.value,"B"); useSet("B"); });
+$("#wfB").addEventListener("change",()=>useSet("B"));
+["#vds","#len","#vdsB","#lenB"].forEach(s=>$(s).addEventListener("change",render));
+["#gmid","#sizev","#nf","#nf1","#nf2"].forEach(s=>$(s).addEventListener("input",render));
+$("#cmp").addEventListener("click",()=>setCompare(!cmp));
 $("#copybib").addEventListener("click",async e=>{
   const btn=e.currentTarget, txt=$("#bibtex").textContent;
   try{ await navigator.clipboard.writeText(txt); btn.textContent="Copied"; }
   catch{ const r=document.createRange(); r.selectNodeContents($("#bibtex")); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); btn.textContent="Selected, press Ctrl+C"; }
   setTimeout(()=>btn.textContent="Copy BibTeX",2000);
 });
-matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>drawAll(lastS));
-new MutationObserver(()=>drawAll(lastS)).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>drawAll(lastR));
+// the reference table starts folded; a link to it (nav or #reference in the URL) unfolds it
+const openRef=()=>{if(location.hash==="#reference")$("#reference details").open=true};
+addEventListener("hashchange",openRef); openRef();
+document.querySelectorAll('a[href="#reference"]').forEach(a=>a.addEventListener("click",()=>{$("#reference details").open=true}));
+new MutationObserver(()=>drawAll(lastR)).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
 
 const root=document.documentElement;
 try{ const t=localStorage.getItem("sg13-theme"); if(t==="dark"||t==="light") root.dataset.theme=t; }catch{}
@@ -663,7 +799,7 @@ $("#theme").addEventListener("click",()=>{
 });
 
 buildCharts();
-Promise.resolve({"meta":{"pdk":"IHP SG13G2","corner":"mos_tt","temp":27,"vsb":0,"wf":[0.5,1.0,2.0,5.0,10.0],"note":"One file per device and finger width Wf (ng=1). Multi-finger devices scale linearly with ng. cgg includes overlap caps.","layout":"each array is float32, shape [nL][nVGS][nVDS], row-major"},"devices":{"sg13_lv_nmos":{"L":[0.13,0.15,0.18,0.2,0.25,0.3,0.35,0.4,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":1.2,"vgs":[0.0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2,0.22,0.24,0.26,0.28,0.3,0.32,0.34,0.36,0.38,0.4,0.42,0.44,0.46,0.48,0.5,0.52,0.54,0.56,0.58,0.6,0.62,0.64,0.66,0.68,0.7,0.72,0.74,0.76,0.78,0.8,0.82,0.84,0.86,0.88,0.9,0.92,0.94,0.96,0.98,1.0,1.02,1.04,1.06,1.08,1.1,1.12,1.14,1.16,1.18,1.2],"vds":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2],"wf":[0.5,1.0,2.0,5.0,10.0]},"sg13_lv_pmos":{"L":[0.13,0.15,0.18,0.2,0.25,0.3,0.35,0.4,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":1.2,"vgs":[0.0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2,0.22,0.24,0.26,0.28,0.3,0.32,0.34,0.36,0.38,0.4,0.42,0.44,0.46,0.48,0.5,0.52,0.54,0.56,0.58,0.6,0.62,0.64,0.66,0.68,0.7,0.72,0.74,0.76,0.78,0.8,0.82,0.84,0.86,0.88,0.9,0.92,0.94,0.96,0.98,1.0,1.02,1.04,1.06,1.08,1.1,1.12,1.14,1.16,1.18,1.2],"vds":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2],"wf":[0.5,1.0,2.0,5.0,10.0]},"sg13_hv_nmos":{"L":[0.45,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":3.3,"vgs":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2.0,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55,2.6,2.65,2.7,2.75,2.8,2.85,2.9,2.95,3.0,3.05,3.1,3.15,3.2,3.25,3.3],"vds":[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3.0,3.1,3.2,3.3],"wf":[0.5,1.0,2.0,5.0,10.0]},"sg13_hv_pmos":{"L":[0.4,0.45,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":3.3,"vgs":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2.0,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55,2.6,2.65,2.7,2.75,2.8,2.85,2.9,2.95,3.0,3.05,3.1,3.15,3.2,3.25,3.3],"vds":[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3.0,3.1,3.2,3.3],"wf":[0.5,1.0,2.0,5.0,10.0]}}}).then(j=>{
+Promise.resolve({"meta":{"pdk":"IHP SG13G2","corner":"mos_tt","temp":27,"vsb":0,"wf":[0.5,1.0,2.0,5.0,10.0],"note":"One file per device and finger width Wf (ng=1). Multi-finger devices scale linearly with ng. cgg includes overlap caps. sid: drain thermal-noise PSD (A^2/Hz); sfl: flicker-noise PSD at 1 Hz (A^2/Hz), scaling as 1/f^ef. mm: the PDK's one-sigma mismatch per instance (avt in V*um, factuo relative, dw and dl in m).","layout":"each array is float32, shape [nL][nVGS][nVDS], row-major"},"devices":{"sg13_lv_nmos":{"L":[0.13,0.15,0.18,0.2,0.25,0.3,0.35,0.4,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":1.2,"vgs":[0.0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2,0.22,0.24,0.26,0.28,0.3,0.32,0.34,0.36,0.38,0.4,0.42,0.44,0.46,0.48,0.5,0.52,0.54,0.56,0.58,0.6,0.62,0.64,0.66,0.68,0.7,0.72,0.74,0.76,0.78,0.8,0.82,0.84,0.86,0.88,0.9,0.92,0.94,0.96,0.98,1.0,1.02,1.04,1.06,1.08,1.1,1.12,1.14,1.16,1.18,1.2],"vds":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2],"wf":[0.5,1.0,2.0,5.0,10.0],"mm":{"avt":0.002,"factuo":0.01,"dw":4e-09,"dl":2e-09},"ef":1.0},"sg13_lv_pmos":{"L":[0.13,0.15,0.18,0.2,0.25,0.3,0.35,0.4,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":1.2,"vgs":[0.0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2,0.22,0.24,0.26,0.28,0.3,0.32,0.34,0.36,0.38,0.4,0.42,0.44,0.46,0.48,0.5,0.52,0.54,0.56,0.58,0.6,0.62,0.64,0.66,0.68,0.7,0.72,0.74,0.76,0.78,0.8,0.82,0.84,0.86,0.88,0.9,0.92,0.94,0.96,0.98,1.0,1.02,1.04,1.06,1.08,1.1,1.12,1.14,1.16,1.18,1.2],"vds":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2],"wf":[0.5,1.0,2.0,5.0,10.0],"mm":{"avt":0.0025,"factuo":0.005,"dw":5e-09,"dl":1.5e-09},"ef":1.0},"sg13_hv_nmos":{"L":[0.45,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":3.3,"vgs":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2.0,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55,2.6,2.65,2.7,2.75,2.8,2.85,2.9,2.95,3.0,3.05,3.1,3.15,3.2,3.25,3.3],"vds":[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3.0,3.1,3.2,3.3],"wf":[0.5,1.0,2.0,5.0,10.0],"mm":{"avt":0.009,"factuo":0.008,"dw":8e-09,"dl":3e-09},"ef":1.0},"sg13_hv_pmos":{"L":[0.4,0.45,0.5,0.6,0.8,1.0,1.5,2.0,3.0,5.0],"vmax":3.3,"vgs":[0.0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2.0,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55,2.6,2.65,2.7,2.75,2.8,2.85,2.9,2.95,3.0,3.05,3.1,3.15,3.2,3.25,3.3],"vds":[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3.0,3.1,3.2,3.3],"wf":[0.5,1.0,2.0,5.0,10.0],"mm":{"avt":0.008,"factuo":0.01,"dw":9e-09,"dl":3e-09},"ef":1.152}}}).then(j=>{
   LUT=j; setDevice($("#dev").value); return useSet();
 }).catch(err=>{ $("#charts").innerHTML=`<div class="loading">The lookup tables did not load (${err.message}). Reload the page to try again.</div>`; });
 })();
