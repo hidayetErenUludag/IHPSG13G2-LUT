@@ -176,16 +176,15 @@ table.ref tbody tr:hover td{background:var(--ground)}
 table.ref tr.grp th{text-align:left;font-family:var(--mono);font-weight:600;font-size:13px;color:var(--accent);background:var(--surface);padding-top:14px}
 table.ref tr.grp th span{color:var(--muted);font-weight:400;font-family:var(--body)}
 
-/* faq */
-.faq{display:grid;gap:8px}
-.faq details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);transition:border-color .15s}
-.faq details[open]{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
-.faq summary{cursor:pointer;list-style:none;padding:14px 18px;font-weight:600;font-size:15px;display:flex;justify-content:space-between;gap:16px;align-items:center}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"";width:9px;height:9px;flex:none;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s}
-.faq details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
-.faq .a{padding:0 18px 16px;color:var(--muted);font-size:14.5px;max-width:85ch}
-.faq .a p{margin:0}
+/* collapsible section */
+details.fold>summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);transition:border-color .15s}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary:hover,details.fold[open]>summary{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+details.fold>summary::after{content:"";width:10px;height:10px;flex:none;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s}
+details.fold[open]>summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+details.fold>summary .sh{flex:1}
+details.fold>summary .d{color:var(--muted);font-size:14px;max-width:70ch}
+details.fold>.tablewrap{margin-top:14px}
 
 /* references */
 .refs ol{margin:0;padding-left:22px;display:grid;gap:10px;max-width:95ch;font-size:14px}
@@ -211,7 +210,7 @@ table.ref tr.grp th span{color:var(--muted);font-weight:400;font-family:var(--bo
       <span>SG13G2 gm/ID</span>
     </a>
     <nav class="nav" aria-label="Sections">
-      <a href="#calc">Calculator</a><a href="#reference">Reference values</a><a href="#method">Method</a><a href="#faq">FAQ</a><a href="#refs">Cite</a>
+      <a href="#calc">Calculator</a><a href="#reference">Reference values</a><a href="#method">Method</a><a href="#refs">Cite</a>
     </nav>
     <div class="tools">
       <a class="iconbtn" href="https://github.com/hidayetErenUludag/IHPSG13G2-LUT" aria-label="Source code on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.7 5.38-5.27 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
@@ -317,11 +316,11 @@ table.ref tr.grp th span{color:var(--muted);font-weight:400;font-family:var(--bo
   </section>
 
   <section class="block" id="reference" aria-labelledby="ref-h">
-    <div class="sh">
-      <h2 id="ref-h">Reference values</h2>
-      <p>Precomputed from the same tables at a typical bias, W<sub>f</sub> = 1 µm. Use them for a first estimate, or when JavaScript is off.</p>
-    </div>
-    <!--REFTABLE-->
+    <details class="fold">
+      <summary><span class="sh"><h2 id="ref-h">Reference values</h2>
+        <span class="d">Precomputed from the same tables at a typical bias, W<sub>f</sub> = 1 µm. Use them for a first estimate, or when JavaScript is off.</span></span></summary>
+      <!--REFTABLE-->
+    </details>
   </section>
 
   <section class="block" id="method" aria-labelledby="method-h">
@@ -346,11 +345,6 @@ t = np.load("npz/lut_sg13_lv_nmos_wf2.npz")   # arrays shaped [L][VGS][VDS]
 gm_id = t["gm"] / t["id"]                      # S/A
 ft    = t["gm"] / (2 * np.pi * t["cgg"])       # Hz</pre></div>
     </div>
-  </section>
-
-  <section class="block" id="faq" aria-labelledby="faq-h">
-    <div class="sh"><h2 id="faq-h">Frequently asked questions</h2></div>
-    <div class="faq"><!--FAQ--></div>
   </section>
 
   <section class="block refs" id="refs" aria-labelledby="refs-h">
@@ -724,6 +718,10 @@ $("#copybib").addEventListener("click",async e=>{
   setTimeout(()=>btn.textContent="Copy BibTeX",2000);
 });
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>drawAll(lastR));
+// the reference table starts folded; a link to it (nav or #reference in the URL) unfolds it
+const openRef=()=>{if(location.hash==="#reference")$("#reference details").open=true};
+addEventListener("hashchange",openRef); openRef();
+document.querySelectorAll('a[href="#reference"]').forEach(a=>a.addEventListener("click",()=>{$("#reference details").open=true}));
 new MutationObserver(()=>drawAll(lastR)).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
 
 const root=document.documentElement;

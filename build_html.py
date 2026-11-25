@@ -31,46 +31,6 @@ FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
 DEVICE_ROLE = {"sg13_lv_nmos": "1.2 V core NMOS", "sg13_lv_pmos": "1.2 V core PMOS",
                "sg13_hv_nmos": "3.3 V I/O NMOS", "sg13_hv_pmos": "3.3 V I/O PMOS"}
 
-# Visible FAQ and FAQPage structured data come from this one list, so they cannot drift apart.
-FAQ = [
-    ("What is the gm/ID sizing method?",
-     "gm/ID sizing picks the transconductance efficiency g<sub>m</sub>/I<sub>D</sub> to set how strongly a transistor is inverted, "
-     "then reads current density, intrinsic gain and f<sub>T</sub> from tables simulated with the real device model instead of "
-     "square-law equations. The method is described by Jespers and Murmann (Cambridge University Press, 2017)."),
-    ("Which IHP SG13G2 devices does this cover?",
-     "All four MOSFETs: sg13_lv_nmos and sg13_lv_pmos (1.2 V core, L = 0.13 to 5 µm), sg13_hv_nmos (3.3 V I/O, L = 0.45 to 5 µm) "
-     "and sg13_hv_pmos (3.3 V I/O, L = 0.40 to 5 µm), each at finger widths of 0.5, 1, 2, 5 and 10 µm. "
-     "The *_rf_* symbols use the same transistors with an RF model and are not tabulated separately."),
-    ("Why does finger width matter in SG13G2?",
-     "SG13G2 LV devices depend on finger width, not only total width: LV NMOS V<sub>th</sub> falls from 0.29 V at a 1 µm finger "
-     "to 0.21 V at a 50 µm finger. A table built at one width can mis-size other widths by up to 34 % in I<sub>D</sub>, so this "
-     "tool sizes devices as ng fingers of width W<sub>f</sub>, which scale exactly."),
-    ("How accurate are the values?",
-     "Devices sized from the tables and simulated directly in ngspice agree within 3 % for I<sub>D</sub>, g<sub>m</sub> and "
-     "g<sub>ds</sub>, and within 8 % for f<sub>T</sub>. Drain noise agrees with an ngspice .noise run within 5 %, and the "
-     "mismatch estimate with a 2000-sample ngspice Monte Carlo of the PDK's mismatch model within 10 % (4 % for L ≥ 0.5 µm). All values are simulation results from the PSP103 models and have not "
-     "been compared against measured silicon."),
-    ("Does it give noise and mismatch?",
-     "Yes. For the sized device the calculator shows the thermal noise factor γ, the flicker corner frequency, the "
-     "input-referred noise density (white and at a frequency you choose), the drain noise current and the input-referred "
-     "noise integrated over a band. Mismatch comes from the PDK's own model: σ(V<sub>th</sub>) and σ(I<sub>D</sub>)/I<sub>D</sub> "
-     "of one device, the input offset of a differential pair and the current error of a mirror pair, all one sigma."),
-    ("Can I compare two devices?",
-     "Yes. Press + B next to Size by to add a second configuration with its own device, |V<sub>DS</sub>|, L and finger width. "
-     "Both are sized for the same g<sub>m</sub>/I<sub>D</sub> and target; the table shows them side by side and the charts "
-     "draw B as a dashed curve."),
-    ("Which process corner and temperature are used?",
-     "The typical corner mos_tt at 27 °C with V<sub>SB</sub> = 0, simulated in ngspice-47 with the PSP103 model from the "
-     "IHP-Open-PDK. Other corners and temperatures are not included yet; regenerate the tables with gen_lut.py to add them."),
-    ("Can I use the tables offline or in Python?",
-     "Yes. The offline version is a single self-contained HTML file of about %OFFLINE_MB% MB. Full-precision NumPy .npz tables, "
-     "including noise PSDs, are in the npz folder of the GitHub repository."),
-    ("Is it free to use, and how do I cite it?",
-     "Yes. Code, page and tables are released under the Apache License 2.0. Cite the Open-LUT paper by Khalid, Maestre and "
-     "Madrid-Khalid (ICICM 2025), and this repository via its CITATION.cff file."),
-]
-
-
 def strip_tags(h):
     return re.sub(r"<[^>]+>", "", h)
 
@@ -120,9 +80,6 @@ def jsonld(index):
                               "threshold voltage Vth", "saturation voltage VDsat", "gate capacitance Cgg", "Cgs", "Cgd", "Cdd",
                               "drain thermal-noise PSD", "flicker-noise PSD at 1 Hz"],
          "isBasedOn": "https://github.com/IHP-GmbH/IHP-Open-PDK", "distribution": dist},
-        {"@type": "FAQPage", "@id": SITE + "#faq",
-         "mainEntity": [{"@type": "Question", "name": q,
-                         "acceptedAnswer": {"@type": "Answer", "text": strip_tags(a)}} for q, a in FAQ]},
     ]}
 
 
@@ -219,10 +176,6 @@ def ref_table_html(rows):
     return "\n".join(h)
 
 
-def faq_html():
-    return "\n".join(f'<details><summary>{q}</summary><div class="a"><p>{a}</p></div></details>' for q, a in FAQ)
-
-
 def llms_txt(rows):
     t = [f"# SG13G2 gm/ID Lookup", "",
          f"> {DESC}", "",
@@ -247,7 +200,6 @@ def llms_txt(rows):
         t.append("|---|---|---|---|---|---|")
         for p in r["pts"]:
             t.append(f"| {p['gmid']} | {p['vgs']:.3f} | {p['vth']:.3f} | {_idw(p['idw'])} | {p['gain']:.1f} | {_ft(p['ft'])} |")
-    t += ["", "## FAQ"] + [f"\n**{q}**\n{strip_tags(a)}" for q, a in FAQ]
     t += ["", "## Cite", "Khalid, Maestre and Madrid-Khalid, \"Open-LUT: Interactive gm/ID Lookup Tables for MOSFET Sizing "
           "in Open-Source PDKs,\" ICICM 2025, doi:10.1109/ICICM66614.2025.11316023; and this repository (CITATION.cff)."]
     return "\n".join(t) + "\n"
@@ -307,7 +259,6 @@ def add_links(markup, offline_link, rows):
     btns += f'<a class="btn" href="{REPO}">{ICON_GH} Source and data</a>'
     return (markup.replace("<!--LINKS-->", f'<div class="ctas">{btns}</div>', 1)
                   .replace("<!--REFTABLE-->", ref_table_html(rows), 1)
-                  .replace("<!--FAQ-->", faq_html(), 1)
                   .replace("<!--UPDATED-->", f"Version {VERSION} · tables built with ngspice-47 and PSP103 · page updated "
                            f'<time datetime="{BUILD_DATE}">{BUILD_DATE}</time>', 1))
 
@@ -388,10 +339,9 @@ def build(pack):
 
 
 if __name__ == "__main__":
-    pack = pack_tables(); faq0 = list(FAQ)
+    pack = pack_tables()
     for guess in (f"{len(json.dumps(pack, separators=(',', ':')))/1e6 + 0.15:.1f}", None):
         OFFLINE_MB = guess or f"{os.path.getsize('SG13G2_gmID_Lookup.html')/1e6:.1f}"
-        FAQ[:] = [(q, a.replace("%OFFLINE_MB%", OFFLINE_MB)) for q, a in faq0]
         build(pack)
         if f"{os.path.getsize('SG13G2_gmID_Lookup.html')/1e6:.1f}" == OFFLINE_MB:
             break

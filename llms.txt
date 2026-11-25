@@ -5,7 +5,7 @@
 Interactive page: https://hidayeterenuludag.github.io/IHPSG13G2-LUT/
 Source and data: https://github.com/hidayetErenUludag/IHPSG13G2-LUT
 Offline calculator: https://hidayeterenuludag.github.io/IHPSG13G2-LUT/SG13G2_gmID_Lookup.html
-Author: Hidayet Eren Uludağ, Özyeğin University. License: Apache-2.0. Updated 2026-11-24.
+Author: Hidayet Eren Uludağ, Özyeğin University. License: Apache-2.0. Updated 2026-11-25.
 
 ## What it does
 Sizes IHP SG13G2 MOSFETs from a gm/ID target. Inputs: device, |VDS|, channel length L, finger width Wf, gm/ID, and one of ID, gm or total W. Outputs: finger count ng x Wf, W, ID, gm, gds, gmb, VGS, Vth, Vov, VDsat, gm/gds, intrinsic gain in dB, fT, Cgg/Cgs/Cgd/Cdd; noise (gamma, flicker corner, input-referred noise density and band-integrated rms); and mismatch from the PDK model (sigma Vth, sigma ID/ID, pair offset, mirror error). A second configuration B can be compared side by side.
@@ -52,35 +52,6 @@ Versus direct ngspice simulation of sized devices: ID, gm, gds within 3 %; fT wi
 | 10 | 0.788 | 0.667 | 0.484 | 816.9 | 231 MHz |
 | 15 | 0.690 | 0.665 | 0.149 | 918.4 | 120 MHz |
 | 20 | 0.619 | 0.664 | 0.0459 | 973.6 | 57 MHz |
-
-## FAQ
-
-**What is the gm/ID sizing method?**
-gm/ID sizing picks the transconductance efficiency gm/ID to set how strongly a transistor is inverted, then reads current density, intrinsic gain and fT from tables simulated with the real device model instead of square-law equations. The method is described by Jespers and Murmann (Cambridge University Press, 2017).
-
-**Which IHP SG13G2 devices does this cover?**
-All four MOSFETs: sg13_lv_nmos and sg13_lv_pmos (1.2 V core, L = 0.13 to 5 µm), sg13_hv_nmos (3.3 V I/O, L = 0.45 to 5 µm) and sg13_hv_pmos (3.3 V I/O, L = 0.40 to 5 µm), each at finger widths of 0.5, 1, 2, 5 and 10 µm. The *_rf_* symbols use the same transistors with an RF model and are not tabulated separately.
-
-**Why does finger width matter in SG13G2?**
-SG13G2 LV devices depend on finger width, not only total width: LV NMOS Vth falls from 0.29 V at a 1 µm finger to 0.21 V at a 50 µm finger. A table built at one width can mis-size other widths by up to 34 % in ID, so this tool sizes devices as ng fingers of width Wf, which scale exactly.
-
-**How accurate are the values?**
-Devices sized from the tables and simulated directly in ngspice agree within 3 % for ID, gm and gds, and within 8 % for fT. Drain noise agrees with an ngspice .noise run within 5 %, and the mismatch estimate with a 2000-sample ngspice Monte Carlo of the PDK's mismatch model within 10 % (4 % for L ≥ 0.5 µm). All values are simulation results from the PSP103 models and have not been compared against measured silicon.
-
-**Does it give noise and mismatch?**
-Yes. For the sized device the calculator shows the thermal noise factor γ, the flicker corner frequency, the input-referred noise density (white and at a frequency you choose), the drain noise current and the input-referred noise integrated over a band. Mismatch comes from the PDK's own model: σ(Vth) and σ(ID)/ID of one device, the input offset of a differential pair and the current error of a mirror pair, all one sigma.
-
-**Can I compare two devices?**
-Yes. Press + B next to Size by to add a second configuration with its own device, |VDS|, L and finger width. Both are sized for the same gm/ID and target; the table shows them side by side and the charts draw B as a dashed curve.
-
-**Which process corner and temperature are used?**
-The typical corner mos_tt at 27 °C with VSB = 0, simulated in ngspice-47 with the PSP103 model from the IHP-Open-PDK. Other corners and temperatures are not included yet; regenerate the tables with gen_lut.py to add them.
-
-**Can I use the tables offline or in Python?**
-Yes. The offline version is a single self-contained HTML file of about 5.5 MB. Full-precision NumPy .npz tables, including noise PSDs, are in the npz folder of the GitHub repository.
-
-**Is it free to use, and how do I cite it?**
-Yes. Code, page and tables are released under the Apache License 2.0. Cite the Open-LUT paper by Khalid, Maestre and Madrid-Khalid (ICICM 2025), and this repository via its CITATION.cff file.
 
 ## Cite
 Khalid, Maestre and Madrid-Khalid, "Open-LUT: Interactive gm/ID Lookup Tables for MOSFET Sizing in Open-Source PDKs," ICICM 2025, doi:10.1109/ICICM66614.2025.11316023; and this repository (CITATION.cff).
